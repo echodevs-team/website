@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+/* Temporary readable foundation, not the ECHO-104 token/design system. */
+body {
+  margin: 0;
+  background: #fff8f4;
+  color: #201b14;
+  font-family: system-ui, sans-serif;
+  line-height: 1.8;
+}
+
+main {
+  max-inline-size: 48rem;
+  margin-inline: auto;
+  padding: 3rem 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+a { color: #b84228; text-decoration: underline; }
+a:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+
+.skip-link { position: absolute; inset-inline-start: 1rem; inset-block-start: -10rem; }
+.skip-link:focus { inset-block-start: 1rem; }
+
+.language-links { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; list-style: none; }
+.language-links a { display: inline-flex; align-items: center; min-block-size: 44px; padding-inline: 0.75rem; }
