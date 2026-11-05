@@ -1,0 +1,74 @@
+/* Theme controller sets the resolved palette, independently of user mode. */
+:root, [data-theme="light"] {
+  color-scheme: light;
+  --color-background: #fff8f4;
+  --color-surface: #ffffff;
+  --color-text: #201b14;
+  --color-muted: #554339;
+  --color-brand: #ee7758;
+  --color-action: #b84228;
+  --color-action-hover: #99351f;
+  --color-action-active: #802b19;
+  --color-on-action: #ffffff;
+  --color-focus: #b84228;
+  --color-border: #dbc1b5;
+  --color-control-border: #876e60;
+  --color-error: #a52a2a;
+  --color-success: #28613e;
+  --color-disabled-background: #eee5df;
+  --color-disabled-text: #65564c;
+  --color-scrim: #201b1480;
+  --shadow-card: 0 8px 32px #201b140a;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+  --color-background: #181412;
+  --color-surface: #241e1a;
+  --color-text: #faf5ee;
+  --color-muted: #c9bdb5;
+  --color-brand: #f38361;
+  --color-action: #f38361;
+  --color-action-hover: #ffa183;
+  --color-action-active: #ffb69e;
+  --color-on-action: #181412;
+  --color-focus: #f38361;
+  --color-border: #594b42;
+  --color-control-border: #a08b7d;
+  --color-error: #ffaaa1;
+  --color-success: #9bd3ae;
+  --color-disabled-background: #39302a;
+  --color-disabled-text: #c1b1a6;
+  --color-scrim: #00000099;
+  --shadow-card: 0 8px 32px #00000026;
+}
+:root {
+  --font-body: "Vazirmatn", system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --text-small: 0.875rem;
+  --text-body: 1rem;
+  --text-lead: 1.125rem;
+  --text-heading: clamp(1.5rem, 1.15rem + 1.5vw, 2.5rem);
+  --text-display: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  --leading-body: 1.85;
+  --leading-heading: 1.5;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-16: 4rem;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --container-max: 90rem;
+  --measure: 48rem;
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
+  --border-width: 1px;
+  --focus-width: 3px;
+  --focus-offset: 4px;
+  --target-size: 2.75rem;
+}

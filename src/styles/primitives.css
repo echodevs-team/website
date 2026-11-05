@@ -1,0 +1,47 @@
+.ui-button, .ui-link-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-2);
+  min-block-size: var(--target-size);
+  min-inline-size: var(--target-size);
+  max-inline-size: 100%;
+  padding: var(--space-2) var(--space-6);
+  border: var(--border-width) solid var(--color-action);
+  border-radius: var(--radius-control);
+  background: var(--color-action);
+  color: var(--color-on-action);
+  font-weight: var(--weight-medium);
+  text-align: center;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  text-decoration: none;
+  cursor: pointer;
+}
+.ui-button:hover:not(:disabled), .ui-link-button:hover { background: var(--color-action-hover); border-color: var(--color-action-hover); color: var(--color-on-action); }
+.ui-button:active:not(:disabled), .ui-link-button:active { background: var(--color-action-active); border-color: var(--color-action-active); color: var(--color-on-action); }
+.ui-button[data-variant="secondary"], .ui-link-button[data-variant="secondary"] { background: var(--color-surface); color: var(--color-action); }
+.ui-button[data-variant="secondary"]:hover:not(:disabled), .ui-link-button[data-variant="secondary"]:hover { background: var(--color-background); color: var(--color-action-hover); }
+.ui-button[data-variant="secondary"]:active:not(:disabled), .ui-link-button[data-variant="secondary"]:active { color: var(--color-action-active); }
+.ui-button:disabled { background: var(--color-disabled-background); color: var(--color-disabled-text); border-color: var(--color-control-border); cursor: not-allowed; }
+.ui-link { overflow-wrap: anywhere; }
+.ui-container { inline-size: 100%; max-inline-size: var(--container-max); margin-inline: auto; padding-inline: var(--gutter); }
+.ui-section-heading { max-inline-size: var(--measure); overflow-wrap: anywhere; }
+.ui-section-heading > * { margin-block: 0; }
+.ui-section-heading > * + * { margin-block-start: var(--space-3); }
+.ui-section-heading h1 { font-size: var(--text-display); }
+.ui-section-heading h2, .ui-section-heading h3 { font-size: var(--text-heading); }
+.ui-section-heading p { color: var(--color-muted); font-size: var(--text-lead); }
+.ui-card { padding: clamp(var(--space-4), 3vw, var(--space-8)); background: var(--color-surface); border: var(--border-width) solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-card); min-inline-size: 0; overflow-wrap: anywhere; }
+.ui-footer { border-block-start: var(--border-width) solid var(--color-border); padding-block: var(--space-8); color: var(--color-muted); }
+.ui-field { display: grid; gap: var(--space-2); min-inline-size: 0; }
+.ui-field label { font-weight: var(--weight-medium); }
+.ui-field-control { inline-size: 100%; min-inline-size: 0; min-block-size: var(--target-size); padding: var(--space-3) var(--space-4); border: var(--border-width) solid var(--color-control-border); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text); }
+textarea.ui-field-control { resize: vertical; min-block-size: 8rem; }
+.ui-field-control::placeholder { color: var(--color-muted); opacity: 1; }
+.ui-field-control[aria-invalid="true"] { border-color: var(--color-error); }
+.ui-field-control:disabled { background: var(--color-disabled-background); color: var(--color-disabled-text); cursor: not-allowed; }
+.ui-field-description, .ui-field-error { margin: 0; font-size: var(--text-small); overflow-wrap: anywhere; }
+.ui-field-description { color: var(--color-muted); }
+.ui-field-error { color: var(--color-error); }
+/* No animation or hover-only content; reduced motion needs no override. */
