@@ -1,4 +1,10 @@
 {
+  "Theme": { "label": "نمایش", "light": "روشن", "dark": "تیره", "system": "سیستم" },
+  "Header": {
+    "primary": "پیمایش اصلی", "home": "خانه", "services": "خدمات", "work": "نمونه‌کارها",
+    "about": "درباره ما", "contact": "تماس", "privacy": "حریم خصوصی", "planned": "به‌زودی",
+    "open": "فهرست", "close": "بستن"
+  },
   "Foundation": {
     "title": "اکو دوز",
     "preview": "پیش‌نمایش توسعه",

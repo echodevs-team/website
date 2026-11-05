@@ -1,4 +1,10 @@
 {
+  "Theme": { "label": "المظهر", "light": "فاتح", "dark": "داكن", "system": "النظام" },
+  "Header": {
+    "primary": "التنقل الرئيسي", "home": "الرئيسية", "services": "الخدمات", "work": "الأعمال",
+    "about": "من نحن", "contact": "التواصل", "privacy": "الخصوصية", "planned": "قريبًا",
+    "open": "القائمة", "close": "إغلاق"
+  },
   "Foundation": {
     "title": "إيكو ديفز",
     "preview": "معاينة التطوير",

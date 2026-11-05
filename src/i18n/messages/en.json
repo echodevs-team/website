@@ -1,4 +1,10 @@
 {
+  "Theme": { "label": "Appearance", "light": "Light", "dark": "Dark", "system": "System" },
+  "Header": {
+    "primary": "Main navigation", "home": "Home", "services": "Services", "work": "Work",
+    "about": "About", "contact": "Contact", "privacy": "Privacy", "planned": "Planned",
+    "open": "Menu", "close": "Close"
+  },
   "Foundation": {
     "title": "Echo Devs",
     "preview": "Development preview",

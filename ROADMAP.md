@@ -1,6 +1,6 @@
 # Echo Devs — Agent-Executable Roadmap
 
-**Version:** 1.3 · **Status:** ECHO-001 verified; ECHO-003 deferred by explicit owner exception for completed ECHO-101/102/106 only. Remaining P1 tasks not started.
+**Version:** 1.6 · **Status:** ECHO-101/102/104/106 complete; ECHO-103 hosted acceptance pending; ECHO-105/107/108 implemented, partial pending actual browser acceptance. ECHO-003 remains deferred. ECHO-109 onward not started.
 **Source of truth:** `SCOPE.md`. **Operating rules:** `AGENTS.md`.  
 **Progress:** Mark `[x]` only with verified acceptance evidence. Record concise verification in task notes/reports. Agents must never stage files, create/amend commits, or push; Git commits are not completion requirements.
 
@@ -79,12 +79,43 @@ P0 is **not fully signed off**; its remaining browser gate has a narrow owner ex
 - [x] **ECHO-101 [P1]** Scaffold minimal Next.js App Router + TypeScript app, package lock, `.env.example`, README local commands. **Accept:** cold install and production build reproducible.
 - [x] **ECHO-102 [P1]** Establish folder boundaries: app routes, components, content, i18n, validation, DB, tests. **Accept:** simple structure documented; no premature abstractions.
 - [ ] **ECHO-103 [P1]** Add basic CI pipeline: lint, typecheck, unit tests, build. **Accept:** intentional lint/type failure breaks CI.
-- [ ] **ECHO-104 [P1]** Create semantic design tokens for Coral & Charcoal light/dark and typography scales. **Accept:** no hard-coded one-off theme duplication in new primitives; key colors contrast-tested.
+- [x] **ECHO-104 [P1]** Create semantic design tokens for Coral & Charcoal light/dark and typography scales. **Accept:** no hard-coded one-off theme duplication in new primitives; key colors contrast-tested.
 - [ ] **ECHO-105 [P1]** Build accessible shared Button, Link, Field, Container, SectionHeading, Card, Header, Footer; avoid unnecessary design-system framework. **Accept:** keyboard and visual states demonstrated.
 - [x] **ECHO-106 [P1]** Implement locale URL skeleton and basic dictionaries; default `fa` assumption documented. **Accept:** route-specific `lang`/`dir`, route-safe locale links.
 - [ ] **ECHO-107 [P1]** Implement theme selection with OS preference, persisted override, no flash/FOUC. **Accept:** toggle works in all locale routes and survives reload.
 - [ ] **ECHO-108 [P1]** Implement desktop nav and accessible mobile menu with keyboard/focus behavior. **Accept:** all primary routes accessible at 320px and by keyboard.
 - [ ] **ECHO-109 [P1]** Create concise 1–2 screen design preview of homepage shell based on ZIP; owner checks direction before full-page replication. **Accept:** approve visual direction or log focused revisions; not indefinite redesign.
+
+### ECHO-103 evidence — 2026-11-04
+
+**PARTIAL (implementation/local verification complete; hosted acceptance pending).** Checkbox intentionally remains unchecked: no remote is configured and no GitHub run or hosted failure propagation was observed.
+
+- Added `.github/workflows/ci.yml`: one Ubuntu 24.04 job for branch push/PR/manual dispatch; Node 24.21.0 + bundled npm 11.19.0 guards; locked install with lifecycle scripts disabled, lint, typecheck, unit tests, production build. Official actions pinned to reviewed commit SHAs; npm-download cache, contents:read only, timeout/concurrency, no credentials persisted, custom secrets, artifact uploads, deploys or external services.
+- All five CI commands **PASS locally** in CI environment: install (409 packages), ESLint, typecheck, six unit tests and production build. Existing ESLint deprecation/global-not-found warnings are not newly introduced changes.
+- Disposable-copy negative checks **PASS**: lint exits 1 with no-explicit-any, typecheck exits 2 with TS2322. Temporary copy removed; no fixtures or application edits left behind. No workflow step suppresses failure.
+- YAML parsed and SchemaStore GitHub workflow schema validated using existing js-yaml/Ajv; targeted trigger/permission/SHA/version/cache/command checks pass. Ajv emitted draft-07 $ref-sibling warnings; actionlint unavailable. This is local structural validation, not the GitHub runner/expression evaluator.
+- Build/dependency outputs are ignored and not tracked/staged. Package/lockfile, application, prototype and visual design unchanged. Exact verification/security notes and owner-controlled hosted activation: `docs/CI.md`.
+
+Next: human-controlled publication/hosted validation of ECHO-103; then authorized ECHO-104/105. No later task started. No agent stage/commit/tag/push.
+
+### ECHO-104/105 evidence — 2026-11-04
+
+- **ECHO-104 DONE:** semantic light/dark palettes, action hover/active, focus, disabled, error/success roles; typography/spacing/radii/border/shadow/measure tokens. New primitive CSS contains no literal colors or physical left/right layout rules. Light is default; dark values are opt-in only, with no ECHO-107 behavior.
+- **ECHO-105 PARTIAL:** typed native Button, Link, input/textarea Field, Container, SectionHeading, Card and content-slot Footer. Existing locale skeleton uses Link and SectionHeading; no new pages/claims. Header is explicitly excluded by the owner's batch scope and deferred to ECHO-108. Keyboard/visual state browser demonstration remains unverified; checkbox intentionally unchecked.
+- Local CI commands PASS: locked install (409 packages, scripts disabled), lint, typecheck, 25 unit/SSR tests, production build. Production HTTP locale/redirect/404 checks and immutable reference verification PASS. Contrast tests cover both palettes and actual action states, text/error/success, field boundaries and focus. Licensed local Vazirmatn 400/500/700 (113,452 WOFF2 bytes), common FA/AR glyph and join-control coverage checked via Fontconfig; not native shaping approval.
+- No available Chromium executable; no screenshots, manual keyboard/screen-reader/zoom, axe or visual approval claimed. ECHO-003/D7 remain open. No later task, theme switching, navigation, inquiry or DB implemented. Existing ECHO-103 changes preserved; no staging/commit/tag/push.
+- API guidance, exact files, evidence and remaining checks: `docs/P1-PRIMITIVES.md`. Next recommended batch (not started): ECHO-107/108 with deferred Header, then ECHO-109 only after actual browser/reference evidence.
+
+### ECHO-107/108 + deferred Header evidence — 2026-11-05
+
+**PARTIAL (implementation/local verification complete; actual browser acceptance pending).** ECHO-105/107/108 checkboxes intentionally remain unchecked. Owner authorized only this shell batch; no ECHO-109 or full-page replication performed.
+
+- Added server-rendered Header using existing tokens/primitives and small client islands for native theme select and modal mobile navigation. FA/EN/AR labels and locale links; Home/locale roots are real destinations, unbuilt Services/Work/About/Contact/Privacy are visibly planned non-links. No invented inquiry CTA or content pages.
+- Light/Dark/System: synchronous trusted head initializer in every document root; allowlisted localStorage preference, live OS changes in System, tab synchronization, safe in-memory behavior on storage denial. Controls hydrate deterministically; only expected html theme attributes suppress hydration warnings. No runtime/theme/UI framework added.
+- Native dialog with named navigation, aria-expanded/controls/haspopup, initial Close focus, Escape/cancel/Close/link dismissal, scroll restoration on close/unmount and visible-brand focus on desktop resize. Static Header avoids overlaying page content; RTL-safe CSS, 44px controls, no animation. Native Tab containment/inertness require actual browser verification, not the dialog test double.
+- PASS: reviewed locked install with scripts disabled, lint, typecheck, **46 tests / 5 files**, production build, production locale/redirect/404 HTTP checks (also executes exact rendered head initializer for each theme mode in each locale), reference integrity, dependency audit (zero vulnerabilities), diff whitespace review. Added pinned jsdom 30.1.3 for DOM fixtures only; no new runtime dependency.
+- Existing isolated Playwright inspected; sandbox-enabled launch failed because Chromium/headless-shell binaries are missing. No browser download, screenshots, manual keyboard/screen-reader/zoom, native Tab/inert tests or flash/visual approval claimed. CSS/DOM fixtures do not establish 320px rendered usability. ECHO-003/D7 remain open.
+- Exact files, behavior, test limitations and CSP notes: `docs/P1-SHELL.md`. Prior work preserved; no staging/commit/tag/push. Next: browser/reference evidence and ECHO-105/107/108 acceptance, then authorized ECHO-109 preview.
 
 ## P2 — First full vertical slice: inquiries
 **Goal:** A user can start from a real CTA and submit an inquiry that is durably stored, verified and retrievable.  

@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { localeNames, localePath, locales, type Locale } from "@/i18n/config";
+import { Link } from "@/components/ui/link";
 
 // Native links keep locale document attributes fresh without client state.
 export async function LanguageLinks({ locale, path = "/" }: { locale: Locale; path?: string }) {
@@ -9,10 +10,10 @@ export async function LanguageLinks({ locale, path = "/" }: { locale: Locale; pa
       <ul className="language-links">
         {locales.map((target) => (
           <li key={target}>
-            <a href={localePath(target, path)} hrefLang={target} lang={target}
+            <Link href={localePath(target, path)} hrefLang={target} lang={target}
               aria-current={target === locale ? "page" : undefined}>
               <bdi>{localeNames[target]}</bdi>
-            </a>
+            </Link>
           </li>
         ))}
       </ul>

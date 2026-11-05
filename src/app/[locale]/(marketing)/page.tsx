@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { LanguageLinks } from "@/components/layout/language-links";
+import { Header } from "@/components/layout/header";
+import { SectionHeading } from "@/components/ui/section-heading";
 import { isLocale } from "@/i18n/config";
 
 export default async function FoundationPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -9,11 +10,11 @@ export default async function FoundationPage({ params }: { params: Promise<{ loc
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "Foundation" });
   return (
-    <main id="main" tabIndex={-1}>
+    <><Header locale={locale} /><main id="main" tabIndex={-1}>
       <p>{t("preview")}</p>
-      <h1 className="text-3xl font-bold">{t("title")}</h1>
-      <p>{t("description")}</p>
-      <LanguageLinks locale={locale} />
-    </main>
+      <SectionHeading id="foundation-title" level={1} description={t("description")}>
+        {t("title")}
+      </SectionHeading>
+    </main></>
   );
 }

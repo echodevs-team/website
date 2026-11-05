@@ -41,4 +41,14 @@ describe("locale foundation", () => {
       for (const value of Object.values(messages)) expect(value.trim()).not.toBe("");
     }
   });
+
+  it("keeps theme and navigation messages localized and in parity", () => {
+    for (const group of ["Header", "Theme"] as const) {
+      const keys = Object.keys(getMessages("en")[group]).sort();
+      for (const locale of locales) {
+        expect(Object.keys(getMessages(locale)[group]).sort()).toEqual(keys);
+        for (const value of Object.values(getMessages(locale)[group])) expect(value.trim()).not.toBe("");
+      }
+    }
+  });
 });

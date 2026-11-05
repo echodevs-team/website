@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import { once } from "node:events";
 import { createServer } from "node:net";
+import { runInNewContext } from "node:vm";
 
 const reservation = createServer();
 reservation.listen(0, "127.0.0.1");
@@ -39,12 +40,29 @@ try {
     const response = await request(`/${locale}`);
     assert.equal(response.status, 200, locale);
     const html = await response.text();
+    const init = /<script id="echo-theme-init">([\s\S]*?)<\/script>/.exec(html);
+    assert.ok(init, "Theme initializer is rendered");
+    assert.ok(html.indexOf(init[0]) < html.indexOf("</head>"), "Theme initializes in head, before body");
+    for (const [saved, dark, expected] of [["light", true, "light"], ["dark", false, "dark"], ["system", true, "dark"], [null, false, "light"]]) {
+      const dataset = {};
+      const media = Object.assign(new EventTarget(), { matches: dark });
+      const window = Object.assign(new EventTarget(), { matchMedia: () => media });
+      runInNewContext(init[1], { window, document: { documentElement: { dataset } }, Event,
+        localStorage: { getItem: () => saved } });
+      assert.equal(dataset.theme, expected, `${locale} production init: ${saved}`);
+    }
+    assert.match(html, /<header class="site-header"/);
+    assert.match(html, /<dialog[^>]*aria-label=/);
+    assert.match(html, /aria-haspopup="dialog"/);
+    for (const path of ["services", "work", "about", "contact", "privacy"]) {
+      assert.ok(!html.includes(`href="/${locale}/${path}"`), "Unbuilt pages must not be fake links");
+    }
     assert.match(html, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
     assert.match(html, new RegExp(`<h1[^>]*>${heading}</h1>`), `Localized rendered heading ${locale}`);
     assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
     for (const target of ["fa", "en", "ar"]) assert.ok(html.includes(`href="/${target}"`));
     assert.ok(!html.includes("contact@echodevs.com"));
-    console.log(`PASS /${locale}: 200, ${dir}, localized copy, noindex, locale links`);
+    console.log(`PASS /${locale}: 200, ${dir}, localized copy, noindex, locale links, Header, pre-body theme modes`);
   }
 
   for (const [headers, target] of [

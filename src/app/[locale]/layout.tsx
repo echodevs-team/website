@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { direction, isLocale, locales } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
+import { ThemeInit } from "@/components/layout/theme-init";
 import "@/styles/globals.css";
 
 export const dynamicParams = false;
@@ -29,7 +30,8 @@ export default async function LocaleLayout({ children, params }: {
   if (!isLocale(locale)) notFound();
   setRequestLocale(locale);
   return (
-    <html lang={locale} dir={direction(locale)}>
+    <html lang={locale} dir={direction(locale)} suppressHydrationWarning>
+      <head><ThemeInit /></head>
       <body>
         <a className="skip-link" href="#main">{getMessages(locale).Foundation.skip}</a>
         {children}
