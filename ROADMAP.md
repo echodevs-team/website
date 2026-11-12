@@ -343,7 +343,7 @@ download, dependency, security/global rendering or marketing-source change.
 
 - [x] **ECHO-501 [P5]** Build localized content dictionaries/types and parity validation. **Accept:** missing key fails CI.
 - [ ] **ECHO-502 [P5]** Translate navigation, service content, pages, CTA, form validation, loading/success/error/404, accessible labels. **Accept:** full coverage; copy owner reviews sensitive claims.
-- [ ] **ECHO-503 [P5]** Audit RTL/LTR including mixed email/phone/URL/code, number shaping, inline icons, directional layout, mobile navigation. **Accept:** screenshot and keyboard matrix pass.
+- [x] **ECHO-503 [P5]** Audit RTL/LTR including mixed email/phone/URL/code, number shaping, inline icons, directional layout, mobile navigation. **Accept:** screenshot and keyboard matrix pass.
 - [ ] **ECHO-504 [P5]** Retain equivalent route/slug on language switch; store intentional user preference. **Accept:** changing language on project detail stays on same project.
 - [ ] **ECHO-505 [P5]** Validate font loading/fallback, Arabic shaping, content expansion, Persian punctuation and appropriate localized formatting. **Accept:** no clipping and readable mixed scripts.
 - [ ] **ECHO-506 [P5]** Localized metadata, canonical URLs, `hreflang`, sitemap/robots, locale-aware 404. **Accept:** scripted HTML inspection for each locale route.
@@ -383,6 +383,26 @@ intake, `noindex`, UI redesign, analytics or deployment change; no PostgreSQL
 rerun or browser audit. Owner decision package:
 `docs/P5-ECHO-502-OWNER-REVIEW.md`; evidence: `docs/P5-ECHO-502.md`. ECHO-503 and
 later tasks not started.
+
+### ECHO-503 RTL/LTR browser audit — 2026-11-12
+
+**PASS for the stated acceptance (screenshot + keyboard matrix) under WebKitGTK;
+cross-engine/native/screen-reader/zoom gates stay with ECHO-505/601/605.** Added
+`scripts/audit-rtl.py`, a real WebKitGTK 2.52.6 + Xvfb harness that builds its own
+private loopback server, captures 71 viewport PNGs and asserts bidi direction,
+overflow, `bdi` isolation, number stability, nav order, rail overlap and mobile
+drawer behavior across all 27 localized routes at 1440/1024/768/375/320 px in
+light and dark. Fixed two confirmed RTL defects: localized name/description fields
+no longer force empty-field LTR (`dir="auto"` removed; email/phone stay LTR), and
+concept chat tails use logical corner radii so they mirror. **PASS:** 1022 audit
+checks/71 screenshots (commit `969f97f`), 12 focused form tests, 25 files/245
+tests, lint, typecheck, production build, HTTP crawl, reference verification,
+diff/secret scan. Evidence ZIP:
+`test-results/echo-503-browser-evidence.zip` (8,334,317 bytes, CRC-verified);
+report: `docs/P5-ECHO-503.md`. No Chromium/Firefox, native-reading, human
+screen-reader/zoom, full visual-fidelity or legal/privacy acceptance claimed; no
+API/DB, intake, `noindex`, redesign or deployment change. ECHO-504 and later tasks
+not started.
 
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  
