@@ -234,6 +234,57 @@ try {
     console.log(`PASS /${locale}/work: localized metadata/direction, honest groups, three concepts, existing destinations, locale switching`);
   }
 
+  // Whole-site link, anchor and asset audit for every localized marketing route.
+  // Covers shared chrome, in-content CTAs, fragments, locale switching and the
+  // self-hosted font surface. Visual and keyboard acceptance remain separate.
+  const marketingRoutes = [];
+  for (const locale of ["fa", "en", "ar"]) {
+    marketingRoutes.push(`/${locale}`, `/${locale}/services`, `/${locale}/work`, `/${locale}/about`, `/${locale}/contact`, `/${locale}/privacy`);
+    for (const slug of ["analytics", "chat", "booking"]) marketingRoutes.push(`/${locale}/work/${slug}`);
+  }
+  const documents = new Map();
+  const idSet = (html) => new Set([...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]));
+  for (const route of marketingRoutes) {
+    const response = await request(route);
+    assert.equal(response.status, 200, `audit document ${route}`);
+    const html = await response.text();
+    documents.set(route, html);
+    const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map((match) => match[1]);
+    assert.equal(new Set(ids).size, ids.length, `${route} has duplicate element ids`);
+    assert.ok(!/\shref=""/.test(html) && !/\shref="#"/.test(html), `${route} has no empty or placeholder href`);
+    assert.ok(!/\s(?:href|src)="(?:javascript:|data:text\/html)/i.test(html), `${route} has no script or data-document URL`);
+    assert.match(html, new RegExp(`<html[^>]*lang="${route.split("/")[1]}"`), `${route} keeps its locale attribute`);
+  }
+  const destinations = new Map();
+  for (const [route, html] of documents) {
+    for (const match of html.matchAll(/\s(?:href|src)="([^"]+)"/g)) {
+      const url = match[1];
+      if (/^[a-z][a-z0-9+.-]*:/i.test(url) && !url.startsWith("data:")) assert.fail(`Unreviewed external URL ${url} on ${route}`);
+      if (url.startsWith("//")) assert.fail(`Protocol-relative URL ${url} on ${route}`);
+      if (!destinations.has(url)) destinations.set(url, new Set());
+      destinations.get(url).add(route);
+    }
+  }
+  for (const [url, sources] of destinations) {
+    const [pathname, fragment] = url.split("#");
+    if (url.startsWith("#")) {
+      for (const source of sources) assert.ok(idSet(documents.get(source)).has(fragment), `in-page anchor ${url} resolves on ${source}`);
+      continue;
+    }
+    assert.ok(pathname.startsWith("/"), `internal URL ${url} from ${[...sources].join(", ")}`);
+    const response = await request(pathname);
+    assert.equal(response.status, 200, `destination ${url} from ${[...sources].join(", ")}`);
+    if (!fragment) { await response.body?.cancel(); continue; }
+    assert.ok(idSet(documents.get(pathname) ?? await response.text()).has(fragment), `fragment ${url} exists in ${pathname}`);
+  }
+  for (const font of ["arabic-400", "arabic-500", "arabic-700", "latin-400", "latin-500", "latin-700"].map((name) => `/fonts/vazirmatn-${name}-normal.woff2`)) {
+    const response = await request(font);
+    assert.equal(response.status, 200, font);
+    assert.match(response.headers.get("content-type") ?? "", /^font\/woff2/, font);
+    assert.ok((await response.arrayBuffer()).byteLength > 1_000, font);
+  }
+  console.log(`PASS link/asset crawl: ${marketingRoutes.length} localized documents, ${destinations.size} unique destinations, unique ids, no external/placeholder URLs, six served font subsets`);
+
   for (const [path, type] of [["/favicon.ico", /^image\/x-icon/], ["/icon.svg", /^image\/svg\+xml/]]) {
     const asset = await request(path);
     assert.equal(asset.status, 200, path);

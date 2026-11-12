@@ -121,7 +121,7 @@ const en: AboutContent = {
     services: "Review services",
     work: "Explore concept work",
     contact: "Open the project inquiry",
-    note: "Public email addresses and social profiles are not published until the owner verifies them. The inquiry form on the homepage is the only implemented contact path.",
+    note: "Public email addresses and social profiles are not published until the owner verifies them. The project inquiry is the implemented contact path and is available on both the homepage and the Contact page.",
   },
 };
 
@@ -214,7 +214,7 @@ const fa: AboutContent = {
     services: "بررسی خدمات",
     work: "مشاهده طرح‌های مفهومی",
     contact: "بازکردن فرم درخواست پروژه",
-    note: "نشانی ایمیل و شبکه‌های اجتماعی عمومی تا تأیید مالک منتشر نمی‌شوند. فرم درخواست در صفحه اصلی تنها مسیر ارتباطی پیاده‌شده است.",
+    note: "نشانی ایمیل و شبکه‌های اجتماعی عمومی تا تأیید مالک منتشر نمی‌شوند. فرم درخواست پروژه مسیر ارتباطی پیاده‌شده است و در صفحه اصلی و صفحه تماس در دسترس است.",
   },
 };
 
@@ -307,7 +307,7 @@ const ar: AboutContent = {
     services: "راجع الخدمات",
     work: "استكشف الأعمال التصورية",
     contact: "افتح نموذج طلب المشروع",
-    note: "لا تُنشر عناوين البريد أو الملفات الاجتماعية العامة حتى يتحقق المالك منها. نموذج الطلب في الصفحة الرئيسية هو مسار التواصل المنفذ الوحيد.",
+    note: "لا تُنشر عناوين البريد أو الملفات الاجتماعية العامة حتى يتحقق المالك منها. نموذج طلب المشروع هو مسار التواصل المنفذ، وهو متاح في الصفحة الرئيسية وصفحة التواصل.",
   },
 };
 

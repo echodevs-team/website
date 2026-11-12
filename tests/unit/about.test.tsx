@@ -82,6 +82,9 @@ describe("ECHO-404 about and team", () => {
     expect(host.querySelector(`a[href="/${locale}/work"]`)).not.toBeNull();
     expect(host.querySelector(`a[href="/${locale}#contact"]`)).not.toBeNull();
     expect(host.textContent).toContain(t.next.note);
+    // ECHO-407: the Contact page is implemented, so the next-step note must not
+    // claim the homepage inquiry is the only contact path.
+    expect(t.next.note).toContain({ fa: "صفحه تماس", en: "Contact page", ar: "صفحة التواصل" }[locale]);
     expect(host.querySelector("form, iframe, canvas")).toBeNull();
 
     const ids = [...host.querySelectorAll("[id]")].map((node) => node.id);

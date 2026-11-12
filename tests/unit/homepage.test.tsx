@@ -70,6 +70,10 @@ describe("faithful homepage structure and safety", () => {
     expect(form.querySelector("button")?.type).toBe("submit");
     expect(form.querySelector("noscript")).not.toBeNull();
     expect(host.querySelector("#inquiry-success")).toBeNull();
+    // ECHO-407: the Contact page and its shared form are implemented, so the
+    // availability note must name the inquiry as the available path.
+    expect(homeContent[locale].contactsPending).toContain({ fa: "فرم درخواست پروژه", en: "project inquiry", ar: "نموذج طلب المشروع" }[locale]);
+    expect(host.textContent).toContain(homeContent[locale].contactsPending);
     expect(host.innerHTML).not.toMatch(/mailto:|https:\/\/|HIPAA|SLA|24\/7|contact@|RPS:|TOKENS:/);
   });
   it("keeps complete typed locale content parity", () => {
