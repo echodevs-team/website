@@ -7,23 +7,36 @@
   "packageManager": "npm@11.19.0",
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
+    "dev:inquiries": "node --env-file=.local/dev-pg/app.env node_modules/next/dist/bin/next dev --hostname 127.0.0.1",
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:http": "node scripts/smoke-http.mjs",
+    "test:inquiries": "node scripts/test-inquiries.mjs",
+    "test:operations": "node scripts/test-inquiries.mjs --operations",
+    "db:dev": "node scripts/local-postgres.mjs dev",
+    "db:migrate": "node scripts/migrate.mjs",
+    "db:cleanup": "node scripts/cleanup-submissions.mjs",
+    "db:roles": "node scripts/provision-inquiry-roles.mjs",
+    "inquiries:ops": "node scripts/inquiry-ops.mjs",
     "verify:reference": "python3 scripts/verify_original.py"
   },
   "dependencies": {
     "next": "16.4.5",
     "next-intl": "4.14.9",
+    "pg": "8.23.1",
     "react": "19.3.1",
-    "react-dom": "19.3.1"
+    "react-dom": "19.3.1",
+    "server-only": "0.0.1",
+    "zod": "4.6.7"
   },
   "devDependencies": {
+    "@embedded-postgres/linux-x64": "18.6.0-beta.19",
     "@tailwindcss/postcss": "4.3.4",
     "@types/node": "24.19.2",
+    "@types/pg": "8.23.1",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
