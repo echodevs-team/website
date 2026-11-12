@@ -44,6 +44,35 @@ it("keeps all localized form messages and stable service choices complete", () =
     expect(Object.values(inquiryCopy[locale]).every((value) => Array.isArray(value) || value.length > 0)).toBe(true);
   }
 });
+it.each(locales)("separates required and invalid messages and marks required fields in %s", async (locale) => {
+  const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
+  const copy = inquiryCopy[locale];
+  await act(() => root.render(<InquiryForm content={homeContent[locale]} locale={locale} copy={copy} />));
+  for (const id of ["inquiry-fullName", "inquiry-description"]) {
+    expect(host.querySelector(`#${id}`)?.hasAttribute("required")).toBe(true);
+    const label = host.querySelector(`label[for="${id}"]`)!;
+    expect(label.textContent).toContain(copy.requiredField);
+    expect(label.querySelector(".ui-field-required")?.getAttribute("aria-hidden")).toBe("true");
+  }
+  for (const id of ["inquiry-email", "inquiry-phone", "inquiry-timeline"]) {
+    expect(host.querySelector(`#${id}`)?.hasAttribute("required")).toBe(false);
+    expect(host.querySelector(`label[for="${id}"]`)?.textContent).not.toContain(copy.requiredField);
+  }
+  await submit(); expect(fetcher).not.toHaveBeenCalled();
+  const link = (id: string) => host.querySelector<HTMLAnchorElement>(`[role="alert"] a[href="#${id}"]`)!;
+  expect(link("inquiry-fullName").textContent).toContain(copy.required);
+  expect(link("inquiry-fullName").textContent).not.toContain(copy.contactRequired);
+  expect(link("inquiry-description").textContent).toContain(copy.required);
+  expect(link("inquiry-email").textContent).toContain(copy.contactRequired);
+  expect(host.querySelector("#inquiry-fullName-error")?.textContent).toBe(copy.required);
+  expect(host.querySelector("#inquiry-description-error")?.textContent).toBe(copy.required);
+  expect(host.querySelector("#inquiry-email-error")?.textContent).toBe(copy.contactRequired);
+  for (const [name, value] of Object.entries({ fullName: "a", email: "form@example.invalid", description: "short" })) (host.querySelector(`[name="${name}"]`) as HTMLInputElement).value = value;
+  await submit(); expect(fetcher).not.toHaveBeenCalled();
+  expect(host.querySelector("#inquiry-fullName-error")?.textContent).toBe(copy.invalid);
+  expect(host.querySelector("#inquiry-description-error")?.textContent).toBe(copy.invalid);
+  expect(link("inquiry-fullName").textContent).toContain(copy.invalid);
+});
 it("focuses accessible field-error summary and links, without sending invalid data", async () => {
   const fetcher = vi.fn(); vi.stubGlobal("fetch", fetcher);
   await act(() => root.render(<InquiryForm content={homeContent.en} locale="en" copy={inquiryCopy.en} />));

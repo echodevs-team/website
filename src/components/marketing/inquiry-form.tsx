@@ -29,7 +29,9 @@ export function InquiryForm({ content: t, locale, copy }: { content: Pick<HomeCo
   }, [wait]);
   useEffect(() => { if (Object.keys(fields).length || outcome?.kind === "failure") summary.current?.focus(); }, [fields, outcome]);
   useEffect(() => { if (outcome?.kind === "success") status.current?.focus(); }, [outcome]);
-  const error = (key: keyof ValidationFields) => fields[key] ? fields[key] === "required" ? copy.required : copy.invalid : undefined;
+  const fieldMessage = (key: keyof ValidationFields, code: "invalid" | "required") =>
+    code === "invalid" ? copy.invalid : key === "email" ? copy.contactRequired : copy.required;
+  const error = (key: keyof ValidationFields) => { const code = fields[key]; return code ? fieldMessage(key, code) : undefined; };
   const locked = pending || outcome?.kind === "success" || outcome?.kind === "failure" && outcome.locked;
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,7 +52,11 @@ export function InquiryForm({ content: t, locale, copy }: { content: Pick<HomeCo
     <p id="inquiry-help">{copy.contactHint}</p>
     <noscript><p>{copy.noScript}</p></noscript>
     {(Object.keys(fields).length > 0 || outcome?.kind === "failure") && <div ref={summary} className="inquiry-errors" role="alert" tabIndex={-1}>
-      {Object.keys(fields).length > 0 ? <><p>{copy.summary}</p><ul>{Object.entries(fields).map(([key, code]) => <li key={key}>{labels[key] ? <a href={`#inquiry-${key}`} onClick={(event) => { event.preventDefault(); form.current?.querySelector<HTMLElement>(`#inquiry-${key}`)?.focus(); }}>{labels[key]}: {code === "required" ? copy.required : copy.invalid}</a> : copy.invalid}</li>)}</ul></>
+      {Object.keys(fields).length > 0 ? <><p>{copy.summary}</p><ul>{Object.entries(fields).map(([key, code]) => {
+        const field = key as keyof ValidationFields;
+        const text = fieldMessage(field, code);
+        return <li key={key}>{labels[key] ? <a href={`#inquiry-${key}`} onClick={(event) => { event.preventDefault(); form.current?.querySelector<HTMLElement>(`#inquiry-${key}`)?.focus(); }}>{labels[key]}: {text}</a> : text}</li>;
+      })}</ul></>
         : outcome?.kind === "failure" && <p>{copy[outcome.reason]}</p>}
     </div>}
     <fieldset disabled={!ready || locked}><legend>{copy.intro}</legend>

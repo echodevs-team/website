@@ -36,6 +36,8 @@
 .ui-footer { border-block-start: var(--border-width) solid var(--color-border); padding-block: var(--space-8); color: var(--color-muted); }
 .ui-field { display: grid; gap: var(--space-2); min-inline-size: 0; }
 .ui-field label { font-weight: var(--weight-medium); }
+.ui-field-required { margin-inline-start: .15em; color: var(--color-error); }
+.ui-field-required-text { margin-inline-start: .25em; color: var(--color-muted); font-size: var(--text-small); font-weight: var(--weight-regular); }
 .ui-field-control { inline-size: 100%; min-inline-size: 0; min-block-size: var(--target-size); padding: var(--space-3) var(--space-4); border: var(--border-width) solid var(--color-control-border); border-radius: var(--radius-control); background: var(--color-surface); color: var(--color-text); }
 textarea.ui-field-control { resize: vertical; min-block-size: 8rem; }
 .ui-field-control::placeholder { color: var(--color-muted); opacity: 1; }

@@ -57,6 +57,15 @@ describe("native, server-renderable primitives", () => {
     expect(html).toContain('disabled=""');
     expect(html).toContain('autoComplete="name"');
   });
+  it("renders a localized required indicator only for required controls", () => {
+    const html = render(<Field id="name" label="نام" required requiredIndicator="الزامی" />);
+    expect(html).toContain('required=""');
+    expect(html).toContain('<span class="ui-field-required" aria-hidden="true">*</span>');
+    expect(html).toContain("(الزامی)");
+    const optional = render(<Field id="note" label="یادداشت" requiredIndicator="الزامی" />);
+    expect(optional).not.toContain("ui-field-required");
+    expect(optional).not.toContain("required=");
+  });
   it("supports textarea attributes and escapes untrusted content", () => {
     const html = render(<Field multiline id="details" label="Details" rows={5}
       defaultValue="<script>alert(1)</script>" readOnly />);

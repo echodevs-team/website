@@ -14,6 +14,15 @@ describe("strict inquiry validation", () => {
     expect(validateInquiry({ ...valid, phone: "+1 202 555 0100" }).data).toBeDefined();
     expect(normalizePhone("+٩٧١ ٥٠ ١٢٣ ٤٥٦٧")).toBe("+971501234567");
   });
+  it.each(["fa", "en", "ar"])("separates blank required fields from malformed values in %s", (locale) => {
+    const base = { ...valid, locale, sourcePage: `/${locale}` };
+    expect(validateInquiry({ ...base, fullName: "   ", description: "\n " }).fields)
+      .toEqual({ fullName: "required", description: "required" });
+    expect(validateInquiry({ ...base, fullName: "a", description: "short" }).fields)
+      .toEqual({ fullName: "invalid", description: "invalid" });
+    expect(validateInquiry({ ...base, email: "", phone: "" }).fields).toEqual({ email: "required" });
+    expect(validateInquiry({ ...base, email: "not-an-email", phone: "+1 202 555 0100" }).fields).toEqual({ email: "invalid" });
+  });
   it.each([
     { fullName: "a" }, { fullName: "x".repeat(121) }, { email: "bad" }, { email: "", phone: "" },
     { phone: "09123456789" }, { phone: "+123" }, { phone: "+0123456789" }, { phone: "+1234567890123456" },
