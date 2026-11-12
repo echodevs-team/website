@@ -19,8 +19,14 @@
 4. Implement smallest complete usable slice with validation, errors, accessibility, and tests; do not stop at visual mock-only if task requires persistence.
 5. Run relevant checks and record actual outputs. Never claim a browser/test/deploy result that did not occur.
 6. Review own diff for privacy leaks, secrets, unapproved external links, i18n, and performance regressions.
-7. Update ROADMAP task status only if acceptance evidence exists. Agents must never stage files, create Git commits, amend commits, or push changes in this project. Leave changes for human review; suggest a task-ID Conventional Commit message only.
+7. Update ROADMAP task status only if acceptance evidence exists. Agents may create focused local Git commits for completed, verified logical changes (owner policy, 2026-11-12). Never push, rewrite shared history, or start a new development batch without explicit owner authorization; leave unrelated work uncommitted for human review.
 8. Report with ROADMAP's task report format and name next task.
+
+## Git and commits
+- Local commits are permitted for finished, verified changes within the authorized batch. Group related files into small, reviewable commits with task-ID Conventional Commit messages.
+- Before each commit, review the staged file list, run `git diff --cached --check`, and confirm no secrets, generated credentials, `.local/` data, databases, build output or unrelated work are included.
+- Never push, force-push, tag, publish, change remotes or amend shared history. A commit is review evidence, not acceptance sign-off or release approval.
+- New development batches, deployments and public actions still require explicit owner authorization.
 
 ## Engineering principles
 - Prefer one cohesive Next.js app and simple in-repo content for this site. Do not add Redis, Kafka, queues, new services, a CMS, dashboards or auth solely because they are fashionable.
@@ -41,4 +47,4 @@
 - Don't mark a task done if test failed or wasn't run; use PARTIAL/BLOCKED and explain.
 - Missing VM Chromium does not block non-browser-dependent implementation. Keep ECHO-003 and browser acceptance open, use owner-side Fedora browser checks through an existing localhost-only SSH tunnel when needed, and require actual visual evidence before production release. Do not repeatedly install/download browser tooling or weaken isolation.
 - Halt operations that could destroy real data, publish PII, cause costs, or launch to real users until explicit approval.
-- Keep each session focused; progress should be auditable from changed-file reports, checklist and test evidence. Human-created commits may supplement this evidence; they are never a task completion requirement.
+- Keep each session focused; progress should be auditable from changed-file reports, checklist and test evidence. Commits may supplement this evidence; they are never a task completion requirement.

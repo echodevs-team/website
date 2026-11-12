@@ -2,7 +2,7 @@
 
 **Version:** 1.7 · **Status:** Approved HTML fidelity governs implementation. Foundation/homepage browser and hosted CI gates remain open. P2-A ECHO-201–204 complete locally; P2-B1 form/security/retry and P2-B2 private operations/recovery tooling implemented, owner/deployment/browser acceptance partial. API opt-in; notifications absent; ECHO-306 visual/conversion browser acceptance pending.
 **Source of truth:** `SCOPE.md`. **Operating rules:** `AGENTS.md`.  
-**Progress:** Mark `[x]` only with verified acceptance evidence. Record concise verification in task notes/reports. Agents must never stage files, create/amend commits, or push; Git commits are not completion requirements.
+**Progress:** Mark `[x]` only with verified acceptance evidence. Record concise verification in task notes/reports. Agents may create focused local commits for completed, verified changes; they must never push. Git commits are review evidence, not completion requirements.
 
 ## Delivery strategy
 
@@ -319,7 +319,7 @@ Suggested separation if available:
 - **Reviewer:** validate task claims, independently inspect risky paths, ask for remediation with direct evidence.
 - **Product owner:** signs off verified business facts, brand/identity, contacts, policies, costs and release.
 
-Agents must never stage files, create/amend commits, or push changes. Leave all work for human review; suggest a small task-ID Conventional Commit message (e.g. `feat(ECHO-204): persist validated inquiries`) for the human to use. No bulk rewrites without approval or speculative scope creep. Prefer 1–3 tightly coupled tasks per implementation session, then report facts and update checklist. If blocked by D1–D8, record a blocker and advance independent tasks.
+Agents may create small, focused local commits for completed and verified changes after checks pass, using a task-ID Conventional Commit message (e.g. `feat(ECHO-204): persist validated inquiries`). They must never push, force-push, tag, publish, amend shared history or mix unrelated work into a commit. New development batches require explicit owner authorization; commits are review evidence, not acceptance or release approval. No bulk rewrites without approval or speculative scope creep. Prefer 1–3 tightly coupled tasks per implementation session, then report facts and update checklist. If blocked by D1–D8, record a blocker and advance independent tasks.
 
 ## Per-task agent report format
 ```

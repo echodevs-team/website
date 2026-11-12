@@ -251,7 +251,7 @@ Performance numbers are objectives, not promises and must not justify removing n
 
 **Never launch if:** inquiry reports success without persistence; forms leak personal data; mobile navigation fails; English/Arabic pages are incomplete; TLS missing; critical exploit present; fake evidence presented as fact; broken primary CTAs; no operational way to retrieve leads; no rollback/backup plan.
 
-**Change control:** The owner must approve domain/hosting costs, final public contacts, authentic portfolio entries, logo direction, privacy/retention policy, launch, and any outgoing communication involving a real customer. Developer agents may implement, test, refactor, and document authorized work within the allowed project workspace. Agents must never stage files, create/amend Git commits, or push changes in this project. Leave changes for human review and suggest a commit message only.
+**Change control:** The owner must approve domain/hosting costs, final public contacts, authentic portfolio entries, logo direction, privacy/retention policy, launch, and any outgoing communication involving a real customer. Developer agents may implement, test, refactor, and document authorized work within the allowed project workspace, and may create focused local commits for completed, verified changes. They must never push, rewrite shared history, tag or publish, and must not begin a new development batch without explicit owner authorization.
 
 ## 11. Key unknowns / deferred owner decisions
 
@@ -272,6 +272,6 @@ D7 is narrowed by the 2026-11-05 approval: the HTML visual direction is already 
 
 ## 12. Definition of done (per task and per milestone)
 
-A task is done only if: implemented narrowly; meets acceptance criteria; tests/quality checks run and results included; desktop/mobile and locale regressions checked when UI-facing; docs/status updated; no new unresolved security/PII issue; and report references task ID. Git commits are not required and must not be created by agents. A milestone is done only after its gate is demonstrated, not because its checklist was merely marked. The roadmap is the executable checklist.
+A task is done only if: implemented narrowly; meets acceptance criteria; tests/quality checks run and results included; desktop/mobile and locale regressions checked when UI-facing; docs/status updated; no new unresolved security/PII issue; and report references task ID. Focused local commits for verified changes are permitted; pushing or starting a new batch without owner authorization is not. A milestone is done only after its gate is demonstrated, not because its checklist was merely marked. The roadmap is the executable checklist.
 
 **Source references:** existing `cvecho.zip` + product decisions in this conversation. Implementation-time validation: official Next.js internationalization documentation and Google Search Central multilingual site guidance.
