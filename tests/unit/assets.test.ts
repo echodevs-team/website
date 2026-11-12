@@ -22,8 +22,25 @@ describe("public font assets", () => {
       const file = publicPath(url);
       expect(existsSync(file), url).toBe(true);
       expect(statSync(file).size, url).toBeGreaterThan(1_000);
+      expect(readFileSync(file).subarray(0, 4).toString("ascii"), url).toBe("wOF2");
     }
     expect(fontUrls.some((url) => /^https?:/.test(url))).toBe(false);
+  });
+
+  it("resolves asset URLs in every authored stylesheet, not only font declarations", () => {
+    const references: string[] = [];
+    for (const name of readdirSync("src/styles").filter((name) => name.endsWith(".css"))) {
+      const css = readFileSync(`src/styles/${name}`, "utf8");
+      for (const match of css.matchAll(/url\(\s*['"]?([^'"\s)]+)['"]?\s*\)/g)) {
+        const url = match[1];
+        // Current authored styles publish only the reviewed local font assets.
+        // New providers/images require evidence rather than an automatic fetch.
+        expect(url, name).toMatch(/^\/fonts\/[a-z0-9-]+\.woff2$/);
+        expect(existsSync(publicPath(url)), `${name}: ${url}`).toBe(true);
+        references.push(url);
+      }
+    }
+    expect(references.sort()).toEqual([...fontUrls].sort());
   });
 
   it("keeps provenance and license evidence beside the fonts", () => {

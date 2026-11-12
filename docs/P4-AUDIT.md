@@ -107,3 +107,94 @@ PostgreSQL integration tests were not repeated: no schema, API, validation, pers
 Visual, keyboard, screen-reader, zoom, owner/native copy and legal acceptance remain open, so ECHO-407 stays unchecked. The audit found no broken primary links, missing assets or false production claims. Four verified defects were corrected in all locales: two stale contact statements, the missing Work current-state on concept detail routes, and the footer label that implied verified selected work on a concept-only page.
 
 Next recommended task after ECHO-407 acceptance: **ECHO-501/P5** localized content-dictionary and parity validation, or owner-authorized `ECHO-406` legal decisions first. This batch stops at ECHO-407.
+
+## ECHO-407 follow-up audit — 2026-11-12
+
+The repository was clean at entry, with ECHO-407 implementation already committed
+as `9299ca3`; ECHO-406 is `425f765`. The actual ECHO-407 definition still matches
+the requested link/asset/content audit. This follow-up revalidated existing work,
+not a new page/design batch. **Status remains PARTIAL.** ECHO-406 policy/legal and
+browser acceptance are not closed by this audit.
+
+### Findings and additional durable coverage
+
+| Area / route | Finding and supporting evidence | Status |
+| --- | --- | --- |
+| All 27 FA/EN/AR marketing routes | Fresh production HTTP crawl: all 73 unique destinations return 200; fragments resolve; ids are unique; no placeholder/unsafe/external URLs. Existing redirect/localized-404/default-disabled API checks pass. | Verified at HTTP level |
+| Shared chrome, page CTAs, inquiry privacy, equivalent locale paths | New `tests/unit/marketing-audit.test.tsx` renders all 27 route/component combinations. Every link has text or an explicit label; privacy links preserve locale; language links preserve page/slug. | Verified at DOM/source level, not full accessibility acceptance |
+| Process | There is no separate Process route. Shared navigation intentionally targets the localized homepage `#process`; its six proposed stages differ in granularity from About's four collaboration stages, not in timing/support promises. `home.ts`, `about.ts`, Header and HTTP fragments agree. | Verified; no route invented |
+| Authored stylesheet assets | Every `url(...)` in `src/styles/*.css` resolves to the six reviewed local fonts. New coverage in `assets.test.ts` also verifies WOFF2 magic bytes, not only file size. Provenance/OFL evidence remains beside the unchanged binaries. | Verified; no ownership/license invented |
+| Illustrations and controls | New 27-page DOM matrix checks SVG/canvas decorative treatment through the element **or an ancestor**; exposed nondecorative vectors require an image role/name. No published raster marketing images were found. Static concept bars/messages/booking states are illustrations, not broken controls. SSR-disabled inquiry controls are intentional no-script safeguards, not broken links. | Verified within current asset inventory |
+| Current copy and claims | Rechecked Home, Services, Work/details, About, Contact, Privacy and shared chrome in all locales against the existing reference/claim registry. No additional objectively supported copy defect or false production claim found. The two stale-contact fixes in `9299ca3` are retained, not reimplemented. | Verified within available evidence; native copy/business-fact approval remains open |
+| External destinations | No external marketing links are published. Font-license provenance URLs in the distributed text are evidence references, not public marketing CTAs. No external destination was contacted or declared broken. | None to verify |
+| Narrow shared surfaces | Actual production frontend at 375×1000: English/dark About, Persian/dark Contact, Arabic/light concept detail, corresponding footers, Persian mobile menu and inquiry privacy link. Eight final captures inspected; no observed horizontal overflow or clipped primary link in these samples. | Bounded browser spot check only |
+| Mobile menu and privacy link | Real XTest Enter opens each sampled locale's native menu; Tab stays inside it; Escape closes and returns focus. Persian inquiry privacy link is focused, within the viewport, unobscured and hit-testable. No inquiry was entered/submitted. | Spot checks verified; not full keyboard/screen-reader acceptance |
+| Desktop browser evidence | GDK readback at 1300×1000 produced blank/partial images despite hydrated DOM; the Arabic Services first view painted but its footer was incomplete. Expected DRI/accessibility warnings occurred. An independent WebKit snapshot attempt was blocked by a missing Python `cairo.Surface` converter. Cause is **unverified**, not automatically an app defect or automatically a harmless renderer issue. | Unverified; independent desktop browser inspection required |
+
+No production source, layout, copy, inquiry, API, schema, persistence, throttling,
+operator tooling or reference assets changed. No replacement assets, dependency,
+external service, real intake, deployment or next task was introduced.
+
+### Actual checks
+
+- Focused existing/new unit tests: **87 passed / 10 files**. After adding missing
+  test-element keys flagged by ESLint, the changed audit tests were rerun:
+  **31 passed / 2 files**. No failed check is presented as passing.
+- `npm run lint`, `npm run typecheck`, `npm run build`: **PASS**. The build renders
+  the existing 27 localized marketing routes; earlier report counts are historical.
+- `npm run test:http`: **PASS** for the full current crawl and earlier locale,
+  anchor, theme initializer, API-disabled, redirect and unknown-route regressions;
+  owned loopback server stopped.
+- `npm run verify:reference`: **PASS** for original hashes, ZIP CRCs, extracted
+  copies and preserved prototype consistency. No reference bytes/hashes changed.
+- `scripts/audit-browser.py --narrow-only`: **35 browser spot assertions passed**,
+  eight screenshots. Uses existing Ubuntu WebKitGTK/Xvfb/XTest, ephemeral contexts,
+  loopback production HTTP and `INQUIRIES_ENABLED=false`; no form submission.
+- The initial mixed-width run's **42 DOM/interaction assertions** did not establish
+  desktop visual acceptance: inspection exposed blank/partial readback. That run
+  is preserved under `test-results/echo-407-20261112-134621/`, not approved as a
+  screenshot pass. The snapshot follow-up failed before producing usable evidence.
+  The harness now refuses flat body readback rather than silently accepting it;
+  manual image inspection is still necessary for partial paint.
+- No PostgreSQL integration, production protocol/persistence, full screen-reader,
+  200% zoom, 320/768/1024/1440 matrix, cross-engine or performance acceptance run.
+  No tooling installation/download or security/driver change was attempted.
+
+Reproduce the bounded narrow check using existing dependencies only:
+
+```sh
+xvfb-run -a -s '-screen 0 1440x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-browser.py --narrow-only
+```
+
+### Inspected final browser evidence
+
+**Actual production frontend / Ubuntu WebKitGTK-Xvfb, local HTTP, intake disabled.**
+Not native Fedora, reference-fidelity sign-off, legal or full accessibility acceptance.
+All eight are **375×1000**. Exact state/dimensions/check names are in the same
+directory's `manifest.json`; artifacts remain ignored, not committed.
+
+| View | Absolute screenshot path |
+| --- | --- |
+| English/dark About | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/02-en-dark-about.png` |
+| English/dark footer | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/02-en-dark-about-footer.png` |
+| Persian/dark Contact | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/03-fa-dark-contact.png` |
+| Persian/dark footer | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/03-fa-dark-contact-footer.png` |
+| Persian/dark native menu | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/07-fa-dark-mobile-menu.png` |
+| Persian/dark inquiry privacy link | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/08-fa-dark-inquiry-privacy.png` |
+| Arabic/light concept | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/06-ar-light-concept.png` |
+| Arabic/light footer | `/home/worker1/projects/echodevs/test-results/echo-407-20261112-134856/06-ar-light-concept-footer.png` |
+
+### Owner decisions and acceptance still open
+
+The D1–D6 owner decisions above are unchanged: verified public contacts/company
+facts, CTA consolidation preference, privacy/legal approval, client/internal proof,
+image/name publication permission and separately scoped metadata work. Default-
+disabled intake and pending legal acceptance from ECHO-406 remain intact.
+
+Desktop render/capture cause and reference comparison require independent browser
+evidence. Complete locale/theme/viewport, keyboard, screen-reader, zoom and native
+copy review remain open. No task checkbox or legal/accessibility gate is closed.
+
+Follow-up changed files: `tests/unit/assets.test.ts`,
+`tests/unit/marketing-audit.test.tsx`, `scripts/audit-browser.py`, this report and
+`ROADMAP.md`. Next task is **not started**; stop after ECHO-407 for owner review.

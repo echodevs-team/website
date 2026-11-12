@@ -296,6 +296,24 @@ Next: human-controlled publication/hosted validation of ECHO-103; then authorize
 - **Owner decisions remain open:** verified public contact channel(s), legal entity/company facts, privacy/legal acceptance (D6), real client/internal proof, screenshot/partner-name publication, and whether to consolidate in-content inquiry CTAs onto `/{locale}/contact` (both current destinations work; split is the documented ECHO-405 UX decision).
 - **Outstanding:** rendered desktop/narrow/two-theme/RTL comparison of changed shared surfaces, native keyboard/focus/screen-reader/200% zoom checks and owner/native copy review. No browser launched or downloaded; checkbox stays open; DOM/HTTP/asset tests are not visual, legal or accessibility acceptance. Evidence, findings table and file list: `docs/P4-AUDIT.md`. This batch stops after ECHO-407.
 
+### ECHO-407 follow-up verification — 2026-11-12
+
+**PARTIAL; existing implementation `9299ca3` revalidated, no new production defect
+confirmed.** Added whole-marketing DOM link/illustration/privacy/locale guards and
+authored-stylesheet URL/WOFF2 signature checks. **PASS:** 87 focused tests/10 files,
+changed audit tests rerun 31/2, lint/typecheck/build, production HTTP crawl (27 routes,
+73 destinations), original reference hashes/CRCs. No PostgreSQL rerun or intake change.
+
+Existing Ubuntu WebKitGTK tooling supplied **35 narrow browser spot checks and
+eight inspected 375×1000 captures**, FA/EN/AR, light/dark and RTL, including actual
+menu Enter/Tab/Escape/focus return and visible localized inquiry privacy. Desktop
+window captures were blank/partial; alternative snapshot capture lacked its Cairo
+converter. Cause remains unverified; no download/security workaround or speculative
+CSS fix. Full desktop/reference, keyboard/screen-reader/zoom/native-copy acceptance
+remains open. ECHO-406 `425f765` policy/legal/browser gates are unchanged. Exact
+findings, paths and limitations: `docs/P4-AUDIT.md` follow-up section. No checkbox
+closed, release or next task started.
+
 ## P5 — Full trilingual product, not a language toggle mock
 **Goal:** Every required route and transaction is good in Persian, English and Arabic.  
 **Exit gate:** Language matrix complete; no wrong direction, missing dictionary keys, fake translations or SEO gaps.
