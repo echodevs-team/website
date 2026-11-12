@@ -16,7 +16,7 @@ export type ChromeContent = {
 const fa: ChromeContent = {
   tagline: "استودیو توسعه نرم‌افزار و راهکارهای هوشمند",
   footer: {
-    servicesHeading: "ستون‌های خدمات",
+    servicesHeading: "حوزه‌های خدمات",
     demos: "دموها و طرح‌های مفهومی",
     contactHeading: "کانال‌های ارتباطی",
     intake: "پذیرش پروژه با توافق دامنه",

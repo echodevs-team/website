@@ -14,7 +14,7 @@ export type ServicesContent = {
 const en: ServicesContent = {
   title: "Services shaped around your next step",
   description: "Clarify a customer journey, connect your systems or evaluate a focused automation. These are possible project scopes, not a record of completed client work. Feasibility and deliverables are agreed before development.",
-  navigation: "Explore service pillars", scope: "Scope & sub-services", deliverables: "Possible deliverables",
+  navigation: "Service pillar navigation", scope: "Scope & sub-services", deliverables: "Possible deliverables",
   example: "Illustrative example — not a completed project", boundaries: "Boundaries & exclusions", cta: "Discuss your needs",
   agreement: "Start with the problem, users and constraints. Scope, acceptance criteria, milestones, ownership and handoff are agreed together. Hosting, third-party fees, migration and ongoing support are not automatically included; no fixed timeline or business result is promised here.",
   pillars: {
@@ -60,7 +60,7 @@ const en: ServicesContent = {
 const fa: ServicesContent = {
   title: "خدمات متناسب با گام بعدی شما",
   description: "مسیر مشتری را روشن کنید، سامانه‌ها را به هم متصل کنید یا یک اتوماسیون محدود را بسنجید. این‌ها دامنه‌های پیشنهادی پروژه‌اند، نه سابقه کار انجام‌شده برای مشتری. امکان‌پذیری و خروجی‌ها پیش از توسعه توافق می‌شوند.",
-  navigation: "بررسی حوزه‌های خدمات", scope: "دامنه و زیرخدمات", deliverables: "خروجی‌های قابل توافق",
+  navigation: "پیمایش حوزه‌های خدمات", scope: "دامنه و زیرخدمات", deliverables: "خروجی‌های قابل توافق",
   example: "مثال توضیحی؛ نه پروژه انجام‌شده", boundaries: "مرزها و موارد خارج از دامنه", cta: "گفتگو درباره نیاز شما",
   agreement: "از مسئله، کاربران و محدودیت‌ها شروع می‌کنیم. دامنه، معیارهای پذیرش، مراحل، مالکیت و نحوه تحویل با هم توافق می‌شوند. میزبانی، هزینه سرویس‌های ثالث، مهاجرت داده و پشتیبانی مستمر خودکار در دامنه نیستند؛ اینجا زمان ثابت یا نتیجه تجاری تضمین نمی‌شود.",
   pillars: {
@@ -68,7 +68,7 @@ const fa: ServicesContent = {
       title: "محصولات دیجیتال", outcome: "کمک به مخاطب برای شناخت خدمات شما و انجام کار موردنظر؛ از وب‌سایت شرکتی تا تجربه یک محصول مشخص.",
       services: [
         { title: "وب‌سایت‌های شرکتی و حرفه‌ای", scope: "ساختار محتوا، صفحات واکنش‌گرای خدمات و مسیر روشن درخواست برای کسب‌وکارها و متخصصان مستقل." },
-        { title: "وب‌اپلیکیشن و نرم‌افزار اشتراکی", scope: "مسیرهای مشخص کاربر، نقش‌های دسترسی و جریان‌های محصول؛ پرداخت و اشتراک فقط در دامنه توافق‌شده." },
+        { title: "وب‌اپلیکیشن‌ها و پلتفرم‌های SaaS", scope: "مسیرهای مشخص کاربر، نقش‌های دسترسی و جریان‌های محصول؛ پرداخت و اشتراک فقط در دامنه توافق‌شده." },
         { title: "بررسی اولیه اپلیکیشن موبایل", scope: "بررسی نیاز دستگاه، محدودیت پلتفرم و نمونه مسیر کاربر پیش از تعهد به ساخت؛ توسعه بومی نیازمند توافق جداگانه درباره امکان‌پذیری است." },
         { title: "طراحی تجربه کاربری، رابط و محصول", scope: "معماری اطلاعات، وایرفریم، نمونه رابط و وضعیت‌های تعاملی قابل بازبینی." },
       ],
@@ -106,15 +106,15 @@ const fa: ServicesContent = {
 const ar: ServicesContent = {
   title: "خدمات تناسب خطوتكم التالية",
   description: "وضّحوا رحلة العميل، أو اربطوا أنظمتكم، أو قيّموا أتمتة محددة. هذه نطاقات محتملة للمشاريع وليست سجلًا لأعمال عملاء منجزة. تُحدّد الجدوى والمخرجات بالاتفاق قبل التطوير.",
-  navigation: "استكشف محاور الخدمات", scope: "النطاق والخدمات الفرعية", deliverables: "مخرجات يمكن الاتفاق عليها",
-  example: "مثال توضيحي — ليس مشروعًا منجزًا", boundaries: "الحدود وما لا يشمله النطاق", cta: "ناقش احتياجاتك",
+  navigation: "التنقل بين محاور الخدمات", scope: "النطاق والخدمات الفرعية", deliverables: "مخرجات يمكن الاتفاق عليها",
+  example: "مثال توضيحي — ليس مشروعًا منجزًا", boundaries: "الحدود وما لا يشمله النطاق", cta: "ناقشوا احتياجاتكم",
   agreement: "نبدأ بالمشكلة والمستخدمين والقيود. نتفق معًا على النطاق ومعايير القبول والمراحل والملكية والتسليم. لا تُدرج الاستضافة ورسوم الأطراف الخارجية وترحيل البيانات والدعم المستمر تلقائيًا؛ ولا نعد هنا بموعد ثابت أو نتيجة تجارية مضمونة.",
   pillars: {
     websites: {
       title: "المنتجات الرقمية", outcome: "مساعدة الزوار على فهم خدماتكم وإتمام المهمة المناسبة، من موقع تعريفي للشركة إلى تجربة منتج محددة.",
       services: [
         { title: "مواقع الشركات والمهنيين", scope: "هيكلة المحتوى وصفحات خدمات متجاوبة ومسارات واضحة للاستفسار للشركات والمهنيين المستقلين." },
-        { title: "تطبيقات الويب والبرمجيات باشتراك", scope: "رحلات مستخدم وأدوار وصول وتدفقات منتج محددة؛ الفوترة والاشتراكات ضمن نطاق متفق عليه فقط." },
+        { title: "تطبيقات الويب ومنصات SaaS", scope: "رحلات مستخدم وأدوار وصول وتدفقات منتج محددة؛ الفوترة والاشتراكات ضمن نطاق متفق عليه فقط." },
         { title: "استكشاف تطبيقات الجوال", scope: "تقييم احتياجات الأجهزة وقيود المنصات ونماذج الرحلات قبل الالتزام بالبناء. يتطلب التطوير الأصلي اتفاق جدوى منفصلًا." },
         { title: "تصميم تجربة المستخدم والواجهات والمنتج", scope: "معمارية المعلومات والمخططات الأولية ونماذج الواجهات وحالات تفاعل قابلة للمراجعة." },
       ],

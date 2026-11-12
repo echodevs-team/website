@@ -57,9 +57,10 @@ export function ContactPage({ locale }: { locale: Locale }) {
             </div>
             <div className="home-glass contact-form-panel">
               <InquiryForm
-                content={{ start: t.form.ariaLabel, fields: home.fields }}
+                content={{ fields: home.fields }}
                 locale={locale}
                 copy={inquiryCopy[locale]}
+                label={t.form.ariaLabel}
                 sourcePage={`/${locale}/contact`}
               />
               <p className="contact-form-note">{t.form.note}</p>

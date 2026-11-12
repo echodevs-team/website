@@ -341,12 +341,27 @@ download, dependency, security/global rendering or marketing-source change.
 **Goal:** Every required route and transaction is good in Persian, English and Arabic.  
 **Exit gate:** Language matrix complete; no wrong direction, missing dictionary keys, fake translations or SEO gaps.
 
-- [ ] **ECHO-501 [P5]** Build localized content dictionaries/types and parity validation. **Accept:** missing key fails CI.
+- [x] **ECHO-501 [P5]** Build localized content dictionaries/types and parity validation. **Accept:** missing key fails CI.
 - [ ] **ECHO-502 [P5]** Translate navigation, service content, pages, CTA, form validation, loading/success/error/404, accessible labels. **Accept:** full coverage; copy owner reviews sensitive claims.
 - [ ] **ECHO-503 [P5]** Audit RTL/LTR including mixed email/phone/URL/code, number shaping, inline icons, directional layout, mobile navigation. **Accept:** screenshot and keyboard matrix pass.
 - [ ] **ECHO-504 [P5]** Retain equivalent route/slug on language switch; store intentional user preference. **Accept:** changing language on project detail stays on same project.
 - [ ] **ECHO-505 [P5]** Validate font loading/fallback, Arabic shaping, content expansion, Persian punctuation and appropriate localized formatting. **Accept:** no clipping and readable mixed scripts.
 - [ ] **ECHO-506 [P5]** Localized metadata, canonical URLs, `hreflang`, sitemap/robots, locale-aware 404. **Accept:** scripted HTML inspection for each locale route.
+
+### ECHO-501 localization parity — 2026-11-12
+
+**PASS for the stated acceptance; native-copy/browser acceptance remains under P5.**
+Typed `Record<Locale, ...>` modules already prevent missing keys at typecheck; added
+recursive parity/terminology guards and corrected confirmed trilingual defects
+(Arabic plural address, Persian pillar term, SaaS naming, inquiry/preview
+contradiction, homepage form accessible name, duplicate form legend). **PASS:** 17
+new localization tests; 244 tests/24 files; lint; typecheck; production build (27
+localized routes); HTTP crawl (27 documents, 73 destinations); reference
+hashes/CRCs. No PostgreSQL rerun, intake/API change or browser/download. Native
+reading quality, brand transliteration, legal/privacy wording and rendered
+RTL/keyboard/zoom gates remain open and are not claimed. Details:
+`docs/P5-ECHO-501.md`; terminology: `docs/I18N-TERMINOLOGY.md`. ECHO-502 and later
+tasks not started.
 
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  

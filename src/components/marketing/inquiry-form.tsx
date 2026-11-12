@@ -11,7 +11,7 @@ import { Button } from "../ui/button";
 import { Link } from "../ui/link";
 
 const subscribeReady = () => () => {};
-export function InquiryForm({ content: t, locale, copy, sourcePage = `/${locale}` }: { content: Pick<HomeContent, "start" | "fields">; locale: Locale; copy: InquiryCopy; sourcePage?: string }) {
+export function InquiryForm({ content: t, locale, copy, label, sourcePage = `/${locale}` }: { content: Pick<HomeContent, "fields">; locale: Locale; copy: InquiryCopy; label?: string; sourcePage?: string }) {
   const session = useRef(new InquirySubmission());
   const form = useRef<HTMLFormElement>(null);
   const summary = useRef<HTMLDivElement>(null);
@@ -49,7 +49,7 @@ export function InquiryForm({ content: t, locale, copy, sourcePage = `/${locale}
     setWait(Math.max(0, Math.ceil((session.current.retryAt - Date.now()) / 1000)));
   }
   const labels: Record<string, string> = { fullName: t.fields.name, email: copy.email, phone: copy.phone, service: t.fields.service, timeline: t.fields.timeline, description: t.fields.description };
-  return <form ref={form} className="inquiry-form" aria-label={t.start} aria-describedby="inquiry-help" aria-busy={pending} noValidate onSubmit={submit}>
+  return <form ref={form} className="inquiry-form" aria-label={label ?? copy.formLabel} aria-describedby="inquiry-help" aria-busy={pending} noValidate onSubmit={submit}>
     <p id="inquiry-help">{copy.contactHint}</p>
     <p className="inquiry-privacy"><Link href={`/${locale}/privacy`}>{copy.privacy}</Link></p>
     <noscript><p>{copy.noScript}</p></noscript>

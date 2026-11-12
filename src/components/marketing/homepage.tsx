@@ -105,9 +105,9 @@ export function Homepage({ locale }: { locale: Locale }) {
       <TechnicalBackdrop />
       <Hero t={t} /><Services t={t} locale={locale} /><Concepts t={t} /><BenefitsAndProcess t={t} locale={locale} />
       <HomeSection id="contact"><div className="home-glass inquiry-composition">
-        <div className="inquiry-copy"><p className="home-badge">{nav.contact}</p><Heading id="contact-title" eyebrow={t.start} content={{ title: t.inquiry.title, description: inquiryCopy[locale].intro }} />
+        <div className="inquiry-copy"><p className="home-badge">{nav.contact}</p><Heading id="contact-title" eyebrow={inquiryCopy[locale].formLabel} content={{ title: t.inquiry.title, description: t.inquiry.description }} />
           <p className="inquiry-notice">{inquiryCopy[locale].note}</p><p className="contacts-pending">{t.contactsPending}</p></div>
-        <InquiryForm content={{ start: t.start, fields: t.fields }} locale={locale} copy={inquiryCopy[locale]} />
+        <InquiryForm content={{ fields: t.fields }} locale={locale} copy={inquiryCopy[locale]} />
       </div></HomeSection>
     </main>
     <nav className="section-rail" aria-label={t.navigation}>{links.map(([id, label]) => <a key={id} href={`#${id}`} aria-label={label}><span aria-hidden="true" /><span className="rail-label">{label}</span></a>)}</nav>
