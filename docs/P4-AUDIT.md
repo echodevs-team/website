@@ -198,3 +198,134 @@ copy review remain open. No task checkbox or legal/accessibility gate is closed.
 Follow-up changed files: `tests/unit/assets.test.ts`,
 `tests/unit/marketing-audit.test.tsx`, `scripts/audit-browser.py`, this report and
 `ROADMAP.md`. Next task is **not started**; stop after ECHO-407 for owner review.
+
+## Desktop capture diagnosis and bounded evidence — 2026-11-12
+
+**ECHO-407 remains PARTIAL.** This section supersedes the desktop-capture blocker
+above, not its historical results or outstanding acceptance. Only capture tooling,
+its tests, bytecode ignore rule and audit documentation changed. Marketing source,
+reference files/hashes and inquiry behavior are untouched; intake stayed disabled.
+
+### Reproduction and supported conclusion
+
+- Before correction, the committed harness's `--desktop-only` run reproduced a
+  partially painted English/light homepage footer at 1300×1000. The first viewport
+  painted; the bottom image showed header/background/rail without form/footer,
+  despite the harness's PASS. Preserved reproduction:
+  `test-results/echo-407-20261112-143721/01-en-light-home{,-footer}.png`.
+- A paired diagnostic run at **1440×1000** compared historical GDK window readback
+  with WebKit's asynchronous visible-region snapshot. All four images inspected:
+  `test-results/echo-407-20261112-144042/desktop-reproduction{-footer}-{gdk,webkit}.png`.
+  The GDK footer was missing; WebKit's snapshot contained the form and complete
+  footer. Exact observations are retained in that directory's `manifest.json`.
+- At the failing footer: GTK visible/mapped/realized/drawable all true; allocation
+  1440×1000; document complete; used Latin font faces loaded, no images pending;
+  first-contentful-paint recorded; scrollY 4252; footer top 617.45, height 382.17,
+  with footer-bottom hit-testable. Unused Arabic font subsets were unloaded, not
+  failed. Thus DOM readiness and nonflat pixels did **not** prove complete readback.
+- Verified harness problem: GDK readback was unreliable for this composited page
+  and lacked synchronization with a completed WebKit snapshot. Switching to that
+  snapshot captures the missing content without modifying the page. This does
+  **not** identify a GPU/driver root cause, prove simultaneous identical paint in
+  both backends, or confirm a production rendering defect. DRI/AT-SPI warnings
+  persisted; no driver/security/global-rendering workaround was applied.
+- Installed capabilities: GTK 3.24.41, WebKitGTK 2.52.6, Cairo 1.18.0. The optional
+  Python Cairo converter is absent (`cairo.Surface` conversion failed historically),
+  but public WebKit/Cairo/GLib shared-library APIs are present. Standard-library
+  `ctypes` can finish the same asynchronous snapshot and write its owned Cairo
+  surface to PNG. No dependency, binary, font or remote asset was downloaded.
+
+### Harness correction and checks actually run
+
+- `scripts/audit-browser.py`: default to WebKit visible-region snapshots; retain
+  GDK only under `--diagnose`. Wait for font readiness, image decoding and stable
+  viewport/main/footer geometry across animation frames, bounded to 10 seconds
+  (layout loop also capped at 120 frames). Snapshot completion, not an added sleep,
+  supplies paint evidence. Save before/state JSON before capture failures; retain
+  a failure record and owned-server log. Check allocation, snapshot dimensions,
+  overflow and nonflat pixels; manual inspection remains necessary.
+- `scripts/webkit_snapshot.py`: explicit C ABI declarations, GError handling,
+  owned-surface cleanup, 32-bit image-format/allocation checks, PNG write errors,
+  bounded cancellation and no late write after timeout. No browser settings changed.
+- `--desktop-evidence`: five desktop cases plus one previously successful narrow
+  case, deliberate instant bottom scrolling and bottom-position assertion. These
+  are **viewport** screenshots, never full-page screenshots. Privacy focus is
+  captured without typing into or submitting the inquiry.
+- `/usr/bin/python3 -B scripts/test_webkit_snapshot.py`: **6 tests PASS**. Actual
+  installed Cairo PNG serialization/dimensions, null surface, Cairo/write errors;
+  mocked async-boundary tests verify cancellation/no late write and cleanup on
+  callback serialization failure. These mocks are not browser integration evidence.
+- `xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-browser.py --desktop-evidence`:
+  **93 spot assertions PASS, 13 PNGs**. Real WebKit snapshots from unchanged local
+  production frontend. Owned loopback server stopped. Later defensive format/error
+  logging additions passed the focused tests; the full browser sample was not rerun.
+- Python AST syntax checks for all three changed scripts: **PASS**. Original
+  SHA-256/ZIP CRC/copy verification and `git diff --check`: **PASS**. No frontend
+  build, HTTP crawl, full app/backend suite or PostgreSQL rerun in this harness-only
+  correction; the preceding audit's results remain historical.
+
+### Inspected evidence inventory and findings
+
+Fresh ignored directory (all 13 PNGs inspected):
+`/home/worker1/projects/echodevs/test-results/echo-407-20261112-144603/`.
+`manifest.json` records each actual viewport, scroll position, GTK allocation,
+font/image status, computed typography and checks; per-image before/state JSON
+retains readiness evidence. **Synthetic local browser / Ubuntu WebKitGTK-Xvfb**,
+not native Fedora or comprehensive accessibility acceptance.
+
+| Files in that directory | Actual viewport | Inspected coverage |
+| --- | --- | --- |
+| `01-en-light-home.png`, `01-en-light-home-footer.png` | 1440×1000 | LTR hero/runtime illustration, four capability cards, nav/theme/locale controls, inquiry tail and full footer |
+| `02-fa-dark-home.png`, `02-fa-dark-home-footer.png` | 1440×1000 | RTL hero/runtime illustration, capabilities, header, inquiry tail and full footer |
+| `03-ar-dark-services.png`, `03-ar-dark-services-footer.png` | 1440×1000 | RTL service jump links, two-column pillar content, CTA and full footer |
+| `04-fa-light-contact.png`, `04-fa-light-contact-inquiry-privacy.png`, `04-fa-light-contact-footer.png` | 1440×1000 | RTL contact heading/CTAs, visible focused privacy link, related-page links and full footer |
+| `05-en-dark-privacy.png`, `05-en-dark-privacy-footer.png` | 1440×1000 | Technical/legal-pending notice, typography, update CTAs and full footer |
+| `06-en-dark-about-narrow.png`, `06-en-dark-about-narrow-footer.png` | 375×1000 | Repeated narrow heading/CTA/footer; actual menu Enter/Tab/Escape/focus-return checks still pass |
+
+All sampled viewport states reported no horizontal overflow and no font errors.
+Text, vector illustrations and controls are present, rather than blank GDK body
+readback. There are no raster marketing images to validate. Desktop navigation is
+visibly present; it was not exhaustively traversed with a keyboard in this run.
+Top/bottom captures do not inspect every intervening section on these long pages.
+
+### Reference comparison — observations, not styling authorization
+
+The approved HTML and supplied **442×1600 scaled desktop** `original/screen.png`
+were inspected; this is not a matched-viewport render comparison. Faithful offline
+reference rendering was not feasible: its layout requires the absent remote
+`cdn.tailwindcss.com?plugins=forms,container-queries` runtime, plus Google Fonts
+(Vazirmatn, Plus Jakarta Sans, JetBrains Mono, Material Symbols) and jsDelivr CSS.
+The app's installed Tailwind 4 is not a verified substitute. No unstyled reference
+capture or replacement-font render is counted as fidelity evidence. Smallest next
+step: owner-provided approved offline dependencies, or separately authorized
+reference rendering where these dependencies are available; preserve reference bytes.
+
+Concrete differences/observations for a **separately approved** visual review:
+
+1. The reference has one theme-toggle icon; the current desktop header shows a
+   three-button system/dark/light group, and uses sticky rather than fixed layout.
+   Its primary navigation now targets the delivered pages, not only home anchors.
+2. Homepage h1 is computed 60px/700 in both sampled locales; reference source asks
+   for `lg:text-6xl font-extrabold` (800). Current fonts provide 400/500/700 Vazirmatn
+   subsets and system monospace, not the reference's external weight/family set.
+   This can affect glyph shape, wrapping and visual density; exact deltas need a
+   faithful reference render, not a guessed CSS correction.
+3. Light CTAs visibly use darker rust (`--color-action: #b84228`) versus reference
+   coral `#EE7758`; dark CTAs use dark labels versus reference white labels. These
+   existing contrast-oriented differences require review, not automatic reversal.
+4. Network particles are conspicuous through homepage cards and footer, including
+   text areas; scrolled content is visible through the header. The supplied static
+   reference image is much quieter, but the HTML includes animated canvas and glass
+   effects. Animation phase/engine differences prevent concluding a layering defect
+   from this comparison alone; approve a matched render/readability review first.
+5. Two-column hero, runtime panel, capability row, glass/card treatment and footer
+   hierarchy are recognizable. Honest concept labels, unavailable contacts and the
+   technical privacy disclosure intentionally differ from unsupported prototype
+   claims; reference fidelity must not reintroduce those claims.
+
+**Still open:** ECHO-003/reference-fidelity and broader viewport/engine checks,
+complete keyboard/screen-reader/zoom/native-language review, owner business facts
+and ECHO-406 policy/legal decisions. No checkbox, intake/release gate or subsequent
+task is closed or started. Changed files: `.gitignore`, `scripts/audit-browser.py`,
+`scripts/webkit_snapshot.py`, `scripts/test_webkit_snapshot.py`, this report and
+`ROADMAP.md`.

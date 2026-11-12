@@ -314,6 +314,29 @@ remains open. ECHO-406 `425f765` policy/legal/browser gates are unchanged. Exact
 findings, paths and limitations: `docs/P4-AUDIT.md` follow-up section. No checkbox
 closed, release or next task started.
 
+### ECHO-407 desktop capture follow-up — 2026-11-12
+
+**PARTIAL; harness corrected, not production styling.** Reproduced missing desktop
+footer in historical GDK readback; paired WebKit snapshots contain the content with
+mapped/drawable GTK, correct allocation, loaded fonts and visible footer geometry.
+Underlying driver cause remains unproven. Uses installed public WebKit/Cairo APIs
+through `ctypes` instead of the unavailable optional Python Cairo converter; no
+download, dependency, security/global rendering or marketing-source change.
+
+- **PASS:** 93 real WebKit browser spot assertions and 13 inspected viewport PNGs:
+  EN/light and FA/dark Home, AR/dark Services, FA/light Contact/privacy focus,
+  EN/dark Privacy at 1440×1000, plus EN/dark About at 375×1000; deliberate footers,
+  no sampled horizontal overflow. Evidence: `test-results/echo-407-20261112-144603/`.
+- **PASS:** 6 focused snapshot/serialization/error/timeout tests, Python syntax,
+  original reference hashes/CRCs and diff whitespace checks. Full application/DB
+  checks not repeated for this tooling-only change. Temporary server stopped.
+- Reference source and supplied scaled screenshot compared; faithful offline HTML
+  render blocked by remote Tailwind/font dependencies. Recorded existing header,
+  typography, CTA palette and glass/particle differences without styling changes.
+  Fidelity, broad browser/accessibility/native-copy and ECHO-406 policy/legal gates
+  remain open. Exact reproduction, file inventory and evidence: `docs/P4-AUDIT.md`
+  desktop capture section. No checkbox closed, release or next task started.
+
 ## P5 — Full trilingual product, not a language toggle mock
 **Goal:** Every required route and transaction is good in Persian, English and Arabic.  
 **Exit gate:** Language matrix complete; no wrong direction, missing dictionary keys, fake translations or SEO gaps.
