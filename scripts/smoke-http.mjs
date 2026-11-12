@@ -63,6 +63,7 @@ try {
     assert.match(html, new RegExp(`<h1[^>]*>${heading}</h1>`), `Localized rendered heading ${locale}`);
     assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
     const head = /<head>([\s\S]*?)<\/head>/.exec(html)?.[1] ?? "";
+    assert.match(head, /<meta name="description" content="[^"]+"/, "Homepage has a localized metadata description");
     assert.match(head, /<link rel="icon"[^>]*href="\/favicon\.ico[^"]*"[^>]*type="image\/x-icon"/, "ICO favicon is linked");
     assert.match(head, /<link rel="icon"[^>]*href="\/icon\.svg[^"]*"[^>]*type="image\/svg\+xml"/, "SVG favicon is linked");
     const requiredLabel = { fa: "الزامی", en: "required", ar: "مطلوب" }[locale];
