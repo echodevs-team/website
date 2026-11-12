@@ -59,12 +59,13 @@ describe("localized header", () => {
     expect(host.querySelector("header")).not.toBeNull();
     expect(host.textContent).toContain(t.Header.services);
     expect(host.querySelectorAll(".desktop-navigation .primary-links a")).toHaveLength(6);
-    for (const a of host.querySelectorAll("a")) expect(a.getAttribute("href")).toMatch(/^\/(fa|en|ar)(\/(about|services|work)|#(hero|demos|why-us|process|contact))?$/);
+    for (const a of host.querySelectorAll("a")) expect(a.getAttribute("href")).toMatch(/^\/(fa|en|ar)(\/(about|contact|services|work)|#(hero|demos|why-us|process|contact))?$/);
     for (const target of locales) {
       expect(host.querySelector(`a[href="/${target}"][hreflang="${target}"]`)?.textContent).toBeTruthy();
     }
     expect(host.querySelector(`a[hreflang="${locale}"][aria-current="page"]`)).not.toBeNull();
-    expect(host.querySelector('a[href$="/contact"]')).toBeNull();
+    expect(host.querySelector(`.primary-links a[href="/${locale}/contact"]`)?.textContent).toBe(t.Header.contact);
+    expect(host.querySelector(`.header-cta[href="/${locale}/contact"]`)).not.toBeNull();
     expect(host.querySelector('[role="menu"]')).toBeNull();
   });
   it("preserves the equivalent path for locale links", async () => {
@@ -76,6 +77,12 @@ describe("localized header", () => {
     await mount(<Header locale="en" path="/about" />);
     expect(host.querySelectorAll('.primary-links a[href="/en/about"][aria-current="page"]')).toHaveLength(2);
     expect(host.querySelector('a[hreflang="ar"]')?.getAttribute("href")).toBe("/ar/about");
+  });
+  it("treats Contact as a real destination and preserves it across locales", async () => {
+    await mount(<Header locale="fa" path="/contact" />);
+    expect(host.querySelectorAll('.primary-links a[href="/fa/contact"][aria-current="page"]')).toHaveLength(2);
+    expect(host.querySelector('.header-cta[href="/fa/contact"]')).not.toBeNull();
+    for (const target of locales) expect(host.querySelector(`a[hreflang="${target}"]`)?.getAttribute("href")).toBe(`/${target}/contact`);
   });
   it("hydrates the complete header without recoverable mismatches", async () => {
     const node = <Header locale="ar" />;

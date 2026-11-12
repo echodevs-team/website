@@ -25,7 +25,7 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
         <li><Link href={localePath(locale, "/work")} aria-current={path === "/work" ? "page" : undefined}>{t.work}</Link></li>
         <li><Link href={localePath(locale, "/about")} aria-current={path === "/about" ? "page" : undefined}>{t.about}</Link></li>
         <li><Link href={`${homePath}#process`}>{home.processLabel}</Link></li>
-        <li><Link href={`${homePath}#contact`}>{t.contact}</Link></li>
+        <li><Link href={localePath(locale, "/contact")} aria-current={path === "/contact" ? "page" : undefined}>{t.contact}</Link></li>
       </ul>
     </nav>
     <div className="header-settings">
@@ -39,7 +39,7 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
         </ul>
       </nav>
       <ThemeControl labels={theme} />
-      <Link href={`${homePath}#contact`} appearance="primary" className="header-cta">{home.start}</Link>
+      <Link href={localePath(locale, "/contact")} appearance="primary" className="header-cta">{home.start}</Link>
     </div>
   </>;
   return <header className="site-header">
@@ -56,7 +56,7 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
     </Container>
     <noscript><Container className="no-script-navigation">
       <nav aria-label={t.primary}><ul className="primary-links">
-        {([[`${homePath}#hero`, t.home], [localePath(locale, "/services"), t.services], [localePath(locale, "/work"), t.work], [localePath(locale, "/about"), t.about], [`${homePath}#process`, home.processLabel], [`${homePath}#contact`, t.contact]] as const).map(([href, label]) =>
+        {([[`${homePath}#hero`, t.home], [localePath(locale, "/services"), t.services], [localePath(locale, "/work"), t.work], [localePath(locale, "/about"), t.about], [`${homePath}#process`, home.processLabel], [localePath(locale, "/contact"), t.contact]] as const).map(([href, label]) =>
           <li key={href}><Link href={href}>{label}</Link></li>)}
       </ul></nav>
       <nav aria-label={foundation.languages}><ul className="language-links">

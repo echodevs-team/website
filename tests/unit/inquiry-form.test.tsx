@@ -27,7 +27,9 @@ it.each(locales)("submits localized %s form, announces confirmation and retains 
   expect(host.querySelector('[name="email"]')?.getAttribute("dir")).toBe("ltr");
   fill(); await submit();
   expect(fetcher).toHaveBeenCalledTimes(1);
-  expect(JSON.parse(fetcher.mock.calls[0][1].body).locale).toBe(locale);
+  const payload = JSON.parse(fetcher.mock.calls[0][1].body);
+  expect(payload.locale).toBe(locale);
+  expect(payload.sourcePage).toBe(`/${locale}`);
   expect(host.querySelector('[role="status"]')?.textContent).toContain(inquiryCopy[locale].success);
   expect(document.activeElement).toBe(host.querySelector('[role="status"]'));
   expect((host.querySelector('[name="fullName"]') as HTMLInputElement).value).toContain("Synthetic");

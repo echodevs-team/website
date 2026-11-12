@@ -1,0 +1,45 @@
+/* ECHO-405: Contact extends the approved section rhythm, glass cards, form
+   primitives and typography. No new visual system; logical properties only. */
+.contact-intro h1 { font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.3; }
+.contact-intro-heading .ui-section-heading { max-inline-size: 56rem; }
+.contact-intro-heading .ui-section-heading p { margin-block-start: 1rem; }
+.contact-badges { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+.contact-intro-actions { padding-block-start: 1.25rem; }
+.contact-split { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+.contact-split > * { min-inline-size: 0; }
+.contact-guidance { display: grid; align-content: start; gap: 1rem; padding: 1.5rem; }
+.contact-guidance > .eyebrow, .contact-guidance > h3, .contact-guidance > p { margin: 0; }
+.contact-guidance > h3 { font-size: 1.15rem; }
+.contact-guidance > p { font-size: .9rem; }
+.contact-guidance-list { display: grid; gap: 1.125rem; list-style: none; margin: 0; padding: 0; }
+.contact-guidance-list > li { display: flex; align-items: flex-start; gap: .875rem; min-inline-size: 0; }
+.contact-guidance-list .technical-icon { inline-size: 2rem; block-size: 2rem; padding: .4rem; }
+.contact-guidance-list h4 { margin: 0 0 .35rem; font-size: .95rem; }
+.contact-guidance-list p { margin: 0; font-size: .85rem; }
+.contact-channels { border-block-start: 1px solid var(--color-border); padding-block-start: 1rem; }
+.contact-channels h4 { margin: 0 0 .35rem; font-size: .9rem; }
+.contact-channels p { margin: 0; font-size: .8rem; color: var(--color-muted); }
+.contact-form-panel { display: grid; align-content: start; gap: 1.25rem; padding: 1.5rem; }
+.contact-form-note { margin: 0; border-inline-start: 3px solid var(--color-action); padding-inline-start: 1rem; font-size: .825rem; }
+.contact-steps { list-style: none; margin: 0; padding: 0; }
+.contact-step { display: grid; align-content: start; gap: .75rem; }
+.contact-step h3 { font-size: 1.05rem; line-height: 1.5; }
+.contact-step p { font-size: .85rem; }
+.contact-next-note { margin-block-start: 1.5rem; }
+.contact-explore { display: grid; gap: 1.25rem; padding: 1.5rem; margin-block-start: 1.5rem; }
+.contact-explore > h2, .contact-explore > p { margin: 0; }
+.contact-explore > h2 { font-size: 1.25rem; }
+.contact-explore > p { font-size: .9rem; color: var(--color-muted); }
+.contact-explore-links { margin: 0; }
+.contact-explore-card { display: flex; flex-direction: column; gap: .5rem; padding: 1.25rem; border-block-start: 3px solid color-mix(in srgb, var(--color-action) 55%, transparent); min-inline-size: 0; }
+.contact-explore-card h3 { margin: 0; font-size: 1rem; }
+.contact-explore-card p { margin: 0; font-size: .825rem; }
+.contact-explore-card a { margin-block-start: auto; padding-block-start: .5rem; font-size: .8rem; }
+@media (min-width: 48rem) {
+  .contact-split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .contact-guidance, .contact-form-panel, .contact-explore { padding: 2rem; }
+}
+@media (max-width: 39.99rem) {
+  .contact-guidance, .contact-form-panel, .contact-explore { padding: 1.25rem; }
+  .contact-intro-actions a { inline-size: 100%; }
+}

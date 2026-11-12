@@ -35,7 +35,7 @@ export function MarketingFooter({ locale, onHome = false }: { locale: Locale; on
     <div className="footer-contact">
       <h2>{chrome.footer.contactHeading}</h2>
       <p>{t.contactsPending}</p>
-      <Link href={`${home}#contact`} className="footer-contact-link">{t.start}<span aria-hidden="true">↗</span></Link>
+      <Link href={localePath(locale, "/contact")} className="footer-contact-link">{t.start}<span aria-hidden="true">↗</span></Link>
     </div>
   </div><div className="footer-bottom">
     <p><bdi lang="en">Echo Devs</bdi> · {foundation.preview}</p>

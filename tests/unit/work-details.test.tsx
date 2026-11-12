@@ -71,7 +71,7 @@ describe("ECHO-403 concept details", () => {
       }
       for (const link of host.querySelectorAll("a")) {
         const href = link.getAttribute("href")!;
-        expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|services|work)(\/(analytics|chat|booking))?($|#)|#|$))/);
+        expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|contact|services|work)(\/(analytics|chat|booking))?($|#)|#|$))/);
         if (href.includes("#")) expect(home.querySelector(`[id="${href.split("#")[1]}"]`)).not.toBeNull();
       }
       expect(host.innerHTML).not.toMatch(/mailto:|https:\/\/|HIPAA|TOKENS:|RPS:/);

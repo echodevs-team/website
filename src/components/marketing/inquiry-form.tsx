@@ -10,7 +10,7 @@ import { Field } from "../ui/field";
 import { Button } from "../ui/button";
 
 const subscribeReady = () => () => {};
-export function InquiryForm({ content: t, locale, copy }: { content: Pick<HomeContent, "start" | "fields">; locale: Locale; copy: InquiryCopy }) {
+export function InquiryForm({ content: t, locale, copy, sourcePage = `/${locale}` }: { content: Pick<HomeContent, "start" | "fields">; locale: Locale; copy: InquiryCopy; sourcePage?: string }) {
   const session = useRef(new InquirySubmission());
   const form = useRef<HTMLFormElement>(null);
   const summary = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export function InquiryForm({ content: t, locale, copy }: { content: Pick<HomeCo
     event.preventDefault();
     if (!ready || session.current.busy || session.current.complete) return;
     const data = Object.fromEntries(new FormData(event.currentTarget));
-    const promise = session.current.submit({ ...data, locale, sourcePage: `/${locale}` });
+    const promise = session.current.submit({ ...data, locale, sourcePage });
     setPending(session.current.busy);
     setOutcome(undefined);
     setFields({});

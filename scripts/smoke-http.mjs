@@ -57,7 +57,8 @@ try {
     assert.ok(html.includes(`href="/${locale}/services"`), "Services is implemented and discoverable");
     assert.ok(html.includes(`href="/${locale}/work"`), "Work is implemented and discoverable");
     assert.ok(html.includes(`href="/${locale}/about"`), "About is implemented and discoverable");
-    for (const path of ["contact", "privacy"]) {
+    assert.ok(html.includes(`href="/${locale}/contact"`), "Contact is implemented and discoverable");
+    for (const path of ["privacy"]) {
       assert.ok(!html.includes(`href="/${locale}/${path}"`), "Unbuilt pages must not be fake links");
     }
     assert.match(html, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
@@ -130,6 +131,33 @@ try {
     assert.ok(!about.includes("<form"));
     assert.ok(!/mailto:|https:\/\/|HIPAA|SLA|24\/7/.test(about));
     console.log(`PASS /${locale}/about: localized team identity, capabilities, principles, collaboration path, implemented destinations`);
+
+    const contactResponse = await request(`/${locale}/contact`);
+    assert.equal(contactResponse.status, 200);
+    const contact = await contactResponse.text();
+    const contactTitle = {
+      fa: "درباره مسئله‌ای که می‌خواهید حل کنید با ما صحبت کنید",
+      en: "Talk to us about the problem you need to solve",
+      ar: "تحدثوا معنا عن المشكلة التي تحتاجون إلى حلها",
+    }[locale];
+    assert.match(contact, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
+    assert.ok(contact.includes(`<h1 id="contact-title">${contactTitle}</h1>`));
+    assert.ok(contact.includes(`<title>${contactTitle} — Echo Devs</title>`));
+    assert.match(contact, /<meta name="description" content="[^"]+"/);
+    assert.match(contact, /<meta name="robots" content="noindex, nofollow"/);
+    for (const id of ["contact-intro", "contact-inquiry", "contact-next"]) {
+      assert.ok(contact.includes(`id="${id}"`), `${locale} renders ${id}`);
+    }
+    for (const target of ["fa", "en", "ar"]) assert.ok(contact.includes(`href="/${target}/contact"`));
+    for (const id of ["services", "work", "about"]) assert.ok(contact.includes(`href="/${locale}/${id}"`), `${locale} reaches ${id}`);
+    assert.ok(contact.includes('href="#contact-inquiry"') && contact.includes('id="contact-inquiry"'));
+    assert.equal((contact.match(/<form/g) ?? []).length, 1, "One shared inquiry form");
+    assert.match(contact, /<fieldset disabled=""/);
+    assert.match(contact, /role="status"[^>]*aria-live="polite"/);
+    assert.ok(contact.includes('class="site-header"') && contact.includes("<footer"));
+    assert.ok(contact.includes(`href="/${locale}/about"`));
+    assert.ok(!/mailto:|https:\/\/|HIPAA|SLA|24\/7|contact@|github|telegram/.test(contact));
+    console.log(`PASS /${locale}/contact: localized metadata/direction, guidance, shared form, next steps, implemented destinations`);
 
     const workResponse = await request(`/${locale}/work`);
     assert.equal(workResponse.status, 200);
@@ -234,7 +262,7 @@ try {
   const spoofed = await request("/en/missing", { headers: { "x-echo-locale": "ar" } });
   assert.equal(spoofed.status, 404);
   assert.match(await spoofed.text(), /<html[^>]*lang="en"[^>]*dir="ltr"/);
-  for (const path of ["/fr", "/fr/work", "/fr/work/analytics", "/en/work/missing", "/fr/services", "/fr/about", "/en/services/missing", "/fr/missing", "/design/reference/code.html", "/code.html",
+  for (const path of ["/fr", "/fr/work", "/fr/work/analytics", "/en/work/missing", "/fr/services", "/fr/about", "/fr/contact", "/en/contact/missing", "/en/services/missing", "/fr/missing", "/design/reference/code.html", "/code.html",
     "/design/reference/original/cvecho.zip", "/design/reference/original/screen.png", "/.env.example", "/package.json"]) {
     const response = await request(path);
     assert.equal(response.status, 404, path);

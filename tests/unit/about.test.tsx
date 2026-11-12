@@ -88,7 +88,7 @@ describe("ECHO-404 about and team", () => {
     expect(new Set(ids).size).toBe(ids.length);
     for (const link of host.querySelectorAll("a")) {
       const href = link.getAttribute("href")!;
-      expect(href).toMatch(/^\/(fa|en|ar)(\/(about|services|work)(#[a-z]+)?|#(hero|process|contact))?$/);
+      expect(href).toMatch(/^\/(fa|en|ar)(\/(about|contact|services|work)(#[a-z]+)?|#(hero|process|contact))?$/);
     }
     for (const target of locales) expect(host.querySelector(`a[hreflang="${target}"]`)?.getAttribute("href")).toBe(`/${target}/about`);
     expect(host.querySelectorAll(`.primary-links a[href="/${locale}/about"][aria-current="page"]`)).toHaveLength(2);

@@ -263,6 +263,17 @@ Next: human-controlled publication/hosted validation of ECHO-103; then authorize
 - **Outstanding:** actual rendered responsive/theme/reference comparison, native keyboard/focus/screen-reader/200% zoom checks and owner/native copy review (collective-identity wording and unpublished-profile statements). No browser launched or downloaded; checkbox stays open; no release sign-off implied.
 - Next recommended P4 task: **ECHO-405 `/contact`**, separately authorized. This batch stops after ECHO-404.
 
+### ECHO-405 implementation evidence — 2026-11-12
+
+**PARTIAL acceptance; localized Contact implemented.** `/fa/contact`, `/en/contact`, `/ar/contact` render intro, inquiry and next-step sections. The inquiry block reuses the single existing `InquiryForm`; `InquiryForm` gained only an optional `sourcePage` prop (default `/${locale}`, Contact passes `/${locale}/contact`). No second form/validation/submission/API/DB/schema/idempotency/rate-limit change. Guidance lists five useful inputs; next steps state confirmation/reference, context review and follow-up/written scope without inventing a response time or SLA. Honest copy states success only after storage and that an unavailable service keeps the draft while reporting unconfirmed storage.
+
+- Direct contact channels are not published: no email, phone, social profile, office, registration or availability claim was invented. A localized "direct channels" note records that the implemented contact path is the project inquiry and that verified channels will be added when approved. This is the remaining owner-content dependency.
+- Header desktop/mobile/no-script navigation now treats Contact as a real destination and marks it current; the Header CTA and shared footer link target `/${locale}/contact`. Locale switching preserves `/contact`; mobile dialog/keyboard markup and theme controls are unchanged. Existing Services/Work/About inquiry CTAs still use the localized homepage `#contact`.
+- **PASS:** lint, typecheck, **183 unit tests / 20 files**, production build (three Contact routes statically generated), production HTTP locale/direction/metadata/section/shared-form/link-target/unknown-locale-404 checks plus homepage/services/work/about/theme/redirect regressions; original reference ZIP/hash/CRC/copy integrity; `git diff --check`. Owned loopback test server stopped. PostgreSQL rerun not required: no related contract changed.
+- Reused approved section/glass/type/token language with one narrow mobile-first `contact.css`; no redesign, dependency, client page island, Canvas/CMS/admin/deployment change. Existing files preserved; exact evidence and file list: `docs/P4-CONTACT.md`.
+- **Outstanding:** actual rendered responsive/theme/reference comparison, native keyboard/focus/screen-reader/200% zoom checks and owner/native copy review, plus a verified public contact channel if the owner wants one published. No browser launched or downloaded; checkbox stays open; no release sign-off implied.
+- Next recommended P4 task: **ECHO-406 `/privacy`**, separately authorized. This batch stops after ECHO-405.
+
 ## P5 — Full trilingual product, not a language toggle mock
 **Goal:** Every required route and transaction is good in Persian, English and Arabic.  
 **Exit gate:** Language matrix complete; no wrong direction, missing dictionary keys, fake translations or SEO gaps.
