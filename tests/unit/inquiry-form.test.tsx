@@ -25,6 +25,7 @@ it.each(locales)("submits localized %s form, announces confirmation and retains 
     expect(control.getAttribute("tabindex")).not.toBe("-1");
   }
   expect(host.querySelector('[name="email"]')?.getAttribute("dir")).toBe("ltr");
+  expect(host.querySelector(`form a[href="/${locale}/privacy"]`)?.textContent).toBe(inquiryCopy[locale].privacy);
   fill(); await submit();
   expect(fetcher).toHaveBeenCalledTimes(1);
   const payload = JSON.parse(fetcher.mock.calls[0][1].body);

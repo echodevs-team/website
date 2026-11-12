@@ -8,6 +8,7 @@ import { InquirySubmission, type SubmissionOutcome } from "../../lib/inquiries/c
 import { services, type ValidationFields } from "../../lib/validation/inquiry";
 import { Field } from "../ui/field";
 import { Button } from "../ui/button";
+import { Link } from "../ui/link";
 
 const subscribeReady = () => () => {};
 export function InquiryForm({ content: t, locale, copy, sourcePage = `/${locale}` }: { content: Pick<HomeContent, "start" | "fields">; locale: Locale; copy: InquiryCopy; sourcePage?: string }) {
@@ -50,6 +51,7 @@ export function InquiryForm({ content: t, locale, copy, sourcePage = `/${locale}
   const labels: Record<string, string> = { fullName: t.fields.name, email: copy.email, phone: copy.phone, service: t.fields.service, timeline: t.fields.timeline, description: t.fields.description };
   return <form ref={form} className="inquiry-form" aria-label={t.start} aria-describedby="inquiry-help" aria-busy={pending} noValidate onSubmit={submit}>
     <p id="inquiry-help">{copy.contactHint}</p>
+    <p className="inquiry-privacy"><Link href={`/${locale}/privacy`}>{copy.privacy}</Link></p>
     <noscript><p>{copy.noScript}</p></noscript>
     {(Object.keys(fields).length > 0 || outcome?.kind === "failure") && <div ref={summary} className="inquiry-errors" role="alert" tabIndex={-1}>
       {Object.keys(fields).length > 0 ? <><p>{copy.summary}</p><ul>{Object.entries(fields).map(([key, code]) => {

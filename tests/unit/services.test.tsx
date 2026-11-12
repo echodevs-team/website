@@ -52,7 +52,7 @@ describe("ECHO-401 services", () => {
     for (const section of host.querySelectorAll("section")) expect(host.querySelector(`[id="${section.getAttribute("aria-labelledby")}"]`)).not.toBeNull();
     for (const link of host.querySelectorAll("a")) {
       const href = link.getAttribute("href")!;
-      expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|contact|services|work)|#|$))/);
+      expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|contact|privacy|services|work)|#|$))/);
       if (href.startsWith("#")) expect(host.querySelector(`[id="${href.slice(1)}"]`)).not.toBeNull();
       else if (href.includes("#")) {
         const [pathname, id] = href.split("#");

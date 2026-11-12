@@ -58,9 +58,7 @@ try {
     assert.ok(html.includes(`href="/${locale}/work"`), "Work is implemented and discoverable");
     assert.ok(html.includes(`href="/${locale}/about"`), "About is implemented and discoverable");
     assert.ok(html.includes(`href="/${locale}/contact"`), "Contact is implemented and discoverable");
-    for (const path of ["privacy"]) {
-      assert.ok(!html.includes(`href="/${locale}/${path}"`), "Unbuilt pages must not be fake links");
-    }
+    assert.ok(html.includes(`href="/${locale}/privacy"`), "Privacy is implemented and discoverable before submitting data");
     assert.match(html, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
     assert.match(html, new RegExp(`<h1[^>]*>${heading}</h1>`), `Localized rendered heading ${locale}`);
     assert.match(html, /<meta name="robots" content="noindex, nofollow"/);
@@ -158,6 +156,31 @@ try {
     assert.ok(contact.includes(`href="/${locale}/about"`));
     assert.ok(!/mailto:|https:\/\/|HIPAA|SLA|24\/7|contact@|github|telegram/.test(contact));
     console.log(`PASS /${locale}/contact: localized metadata/direction, guidance, shared form, next steps, implemented destinations`);
+
+    const privacyResponse = await request(`/${locale}/privacy`);
+    assert.equal(privacyResponse.status, 200);
+    const privacy = await privacyResponse.text();
+    const privacyTitle = {
+      fa: "اطلاعات درخواست و نحوه نگهداری آن",
+      en: "Inquiry information and how it is handled",
+      ar: "معلومات الطلب وكيفية التعامل معها",
+    }[locale];
+    assert.match(privacy, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
+    assert.ok(privacy.includes(`<h1 id="privacy-title">${privacyTitle}</h1>`));
+    assert.ok(privacy.includes(`<title>${privacyTitle} — Echo Devs</title>`));
+    assert.match(privacy, /<meta name="description" content="[^"]+"/);
+    assert.match(privacy, /<meta name="robots" content="noindex, nofollow"/);
+    for (const id of ["privacy-intro", "privacy-data", "privacy-storage", "privacy-temporary", "privacy-retention", "privacy-third-parties", "privacy-updates"]) {
+      assert.ok(privacy.includes(`id="${id}"`), `${locale} renders ${id}`);
+    }
+    assert.ok(privacy.includes('class="home-glass privacy-notice"') && privacy.includes('class="privacy-badges"'));
+    assert.equal((privacy.match(/class="home-glass privacy-card"/g) ?? []).length, 18, "All disclosure cards render");
+    for (const target of ["fa", "en", "ar"]) assert.ok(privacy.includes(`href="/${target}/privacy"`));
+    for (const path of ["contact", "about"]) assert.ok(privacy.includes(`href="/${locale}/${path}"`), `${locale} privacy links to ${path}`);
+    assert.ok(privacy.includes('class="site-header"') && privacy.includes("<footer"));
+    assert.equal((privacy.match(/<form/g) ?? []).length, 0, "Privacy page never collects data itself");
+    assert.ok(!/mailto:|https:\/\/|tel:|privacy@|GDPR|HIPAA|ISO ?27001|SOC ?2|certified/.test(privacy));
+    console.log(`PASS /${locale}/privacy: localized metadata/direction, technical disclosure, unresolved-policy disclosure, no invented contact or compliance claim`);
 
     const workResponse = await request(`/${locale}/work`);
     assert.equal(workResponse.status, 200);
@@ -262,7 +285,7 @@ try {
   const spoofed = await request("/en/missing", { headers: { "x-echo-locale": "ar" } });
   assert.equal(spoofed.status, 404);
   assert.match(await spoofed.text(), /<html[^>]*lang="en"[^>]*dir="ltr"/);
-  for (const path of ["/fr", "/fr/work", "/fr/work/analytics", "/en/work/missing", "/fr/services", "/fr/about", "/fr/contact", "/en/contact/missing", "/en/services/missing", "/fr/missing", "/design/reference/code.html", "/code.html",
+  for (const path of ["/fr", "/fr/work", "/fr/work/analytics", "/en/work/missing", "/fr/services", "/fr/about", "/fr/contact", "/fr/privacy", "/en/privacy/missing", "/en/contact/missing", "/en/services/missing", "/fr/missing", "/design/reference/code.html", "/code.html",
     "/design/reference/original/cvecho.zip", "/design/reference/original/screen.png", "/.env.example", "/package.json"]) {
     const response = await request(path);
     assert.equal(response.status, 404, path);

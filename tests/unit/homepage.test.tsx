@@ -47,7 +47,7 @@ describe("faithful homepage structure and safety", () => {
     expect(new Set(ids).size).toBe(ids.length);
     for (const a of host.querySelectorAll<HTMLAnchorElement>("a")) {
       const href = a.getAttribute("href")!;
-      expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|contact|services|work)|#|$))/);
+      expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|contact|privacy|services|work)|#|$))/);
       if (href.includes("#") && !href.includes("/services")) expect(host.querySelector(`[id="${href.split("#")[1]}"]`)).not.toBeNull();
     }
     expect(host.querySelector("footer")).not.toBeNull();

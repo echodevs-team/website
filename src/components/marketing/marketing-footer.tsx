@@ -41,6 +41,7 @@ export function MarketingFooter({ locale, onHome = false }: { locale: Locale; on
     <p><bdi lang="en">Echo Devs</bdi> · {foundation.preview}</p>
     <div className="footer-bottom-links">
       <Link href={localePath(locale, "/about")}>{nav.about}</Link>
+      <Link href={localePath(locale, "/privacy")}>{nav.privacy}</Link>
       <Link href={`${home}#hero`}>{t.backTop} ↑</Link>
     </div>
   </div></Footer>;

@@ -3,7 +3,7 @@ export type InquiryCopy = {
   intro: string; note: string; submit: string; pending: string; retry: string; newRequest: string;
   success: string; reference: string; summary: string; invalid: string; required: string; contactRequired: string; requiredField: string;
   uncertain: string; rejected: string; limited: string; conflict: string; expired: string; wait: string;
-  email: string; phone: string; contactHint: string; descriptionHint: string; noScript: string;
+  email: string; phone: string; contactHint: string; descriptionHint: string; noScript: string; privacy: string;
   serviceLabels: readonly [string, string, string, string];
 };
 export const inquiryCopy: Record<Locale, InquiryCopy> = {
@@ -15,7 +15,7 @@ export const inquiryCopy: Record<Locale, InquiryCopy> = {
     rejected: "The request was not accepted. Your draft is retained; review the fields or try again.", limited: "Too many attempts. Your draft is retained. Please wait before retrying.",
     conflict: "This submission key belongs to different data. Do not retry with changes. Only start a separate inquiry if you intend a new request.",
     expired: "The safe retry window has ended. Saving is still unconfirmed. Do not resubmit as new until the earlier inquiry can be verified.", wait: "Seconds before retry:",
-    email: "Email", phone: "International phone", contactHint: "Provide at least one: email or phone with country code, e.g. +44…", descriptionHint: "20–5000 characters. Do not include passwords or sensitive personal information.", noScript: "JavaScript is required for safe submission and retry. No information is sent with scripts disabled.",
+    email: "Email", phone: "International phone", contactHint: "Provide at least one: email or phone with country code, e.g. +44…", descriptionHint: "20–5000 characters. Do not include passwords or sensitive personal information.", noScript: "JavaScript is required for safe submission and retry. No information is sent with scripts disabled.", privacy: "How inquiry data is stored and handled",
     serviceLabels: ["Website & digital identity", "Custom software", "AI & automation", "Not sure yet"],
   },
   fa: {
@@ -26,7 +26,7 @@ export const inquiryCopy: Record<Locale, InquiryCopy> = {
     rejected: "درخواست پذیرفته نشد. پیش‌نویس حفظ شده؛ فیلدها را بررسی یا دوباره تلاش کنید.", limited: "تعداد تلاش‌ها زیاد است. پیش‌نویس حفظ شده؛ پیش از تلاش دوباره صبر کنید.",
     conflict: "این کلید ارسال به اطلاعات دیگری تعلق دارد. با تغییر اطلاعات تکرار نکنید. فقط اگر قصد درخواست جدید دارید، یک درخواست جداگانه شروع کنید.",
     expired: "مهلت تلاش دوباره امن پایان یافته و نتیجه هنوز نامشخص است. تا بررسی درخواست قبلی، آن را به‌عنوان درخواست جدید ارسال نکنید.", wait: "ثانیه تا تلاش دوباره:",
-    email: "ایمیل", phone: "شماره تلفن بین‌المللی", contactHint: "حداقل یکی را وارد کنید: ایمیل یا تلفن با کد کشور، مانند ‎+44…", descriptionHint: "۲۰ تا ۵۰۰۰ نویسه. رمز عبور یا اطلاعات شخصی حساس ننویسید.", noScript: "برای ارسال و تلاش دوباره امن، جاوااسکریپت لازم است. بدون آن اطلاعاتی ارسال نمی‌شود.",
+    email: "ایمیل", phone: "شماره تلفن بین‌المللی", contactHint: "حداقل یکی را وارد کنید: ایمیل یا تلفن با کد کشور، مانند ‎+44…", descriptionHint: "۲۰ تا ۵۰۰۰ نویسه. رمز عبور یا اطلاعات شخصی حساس ننویسید.", noScript: "برای ارسال و تلاش دوباره امن، جاوااسکریپت لازم است. بدون آن اطلاعاتی ارسال نمی‌شود.", privacy: "نحوه نگهداری و پردازش اطلاعات درخواست",
     serviceLabels: ["وب‌سایت و هویت دیجیتال", "نرم‌افزار سفارشی", "هوش مصنوعی و اتوماسیون", "هنوز مطمئن نیستم"],
   },
   ar: {
@@ -37,7 +37,7 @@ export const inquiryCopy: Record<Locale, InquiryCopy> = {
     rejected: "لم يُقبل الطلب. احتُفظ بالمسودة؛ راجع الحقول أو حاول مجددًا.", limited: "محاولات كثيرة. احتُفظ بالمسودة؛ انتظر قبل إعادة المحاولة.",
     conflict: "مفتاح الإرسال مرتبط ببيانات مختلفة. لا تعِد المحاولة ببيانات معدلة. ابدأ طلبًا منفصلًا فقط إذا كنت تقصد طلبًا جديدًا.",
     expired: "انتهت مهلة إعادة المحاولة الآمنة وما زال الحفظ غير مؤكد. لا ترسله كطلب جديد قبل التحقق من الطلب السابق.", wait: "ثوانٍ قبل إعادة المحاولة:",
-    email: "البريد الإلكتروني", phone: "رقم هاتف دولي", contactHint: "أدخل أحدهما على الأقل: بريدًا إلكترونيًا أو هاتفًا برمز الدولة، مثل ‎+44…", descriptionHint: "٢٠–٥٠٠٠ حرف. لا تكتب كلمات مرور أو معلومات شخصية حساسة.", noScript: "يلزم JavaScript للإرسال وإعادة المحاولة بأمان. لا تُرسل معلومات عند تعطيله.",
+    email: "البريد الإلكتروني", phone: "رقم هاتف دولي", contactHint: "أدخل أحدهما على الأقل: بريدًا إلكترونيًا أو هاتفًا برمز الدولة، مثل ‎+44…", descriptionHint: "٢٠–٥٠٠٠ حرف. لا تكتب كلمات مرور أو معلومات شخصية حساسة.", noScript: "يلزم JavaScript للإرسال وإعادة المحاولة بأمان. لا تُرسل معلومات عند تعطيله.", privacy: "كيف تُخزَّن معلومات الطلب وتُعالج",
     serviceLabels: ["موقع وهوية رقمية", "برمجيات مخصصة", "ذكاء اصطناعي وأتمتة", "لست متأكدًا بعد"],
   },
 };

@@ -106,7 +106,7 @@ describe("ECHO-405 contact", () => {
     expect(new Set(ids).size).toBe(ids.length);
     for (const link of host.querySelectorAll("a")) {
       const href = link.getAttribute("href")!;
-      expect(href).toMatch(/^(#contact(-inquiry)?|\/(fa|en|ar)(\/(about|contact|work)|(\/services)(#[a-z]+)?|#(hero|process|contact(-inquiry)?))?)$/);
+      expect(href).toMatch(/^(#contact(-inquiry)?|\/(fa|en|ar)(\/(about|contact|privacy|work)|(\/services)(#[a-z]+)?|#(hero|process|contact(-inquiry)?))?)$/);
     }
   });
 

@@ -45,6 +45,7 @@ describe("reference footer composition", () => {
     }
     expect(footer.querySelector(`a[href="/${locale}/work"]`)?.textContent).toBe(chrome.footer.demos);
     expect(footer.querySelector(`a[href="/${locale}/contact"]`)).not.toBeNull();
+    expect(footer.querySelector(`a[href="/${locale}/privacy"]`)?.textContent).toBeTruthy();
     expect(footer.querySelector(`a[href="#hero"]`)?.textContent).toContain("↑");
     // Unverified legal, contact and infrastructure claims stay out of the shared shell.
     expect(footer.innerHTML).not.toMatch(/mailto:|https?:\/\/|©|HIPAA|24\/7|SLA|contact@|github|telegram/i);
@@ -54,10 +55,11 @@ describe("reference footer composition", () => {
     const host = document.createElement("div");
     host.innerHTML = renderToStaticMarkup(<MarketingFooter locale={locale} />);
     expect(host.querySelector(`a[href="/${locale}/contact"]`)).not.toBeNull();
+    expect(host.querySelector(`a[href="/${locale}/privacy"]`)).not.toBeNull();
     expect(host.querySelector(`a[href="/${locale}#hero"]`)).not.toBeNull();
     for (const link of host.querySelectorAll("a")) {
       const href = link.getAttribute("href")!;
-      expect(href).toMatch(/^\/(fa|en|ar)(\/(about|contact|services|work)(#[a-z]+)?|#[a-z-]+)?$/);
+      expect(href).toMatch(/^\/(fa|en|ar)(\/(about|contact|privacy|services|work)(#[a-z]+)?|#[a-z-]+)?$/);
     }
     const ids = [...host.querySelectorAll("[id]")].map((node) => node.id);
     expect(new Set(ids).size).toBe(ids.length);

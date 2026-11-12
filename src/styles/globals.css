@@ -8,6 +8,7 @@
 @import "./work.css";
 @import "./about.css";
 @import "./contact.css";
+@import "./privacy.css";
 
 * { box-sizing: border-box; }
 body {

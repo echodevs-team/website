@@ -141,6 +141,8 @@
 .inquiry-copy .home-heading { margin: 0; }
 .inquiry-copy .eyebrow { display: none; }
 .inquiry-notice { border-inline-start: 3px solid var(--color-action); padding-inline-start: 1rem; font-size: .875rem; }
+.inquiry-privacy { font-size: .8rem; }
+.inquiry-privacy a { display: inline-flex; align-items: center; min-block-size: var(--target-size); }
 .contacts-pending { border-block-start: 1px solid var(--color-border); padding-block-start: 1rem; font-size: .8rem; }
 .inquiry-form { background: var(--color-surface); padding: 2rem; border-radius: var(--radius-card); border: 1px solid color-mix(in srgb, var(--color-border) 55%, transparent); box-shadow: var(--shadow-card); }
 .inquiry-form fieldset { display: grid; gap: 1rem; border: 0; padding: 0; margin: 0; min-inline-size: 0; }
