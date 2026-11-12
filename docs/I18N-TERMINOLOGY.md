@@ -104,3 +104,32 @@ test/typecheck rather than falling back silently.
   in granularity; unify only with an approved copy decision.
 - Public contact channels, retention periods, jurisdiction and compliance wording
   remain open decisions (D1, D6).
+
+## Intentionally non-localized visitor-facing tokens
+
+These strings appear verbatim in every locale by design; they are not translation
+gaps (audited in ECHO-502):
+
+- Latin `Echo Devs` wordmark, the fixed Persian brand chip `اکو دوز` shown on every
+  locale, and the localized Arabic transliteration `إيكو ديفز` in copy.
+- Reference/technical labels `ED`, `CORE_RUNTIME`, `NEXT.JS // PYTHON // AI`,
+  `CONCEPT`, `PREVIEW`, concept preview codes
+  (`SaaS_PREVIEW`/`RAG_BOT_PREVIEW`/`HEALTH_BOOKING_PREVIEW`), telemetry codes,
+  stack tags and process codes. They are isolated with `bdi`/`dir="ltr"` and sit
+  beside localized equivalents.
+- English mono captions on the four homepage benefit cards (`Clear Decisions`,
+  `Product Thinking`, `Maintainable Code`, `Visible Milestones`). They duplicate
+  the localized card heading/body and preserve the approved reference treatment;
+  localizing them is an optional design decision, not a missing page translation.
+- The hidden `Website` anti-bot field is `aria-hidden="true"` and never presented.
+
+## Claim guardrails
+
+- Only describe implemented behavior as fact. Anything about business identity,
+  contacts, client work, metrics, certifications, hosting, retention or legal
+  basis must come from the owner; otherwise keep the qualified/withheld wording.
+- `tests/unit/claims.test.ts` rejects obvious fabricated markers (public
+  contact/link schemes, compliance badges, uptime/SLA figures) in any locale. It
+  is a regression tripwire, not proof that remaining copy is true.
+- Re-verify `src/content/privacy.ts` whenever the form schema, limits, storage or
+  infrastructure changes; see `docs/INQUIRY-PRIVACY.md`.

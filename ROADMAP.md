@@ -363,6 +363,27 @@ RTL/keyboard/zoom gates remain open and are not claimed. Details:
 `docs/P5-ECHO-501.md`; terminology: `docs/I18N-TERMINOLOGY.md`. ECHO-502 and later
 tasks not started.
 
+### ECHO-502 translation coverage — 2026-11-12
+
+**PARTIAL — coverage PASS; acceptance stays open pending owner review of sensitive
+claims, native FA/AR review and legal sign-off.** Audited all 27 localized
+marketing routes plus shared chrome, inquiry form/validation/status copy,
+404/no-script, metadata and accessible labels. One confirmed defect fixed: the
+homepage route was the only marketing page without a localized
+`<meta name="description">`; it now uses `homeContent[locale].lead`, asserted by
+the HTTP smoke test. Added `tests/unit/claims.test.ts` to reject fabricated
+contact/compliance/uptime markers across locales, and documented intentional
+non-localized technical tokens plus claim guardrails in
+`docs/I18N-TERMINOLOGY.md`. Privacy/operational wording was verified against the
+handler, limits, schema, roles and cookie/localStorage usage; unresolved
+identity/legal/retention/hosting/operator items are recorded as intake Blockers.
+**PASS:** 25 files/245 tests; lint; typecheck; production build (33 static
+outputs, 27 localized routes); HTTP crawl; reference verification. No API/DB,
+intake, `noindex`, UI redesign, analytics or deployment change; no PostgreSQL
+rerun or browser audit. Owner decision package:
+`docs/P5-ECHO-502-OWNER-REVIEW.md`; evidence: `docs/P5-ECHO-502.md`. ECHO-503 and
+later tasks not started.
+
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  
 **Exit gate:** Release checklist all green or documented owner-approved noncritical exception.
