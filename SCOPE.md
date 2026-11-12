@@ -1,8 +1,8 @@
 # Echo Devs — Product & Engineering Scope
 
 **Document:** SCOPE.md  
-**Version:** 1.0 — working product contract  
-**Date:** 2026-11-04  
+**Version:** 1.1 — approved UI baseline and delivery order
+**Date:** 2026-11-05
 **Status:** Approved strategic direction; implementation choices and unresolved real-world facts are labeled below.
 
 > This scope turns the supplied `cvecho.zip` prototype into a credible, production-ready, trilingual lead-generation website. It does **not** authorize making up portfolio facts, testimonials, metrics, credentials, contacts, or compliance claims.
@@ -32,6 +32,8 @@ The site must communicate in business outcomes first; technology stack details s
 ### 1.4 Non-goals for v1
 No user signup/login; no client portal, project management, public comments, payment checkout, live chatbot, complex CMS, newsletter, elaborate blog, proprietary analytics dashboard, or microservice architecture. No fake demos framed as deployed client work. No admin dashboard unless operational review genuinely requires one after launch.
 
+**Implementation priorities (owner clarification):** faithfully reconstruct the approved HTML in Next.js; populate its homepage sections; immediately implement real validated inquiry/PostgreSQL persistence; then remaining service/work/about/contact pages; complete production-quality FA/EN/AR content; finish browser acceptance, accessibility, performance, SEO, security and deployment readiness. These priorities do not defer basic safety, accessibility or locale support in each feature. Browser unavailability leaves acceptance pending but does not prohibit implementation.
+
 ### 1.5 Decisions already accepted for planning
 - Brand name: **Echo Devs**.
 - Personality: **Hybrid**, mostly restrained/minimal with selective technical character.
@@ -39,7 +41,7 @@ No user signup/login; no client portal, project management, public comments, pay
 - Three locales: `fa`, `en`, `ar`. Assumed initial/default locale `fa`; root redirects to remembered preference or browser preference if supported, otherwise `fa`, while `/fa`, `/en`, `/ar` remain permanent indexable routes. If product owner prefers a different root behavior, change before phase P5.
 - Both light and dark themes, with system preference respected on first visit.
 - No visitor login; inquiry persisted in database.
-- Reuse and improve the existing visual composition rather than discard it.
+- Original `code.html` is the approved UI baseline, not visual inspiration. Preserve composition, hierarchy, sections, Coral & Charcoal identity, typography, spacing, proportions, cards, hero/CTAs and interaction character. Targeted accessibility/responsiveness/functionality/consistency/usability improvements are allowed; significant departures need explicit owner approval. We are migrating the existing website, not designing a new one.
 - Recommended stack: **Next.js App Router + TypeScript + Tailwind (build-time) + PostgreSQL** in one cohesive application. A lightweight ORM/query layer, schema validator, and translation library should be selected after checking compatibility. Avoid speculative dependency additions and version pinning without verification.
 
 ## 2. Existing source / baseline audit
@@ -56,7 +58,7 @@ No user signup/login; no client portal, project management, public comments, pay
 - `DESIGN.md` describes an older 'Sahara' burnt-sienna/serif concept, while HTML uses Coral and modern Persian typography; consolidate the brand specification.
 - Continuous decorative animation requires reduced-motion handling and performance review.
 
-**Migration rule:** Treat original ZIP as **read-only visual/reference material**; do not blindly copy monolithic markup into production or throw away the layout without review. Keep an explicit reference copy outside shipped code (e.g. `design/reference/`) and record visual differences using screenshots.
+**Migration rule:** Preserve ZIP/originals read-only. `design/reference/code.html` is authoritative for visual fidelity; `original/screen.png` supplements it, while the old Sahara DESIGN is superseded. Translate the HTML into current Next.js components/build-time styles, not a raw HTML iframe/injection or CDN-runtime copy. Preserve the approved UI rather than replacing it with generic primitives. Repair fake success, misleading claims, inaccessible contrast, redundant font providers and unsafe motion without treating their presence as approval. Record necessary deviations and obtain owner approval for significant changes. Screenshots/comparison remain required before release, not before starting reconstruction.
 
 ## 3. Information architecture
 
@@ -87,7 +89,7 @@ Logo/Home · Services · Work · About · Contact · Language switcher · Theme 
 7. **Final CTA:** contact entry point; short inquiry form may be embedded or link to contact; avoid conflicting implementations.
 8. **Footer:** verified email/social channels, navigation, locale links, copyright year automation, policies.
 
-Avoid cluttered repetitive cards. Preserve visual balance from screenshot, but use more distinct project visuals and clearer differentiation of sections. Do not let animations or marketing decoration harm readability.
+This section describes content responsibilities within the **existing HTML section composition**, not authority for a different layout or new editorial card hierarchy. Retain its section order and technical/capability strip; populate truthfully using approved facts or clearly labeled concepts, omitting unsupported metrics/contacts. New layouts, replacement artwork or changed card treatments need explicit approval unless required by a targeted fix. Do not let decoration harm readability.
 
 ### 3.4 Service taxonomy
 Present **three top-level pillars** while making all services discoverable:
@@ -124,7 +126,7 @@ No placeholder `mailto`, `t.me`, `github.com` root links, empty demo URLs, or de
 - Existing coral `#EE7758` may be the starting brand anchor; contrast must be tested for actual text/button pairings. Adjust accessible shades without losing the brand.
 - Typography: Persian/Arabic-friendly family such as Vazirmatn, complementary readable English sans; monospace sparingly for labels/technical detail. Avoid shipping multiple redundant font providers and unnecessary weights.
 - Layout: restrained max-width, responsive 12-column desktop grid or equivalent, consistent spacing, typography scale, card radius, subtle borders and shadows.
-- Branded logo: current icon resembles hamburger/menu; commission/create a distinguishable scalable mark with horizontal, icon-only, dark/light, and favicon variants. Obtain owner approval before finalizing.
+- Preserve the baseline brand presentation; any replacement of its mark/wordmark requires owner approval. Variant assets may be derived consistently, not used as a reason to redesign.
 - Components: Header, MobileNav, Button, Link, Badge (only status/type), SectionHeading, ServiceCard, WorkCard, Field, FormStatus, LanguageSwitcher, ThemeSwitcher, Footer.
 
 ### 5.2 Breakpoint and interaction behavior
@@ -265,6 +267,8 @@ Performance numbers are objectives, not promises and must not justify removing n
 | D8 | Confirm initial locale behavior (`fa` assumed) and translation review process? | P5 release gate |
 
 Agents should proceed using labeled placeholders in development, not invent answers. Block **only the task requiring owner input**, and continue independent work.
+
+D7 is narrowed by the 2026-11-05 approval: the HTML visual direction is already approved. Approval is still needed for significant departures, new identity assets and final factual/core copy, not permission to begin faithful reconstruction. D1–D8 do not block the homepage's safe layout or disposable local inquiry implementation; they block their specific published content, operational or release decisions.
 
 ## 12. Definition of done (per task and per milestone)
 

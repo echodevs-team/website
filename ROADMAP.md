@@ -1,26 +1,28 @@
 # Echo Devs — Agent-Executable Roadmap
 
-**Version:** 1.6 · **Status:** ECHO-101/102/104/106 complete; ECHO-103 hosted acceptance pending; ECHO-105/107/108 implemented, partial pending actual browser acceptance. ECHO-003 remains deferred. ECHO-109 onward not started.
+**Version:** 1.7 · **Status:** Approved HTML fidelity governs implementation. Foundation/homepage browser and hosted CI gates remain open. P2-A ECHO-201–204 complete locally; P2-B1 form/security/retry and P2-B2 private operations/recovery tooling implemented, owner/deployment/browser acceptance partial. API opt-in; notifications absent; ECHO-306 visual/conversion browser acceptance pending.
 **Source of truth:** `SCOPE.md`. **Operating rules:** `AGENTS.md`.  
 **Progress:** Mark `[x]` only with verified acceptance evidence. Record concise verification in task notes/reports. Agents must never stage files, create/amend commits, or push; Git commits are not completion requirements.
 
 ## Delivery strategy
 
-**Prefer a working vertical slice over many partially functional components.** Start with architecture and page shell, then prove the actual inquiry pipeline, then fill out the polished public website, and finally localize/harden/launch. No unauthorized deployment or public communication. Keep the original screenshot visible during visual reviews.
+**Migrate the approved website, do not redesign it.** Owner clarification (2026-11-05): original `code.html` is authoritative for visual fidelity. First reconstruct/populate its homepage within the existing Next.js foundation, then immediately deliver real inquiry/PostgreSQL persistence, remaining pages, full trilingual content and production hardening. Preserve existing safe theme/locale/keyboard infrastructure. No more infrastructure-only batches unless a feature requires them; no unauthorized deployment/public communication.
+
+Missing VM Chromium is a verification gap, not an implementation dependency. ECHO-003/105/107/108 and all browser criteria remain open until evidence exists; owner-side Fedora checks through existing loopback-only SSH forwarding are valid evidence. No repeated downloads/security changes. Actual reference comparison and implementation visual approval are required before release. This owner authorization supersedes earlier historical statements limiting development to ECHO-101/102/106 or prohibiting full-page replication before screenshots; it does not mark any test passed.
 
 ### Dependency overview
 ```
-P0 Source audit + product truth
-  └─ P1 Foundation + design primitives + locale shell
-       ├─ P2 Complete inquiry vertical slice
-       └─ P3 Full polished homepage
-            └─ P4 Portfolio / service / about / policies
-                 └─ P5 Complete locale/copy QA
-                      └─ P6 Security + a11y + SEO + performance + end-to-end QA
-                           └─ P7 Production launch (owner approval required)
-                                └─ P8 Evidence-driven improvement
+P0 Verified source + product truth (browser baseline outstanding)
+  └─ Existing P1 foundation (browser acceptance outstanding)
+       └─ P3 faithful homepage reconstruction/population + ECHO-109 comparison
+            └─ P2 real inquiry vertical slice + P3 inquiry integration
+                 └─ P4 Portfolio / service / about / policies
+                      └─ P5 Complete locale/copy QA
+                           └─ P6 Security + a11y + SEO + performance + end-to-end QA
+                                └─ P7 Production launch (owner approval required)
+                                     └─ P8 Evidence-driven improvement
 ```
-P2/P3 may overlap after their interfaces are stable, but no parallel branch may redefine shared tokens, content schema, or DB without coordination.
+Phase numbers/task IDs are retained for traceability, not execution order. Browser evidence may run alongside implementation; no incomplete phase exit gate is implied. P3 contact composition precedes P2; actual submission and final conversion acceptance depend on P2. Shared tokens/content/schema remain coordinated contracts.
 
 ## P0 — Discovery, baseline and truth inventory
 **Goal:** Establish an accurate baseline and stop agents from guessing.  
@@ -84,7 +86,7 @@ P0 is **not fully signed off**; its remaining browser gate has a narrow owner ex
 - [x] **ECHO-106 [P1]** Implement locale URL skeleton and basic dictionaries; default `fa` assumption documented. **Accept:** route-specific `lang`/`dir`, route-safe locale links.
 - [ ] **ECHO-107 [P1]** Implement theme selection with OS preference, persisted override, no flash/FOUC. **Accept:** toggle works in all locale routes and survives reload.
 - [ ] **ECHO-108 [P1]** Implement desktop nav and accessible mobile menu with keyboard/focus behavior. **Accept:** all primary routes accessible at 320px and by keyboard.
-- [ ] **ECHO-109 [P1]** Create concise 1–2 screen design preview of homepage shell based on ZIP; owner checks direction before full-page replication. **Accept:** approve visual direction or log focused revisions; not indefinite redesign.
+- [ ] **ECHO-109 [P1]** Compare the reconstructed homepage's first 1–2 screens with approved HTML; no alternative-design exercise or prerequisite preview build. **Accept:** actual comparison screenshots, targeted deviations/revisions recorded; significant departures approved. May run alongside P3; pending browser evidence does not block implementation.
 
 ### ECHO-103 evidence — 2026-11-04
 
@@ -119,12 +121,12 @@ Next: human-controlled publication/hosted validation of ECHO-103; then authorize
 
 ## P2 — First full vertical slice: inquiries
 **Goal:** A user can start from a real CTA and submit an inquiry that is durably stored, verified and retrievable.  
-**Exit gate:** End-to-end browser test + DB readback. No pretend success.
+**Exit gate:** End-to-end browser test + DB readback. No pretend success. Immediately follows homepage reconstruction; missing browser may defer E2E acceptance, not schema/API/local integration implementation.
 
-- [ ] **ECHO-201 [P2]** Set up PostgreSQL development environment, migration tool, least-privilege application role and `.env.example`. **Accept:** fresh DB migrations succeed and can rerun safely.
-- [ ] **ECHO-202 [P2]** Implement minimal Inquiry schema and indexes from SCOPE. **Accept:** migration + DB-level integration test.
-- [ ] **ECHO-203 [P2]** Define strict shared field names/types and authoritative server validation; email/phone alternatives and Unicode cases. **Accept:** valid/invalid data matrix covered by unit tests.
-- [ ] **ECHO-204 [P2]** Implement POST endpoint/server action with size cap, structured errors, transaction and safe logging. **Accept:** accepted request yields persisted record; invalid input yields no insert.
+- [x] **ECHO-201 [P2]** Set up PostgreSQL development environment, migration tool, least-privilege application role and `.env.example`. **Accept:** fresh DB migrations succeed and can rerun safely.
+- [x] **ECHO-202 [P2]** Implement minimal Inquiry schema and indexes from SCOPE. **Accept:** migration + DB-level integration test.
+- [x] **ECHO-203 [P2]** Define strict shared field names/types and authoritative server validation; email/phone alternatives and Unicode cases. **Accept:** valid/invalid data matrix covered by unit tests.
+- [x] **ECHO-204 [P2]** Implement POST endpoint/server action with size cap, structured errors, transaction and safe logging. **Accept:** accepted request yields persisted record; invalid input yields no insert.
 - [ ] **ECHO-205 [P2]** Build one reusable localized UI form, interactive field errors, progress, accessible success/failure and retry. **Accept:** no false success; form can be reached from hero CTA on mobile.
 - [ ] **ECHO-206 [P2]** Implement simple shared-store rate limiting, honeypot, CSRF/origin safeguards appropriate to chosen submission method. **Accept:** spam scenarios documented and tested.
 - [ ] **ECHO-207 [P2]** Prevent common duplicate submissions; test double click, retry, timeout and network outage. **Accept:** one durable inquiry per successful action or explicit repeat intent.
@@ -132,18 +134,79 @@ Next: human-controlled publication/hosted validation of ECHO-103; then authorize
 - [ ] **ECHO-209 [P2]** Add optional notification abstraction/config only if target inbox/credentials are approved. **Accept:** email failure cannot delete lead; if no inbox, feature disabled, not faked.
 - [ ] **ECHO-210 [P2]** Add integration and Playwright E2E test for valid submit, invalid fields, DB failure, duplicate attempt and mobile success state. **Accept:** CI pass with disposable test DB.
 
-## P3 — Homepage completeness and visual polish
-**Goal:** High-quality, responsive marketing experience preserving strengths of original concept.  
-**Exit gate:** Complete homepage reviewed at mobile and desktop; CTAs work; no fake claims or dead anchors.
+### P2-A evidence — 2026-11-07
 
-- [ ] **ECHO-301 [P3]** Rewrite Hero to clearly say who/what/why; primary CTA -> intake; secondary -> actual work. **Accept:** first screen understandable without scrolling.
+**ECHO-201–204 DONE locally. ECHO-206/207/210 PARTIAL; other P2 tasks not implemented.** Detailed contract, provenance/tooling decision, commands, exact files and limitations: `docs/P2-A.md`. No phase-exit/production readiness inferred.
+
+- Real PostgreSQL **18.6** from pinned dev-only npm binary tooling; no installed PostgreSQL/container tooling was available. Private OS-user-owned Unix socket only, no TCP DB listener/system install/host/security change. Separate persistent `echo_dev` and disposable unique-cluster `echo_test`; SCRAM app login, least-privilege insert-only inquiry role and separate migration/test owner. Generated credentials/data ignored. All temporary servers stopped; test clusters removed.
+- Checksummed, advisory-locked transactional `001_inquiries.sql`; inquiry constraints/indexes, short-lived replay metadata with FK/cascade and bounded one-row global abuse counter. Migrations rerun without resetting data and reject history drift. Explicit expired-metadata cleanup command; host scheduling not yet selected.
+- Strict shared Zod request contract, Unicode preservation/international phone format normalization, 32KiB streaming cap/5s body deadline, parameterized SQL. `POST /api/inquiries` commits before 201, same-key replay 200, changed-payload 409, safe validation/storage errors. No public reads or payload/exception logging. Backend HMAC replay/expiry/concurrency/lost-ack behavior tested. API **disabled by default**, homepage form unchanged and still disabled.
+- **PASS:** final lint/typecheck, **80 unit tests / 7 files**, production build, **16 actual PostgreSQL/production-HTTP integration tests / 2 files**, fixture DB log-privacy check, local dev setup/restart/private permissions/stable key check, existing locale/theme/homepage HTTP smoke plus default-disabled API checks, original reference verification, dependency audit (0 vulnerabilities), diff whitespace. Native binary libraries are not covered by npm audit. Initial type/lint issues corrected; no failing check presented as passing.
+- ECHO-206 partial: exact origin/JSON/empty honeypot/global shared 30-per-10min attempts implemented; trusted per-network identity/rate limiting/timing/traffic tuning remain. ECHO-207 partial: backend tests pass, UI/browser retry/double-click/network checks remain. ECHO-210 partial: DB+HTTP integration verified, hosted CI/browser/mobile E2E not done. ECHO-208 operational readback/D5 not done; test owner queries are not operator acceptance. No notifications/admin/deployment.
+- **Stop after P2-A. Recommended P2-B:** ECHO-205/206 plus remaining ECHO-207 UI wiring/safeguards, then ECHO-208/210 handoff and CI/browser evidence. Keep ECHO-306 and browser acceptance open; no automatic form enablement or next batch.
+
+### P2-B1 evidence — 2026-11-07
+
+**ECHO-205/206/207 implementation delivered, acceptance PARTIAL.** Checkboxes remain open for native mobile/browser flow and deployed ingress/maintenance validation. Full behavior, file list, test evidence and network trust contract: `docs/P2-B1.md`. No P2-B2/P4 work or production approval inferred.
+
+- Canonical FA/EN/AR inquiry form now uses shared client/server validation, labeled separate email/phone fields, native controls, focusable field-error summary and polite pending/success/reference state. Original section/panel/grid/tokens retained. No extra personal fields, analytics or draft storage beyond page memory. No-script controls stay disabled to prevent unsafe native submission; API defaults remain opt-in.
+- Memory-only logical submission uses a frozen payload/key after uncertainty, synchronous double-dispatch gate, 15s timeout, safe replay, explicit new intent after success/conflict and conservative 23h retry cutoff. Errors preserve drafts; success requires confirmed well-formed 201/200. Retry-After respected; no silent key rotation on uncertain rejection.
+- Migration 002 adds atomic 5-attempt/10min network buckets alongside global 30/10min; migration 001 untouched and actual version-001 data-upgrade fixture passes. IPv4/mapped IPv6 normalize together; native IPv6 /64. Domain-separated HMAC identifiers, expiry/index, bounded opportunistic cleanup and explicit maintenance command; no raw IP storage. Arbitrary forwarding headers ignored. Local mode assumes private loopback binding; deployment-facing mode requires fresh key-bound signed ingress metadata, not an unverified forwarded header. Actual ingress and maintenance schedule remain unverified.
+- **PASS:** final lint/typecheck, **110 unit tests / 10 files**, production build, **26 real PostgreSQL/DOM/production-HTTP integration tests / 3 files**, fixture log privacy, existing locale/theme/homepage/default-disabled API HTTP checks, reference integrity, npm audit (0 vulnerabilities), diff whitespace. Test/fix history and distinctions between injected acknowledgement loss and real browser networks recorded in report. All temporary servers stopped; disposable test data removed.
+- No native browser/mobile/zoom/keyboard/screen-reader acceptance, real proxy deployment, host load-control proof, hosted CI, operator handoff or retention-policy approval. ECHO-205/207 browser criteria, ECHO-206 deployment criteria and ECHO-208/210 remain open. ECHO-306 is wired but not visually/end-to-end accepted. No notifications/admin/deployment.
+- **Stop after P2-B1. Next separately authorized P2-B2:** restricted operator readback/D5, privacy/retention decisions/D6, verified ingress/maintenance assumptions and remaining CI/browser-to-DB evidence. Do not begin automatically.
+
+### P2-B2 evidence — 2026-11-07
+
+**ECHO-208 implementation/local acceptance delivered; owner D5 handoff still PARTIAL. ECHO-209 optionally deferred/disabled; ECHO-210 remains PARTIAL.** Task definitions/checkboxes unchanged. Evidence/files: `docs/P2-B2.md`; exact commands: `docs/INQUIRY-OPERATIONS.md`; owner privacy/retention decisions: `docs/INQUIRY-PRIVACY.md`.
+
+- Private Unix-socket CLI supports bounded metadata paging/filtering and one-reference detail readback with separate least-privilege membership, explicit PII acknowledgement and private non-overwritten output. No public GET/detail route, admin UI, actual operator identity/membership, status workflow or notification service created.
+- Separate reader/eraser/backup/restore NOLOGIN capability groups; app still cannot read inquiries. Generated owner configuration split out of the app environment. Single-ID deletion defaults to dry run, requires exact apply confirmation and refuses active replay mappings; no business retention period or automated inquiry purge selected.
+- Bounded encrypted application-data snapshot/empty-target transactional restore rehearsed on disposable PostgreSQL; no production/PITR/backup-policy claim. Read-only migration verification/unknown-history guard and atomic temporary-state cleanup added. Existing migrations/data contract preserved.
+- **PASS:** 14 focused actual-PostgreSQL operations tests, 111 unit tests/10 files, 40 real PostgreSQL/DOM/production-HTTP tests/4 files, lint/typecheck/build, fixture log-privacy/whitespace checks, local startup/restart/private credential separation/clean shutdown. Initial fixture SQL/grant issues corrected. All test servers stopped and disposable data removed; no persistent development inquiry rows inspected/deleted.
+- Exact Origin, loopback alias limitations, signed ingress/clock/key boundary, IPv4/mapped IPv6/native /64, rate limits, expiry and safe failure handling reviewed; added strict Origin/Fetch Metadata and signed-clock boundary coverage. Actual proxy/trusted-chain, logging/load controls, scheduler, backup-key custody, erasure/restore reconciliation, D5/D6, native browser and hosted CI remain open release gates. ECHO-208/209/210 checkboxes intentionally stay open.
+- **Stop after P2-B2.** Recommended next product milestone after separate authorization: P4/ECHO-401, with owner-backed contacts/projects/team/policy dependencies and parallel outstanding browser/hosted evidence. No P4 started.
+
+## P3 — Faithful homepage reconstruction and completion (executes before P2)
+**Goal:** Reconstruct and truthfully populate the approved HTML homepage, preserving composition and visual identity, not redesigning it.
+**Exit gate:** Actual reference/implementation comparison at mobile and desktop, functional inquiry backed by P2, truthful content and working CTAs. Layout implementation can precede browser evidence and persistence; keep affected tasks partial until all criteria pass.
+
+- [ ] **ECHO-301 [P3]** Reconstruct the approved hero, technical visual, hierarchy and CTA proportions; make only necessary truthful/localized copy corrections. Primary CTA -> existing homepage inquiry section, secondary -> existing concepts/work section until real detail pages exist. **Accept:** faithful composition, valid destinations and understandable positioning; record deviations, never invent claims.
 - [ ] **ECHO-302 [P3]** Implement service pillar section aligned to 3 categories and 7+ discoverable sub-services. **Accept:** no misleading blanket claim; navigation leads to details.
-- [ ] **ECHO-303 [P3]** Build featured project section with data-driven cards and true `client/internal/concept` labels. **Accept:** every published card links to a valid detail or explicitly says 'coming soon' without pretending.
+- [ ] **ECHO-303 [P3]** Reconstruct existing demo/work composition and card treatments using typed content and true `client/internal/concept` labels; do not substitute a new featured-work layout. **Accept:** every published card has a valid destination or is clearly noninteractive; concept visuals/results are not presented as deployed client proof.
 - [ ] **ECHO-304 [P3]** Improve trust/benefits section with tangible process facts rather than fabricated metrics. **Accept:** each claim has approved supporting fact or is removed.
 - [ ] **ECHO-305 [P3]** Refine six-stage process for readable, realistic buyer-facing copy. **Accept:** coherent process on mobile and desktop; no unsupported SLAs.
-- [ ] **ECHO-306 [P3]** Assemble homepage CTA, compact footer, links, and repeated form entry points using one canonical form implementation. **Accept:** all main interactions have destinations and accessible labels.
-- [ ] **ECHO-307 [P3]** Rework hero motion/canvas to a progressive-enhancement effect or static graphic; respect reduced motion. **Accept:** user navigation never depends on animation; performance budget not compromised.
+- [ ] **ECHO-306 [P3]** Reconstruct baseline inquiry CTA/form composition, header/footer and section links; retain compatible accessible navigation/theme logic. Use one canonical form implementation, wired during P2/ECHO-205. **Accept:** reference-faithful presentation, real destinations/labels and durable submission path. Before P2, visibly identify inquiry as unavailable and disable submission; no fake success or collection without persistence. Remains partial until wired and verified.
+- [ ] **ECHO-307 [P3]** Preserve baseline technical artwork and interaction character with bounded progressive enhancement or faithful static fallback; honor reduced motion. **Accept:** no animation-dependent navigation/content, no unrelated replacement artwork, performance budget not compromised.
 - [ ] **ECHO-308 [P3]** Review 320/375/768/1024/1440px screenshots, keyboard tab order, text zoom, light/dark. **Accept:** no unintended overflow, clipped content or overlay trapping CTA.
+
+### ECHO-301–307 implementation evidence — 2026-11-07
+
+**PARTIAL acceptance; homepage implementation delivered.** Checkboxes remain unchecked because actual browser/mobile/reference comparison has not occurred; ECHO-306 also requires durable P2 submission. Exact mapping, deviations, changed files and evidence: `docs/P3-HOMEPAGE.md`.
+
+- Reconstructed all six original sections: hero/runtime artwork and four capability cards, three service pillars with 12 discoverable sub-services and real inline scope details, three explicitly labeled static concepts, four benefits, six-stage ordered process, inquiry/form composition. Reconstructed header/footer/section rail; retained locale/theme/modal navigation infrastructure and original SVG brand mark.
+- Typed FA/EN/AR homepage content and RTL-safe responsive styles. No client evidence, metrics, certification, SLA, ROI, response-time or unverified contact claim promoted to fact. Proposed collaboration process labeled as such. Static network/orbits/scan fallback retains technical artwork without continuous animation; reduced-motion-safe progressive hover/scroll only. No new dependencies.
+- One canonical inquiry presentation, prominently unavailable, all controls disabled, no payload names, submission handler, endpoint or success state. No P2/API/DB/new pages/deployment work performed.
+- **PASS:** final lint, typecheck, **55 tests / 6 files**, production build, owned loopback HTTP locale/dir/hero/section/concept/form/theme/redirect/404 checks (server stopped), immutable ZIP/reference verification and diff whitespace review. Focused tests also passed; modeled glass contrast is not a browser pixel audit.
+- Supplied 442×1600 screenshot inspected alongside source, but **no rendered implementation screenshots/comparison**, native keyboard/zoom/320px checks or performance audit. No installed browser executable found; no download attempted. ECHO-003/109/308 and existing shell browser gates remain open. Native copy review remains pending.
+- Next recommended implementation: **ECHO-201/202/203**, then remaining P2, separately authorized. This batch stops at ECHO-301–307; no task checkbox completion or production readiness inferred.
+
+### Visual fidelity Batch 2 — technical backdrop animation — 2026-11-10
+
+**PARTIAL; implementation/local verification complete, browser visual/performance acceptance pending.** Full analysis, reuse/adaptation decisions and evidence: `docs/BATCH2-BACKDROP.md`.
+
+- Restored the approved `code.html` neural canvas: reference particle count, sizes, velocity, pulse, scroll drift, pointer repulsion, `125px` connection/`150px` pointer thresholds, alpha curves, coral/charcoal colors, opacity and fixed layering. The existing static SVG remains the server/no-JS/reduced-motion/compact/coarse-pointer fallback.
+- Added one guarded rAF loop, hidden-document pause/resume, resize coalescing and particle preservation, DPR cap and change watch, complete listener teardown, squared-distance rejection and hoisted canvas styles. No new dependency, React state per frame, header/footer, homepage structure, inquiry, Services/Work or localization change.
+- **PASS:** lint, typecheck, **148 tests / 16 files**, production build (22 static pages), production HTTP locale/route/link/fallback checks, original reference integrity and `git diff --check`. Temporary HTTP server stopped. **No browser executable**, so no screenshots, FPS/CPU measurement, contrast pass or native visual approval is claimed; ECHO-307/308 and ECHO-003/109 remain unchecked.
+- Next Batch 3 (glass/typography/concept-card fidelity) requires separate owner authorization and browser evidence; it was not started.
+
+### Visual fidelity Batch 3 — homepage glass, typography and concept details — 2026-11-11
+
+**PARTIAL; implementation/local verification complete, browser visual/theme/RTL/rail acceptance pending.** Details, deviations and QA checks: `docs/BATCH3-VISUAL-DETAILS.md`.
+
+- Restored the reference liquid-glass model (28% light / 35% dark, `blur(4px) saturate(140%)`, coral-tinted borders/shadows) with an opaque fallback, hero 2.25/3/3.75rem scale and translucent secondary CTA material, eyebrow dots, per-concept localized badges/accents and honest preview telemetry, 12px card copy, inquiry panel proportions and the dark right-side rail pill. Hover elevation is progressive and reduced motion removes transitions; no animation library.
+- Preserved darker accessible action tokens instead of the failing source white-on-coral; kept technical placeholders (`*_PREVIEW`, em-dash telemetry) instead of source versions/capacity/HIPAA/SLA claims. Rail remains hidden below 1024px with 44px targets; no scroll-spy. Header/Footer, canvas, section order, inquiry contract, Services/Work content, API/DB/security and deployment were not changed. `.home-glass` is shared with Services/Work/details, so those surfaces need browser regression review.
+- **PASS:** lint, typecheck, **154 tests / 17 files**, production build (22 static pages), production HTTP locale/route/preview/fake-metric/link/API/404 checks (loopback server stopped), reference integrity and `git diff --check`. **No browser executable**; no screenshots, rendered glass/RTL/zoom/rail-overlap, FPS/GPU or native interaction acceptance is claimed. ECHO-301/303/306/307/308 and ECHO-003/109 remain unchecked; ECHO-306 still needs the durable browser inquiry path.
 
 ## P4 — Conversion and trust pages
 **Goal:** Visitors can investigate team and actual work before submitting a project.  
@@ -156,6 +219,40 @@ Next: human-controlled publication/hosted validation of ECHO-103; then authorize
 - [ ] **ECHO-405 [P4]** `/contact`: clear approved channels, shared real inquiry form, response expectation only if accurate. **Accept:** no nonfunctional handle/address.
 - [ ] **ECHO-406 [P4]** `/privacy`: accurate disclosure about stored fields, purpose, retention, protection, contact rights, vendors/analytics; owner/legal review. **Accept:** mirrors real implemented behavior; mark blocker if policy unapproved.
 - [ ] **ECHO-407 [P4]** Complete link, asset, and content evidence audit including example metrics, screenshots and company names. **Accept:** no false production claims or broken primary links.
+
+### ECHO-401 implementation evidence — 2026-11-08
+
+**PARTIAL acceptance; services implementation delivered.** `/fa/services`, `/en/services`, `/ar/services` render outcome-first descriptions of three pillars, 12 nested sub-services, possible deliverables, explicitly illustrative examples, exclusions and an inquiry CTA per pillar. Header/no-script/mobile navigation, shared reference-style footer and homepage service-detail links reach implemented destinations; locale switching retains `/services`. Existing inquiry implementation unchanged; no ECHO-402–407 pages implemented.
+
+- **PASS:** lint, typecheck, **116 unit tests / 11 files**, production build (all three services routes prerendered), production HTTP locale/direction/metadata/link/404/homepage checks, **40 disposable PostgreSQL integration tests / 4 files** including actual production inquiry HTTP persistence, replay and failure paths. Temporary servers/cluster stopped; synthetic data removed. These fixtures are not browser E2E evidence.
+- Browser launch attempted with installed temporary Playwright and Chromium sandbox enabled: executable missing. No install/download or security changes. **Outstanding:** rendered reference/theme/320–1440px/zoom comparison, native keyboard and native-language review. Checkbox remains open under the UI definition of done; no production readiness implied.
+- Design mapping, content assumptions and exact changed-file list: `docs/P4-SERVICES.md`. Next recommended task: **ECHO-402**, separately authorized; this batch stops at ECHO-401.
+
+### ECHO-402 implementation evidence — 2026-11-08
+
+**PARTIAL acceptance; grouped work list implementation delivered.** `/fa/work`, `/en/work`, `/ar/work` render localized client/internal/concept groups with native jump links. No approved client/internal records are available, so honest empty states replace invented proof. Three existing homepage interface studies are visibly labeled concept/static preview; stack tags are explicitly possible implementation choices. Named CTAs reach the existing homepage inquiry; static previews link to the existing homepage gallery. No unbuilt detail route or fabricated live/source/result link; ECHO-403 not started.
+
+- **PASS:** lint, typecheck, **121 unit tests / 12 files**, production build (three work routes prerendered), production HTTP locale/direction/metadata/groups/link/404/homepage/services/theme checks, original reference ZIP/hash/CRC/copy integrity, `git diff --check`. Owned temporary loopback server stopped. DB integration not run: no DB/API/inquiry contract changes and no persistence acceptance in ECHO-402.
+- Header desktop/mobile/no-script and shared footer expose `/work`; locale switching preserves it. No homepage/services redesign, new dependencies, backend changes or infrastructure. Existing staged/unstaged work preserved.
+- **Outstanding:** rendered responsive/theme/reference checks, native keyboard/focus/zoom/screen-reader checks and owner/native copy review. Browser not available; no launch/download attempted. Checkbox stays open. Verified project facts/assets/publication permissions are needed before real/internal entries can be published, not to build this list.
+- Exact file list, design mapping, initial test-fixture failure and actual evidence: `docs/P4-WORK.md`. Next recommended task: **ECHO-403**, separately authorized. Stop after ECHO-402.
+
+### ECHO-403 implementation evidence — 2026-11-10
+
+**PARTIAL acceptance; concept details implemented.** Nine static `/{fa,en,ar}/work/{analytics,chat,booking}` pages extend the three existing concepts with localized problem, proposed solution/capabilities, illustrative workflow, unchanged static visual, scope/limitations, honest contribution, possible stack, related service links and existing inquiry CTA. Named listing/back links and shared Header/Footer/theme controls; language switching retains the slug. No client/internal case study, deployment, result or proof link fabricated; unavailable verified results omitted. Inquiry/DB/backend unchanged.
+
+- **PASS:** lint, typecheck, **125 unit tests / 13 files**, production build (nine detail routes prerendered), production HTTP locale/direction/metadata/detail/link-target/unknown-slug localized 404 checks plus homepage/services/list/theme/redirect regressions; original reference ZIP/hash/CRC/copy integrity; `git diff --check`. Owned loopback test server stopped. Focused 16 tests / 3 files also pass. No PostgreSQL rerun: no related contracts changed.
+- Reused reference-aligned warm surfaces, glass cards, badges, typography, spacing, buttons and responsive grids; no homepage redesign, dependencies, CMS, backend or deployment. Existing staged/unstaged work preserved. Exact files, decisions and evidence: `docs/P4-WORK-DETAILS.md`.
+- **Outstanding:** actual rendered responsive/theme/reference comparison, keyboard/focus/screen-reader/zoom acceptance and owner/native copy review. No browser launched or downloaded; checkbox stays open and no release sign-off is implied. Real case publication still requires verified evidence and permission.
+- Next recommended P4 task: **ECHO-404**, separately authorized and constrained by approved identity facts. This batch stops after ECHO-403.
+
+### Consolidated UI/UX review — 2026-11-10
+
+**PARTIAL review / browser acceptance BLOCKED.** ECHO-003, 105/107/108, 301–307 and 401–403 reviewed at source/fixture/HTTP level; no additional checkbox closed. Supplied original PNG inspected, not a new browser capture. No local browser executable or Fedora remote-control tool available; no downloads/security/network changes. Owner Firefox capture/keyboard/theme/zoom/console packet and source-observed reference differences: `docs/UI-UX-REVIEW.md`.
+
+- **Fixed UX-01 (low, ECHO-403):** base CSS suppressed ordered workflow markers. Restored scoped decimal markers and accessible action-color numerals; new regression test failed before the fix and passes after. Rendered RTL marker placement still pending. No redesign, new pages or inquiry/backend changes.
+- **PASS:** lint, typecheck, **63 focused tests / 8 files**, production build, localized HTTP routes/link-targets/404/theme-init/preview regressions, original reference integrity and diff whitespace. Temporary HTTP server stopped. Full unit suite/DB integration not repeated for this CSS-only fix. No browser console, native keyboard, responsive, zoom or visual fidelity pass claimed.
+- Next evidence milestone: owner-side Firefox review and targeted remediation; next separately authorized product task remains ECHO-404 with approved identity facts. This review stops here.
 
 ## P5 — Full trilingual product, not a language toggle mock
 **Goal:** Every required route and transaction is good in Persian, English and Arabic.  
@@ -240,7 +337,11 @@ Next recommended task: ECHO-yyy
 
 ## Immediate execution order
 
-1. ECHO-001 through ECHO-006 (source audit, product truth, visual baseline).
-2. ECHO-101 through ECHO-109 (app shell, locale routes, brand tokens, CI).
-3. ECHO-201 through ECHO-210 (working form and database).
-4. Continue P3–P7, with real content and owner decision gates when necessary.
+**Current position (2026-11-07):** homepage and P2-A/B1/B2 implementation delivered; owner/deployment/browser/hosted gates remain above. Next recommended product batch is **P4/ECHO-401**, separately authorized and constrained by owner facts; no P4 or launch is authorized automatically. The original sequence below is historical delivery context, not a request to repeat completed implementation.
+
+1. **Next Developer batch — faithful homepage:** ECHO-301/302/303 reconstruct hero/technical visual, capability strip, service pillars and concept/work composition; then ECHO-304/305/306 presentation/307 populate benefits/process, baseline header/footer and inquiry region, bounded artwork behavior. These are focused increments within one homepage milestone, not a design-system project. Reuse locale/theme/menu logic; adjust presentation only for fidelity or targeted fixes. No new pages/API/DB in this batch. Use section components, local assets/build-time CSS and typed locale content; retain all three routes and honest concept labels. Preserve inquiry location/proportions, visibly disable submission until P2, and make CTA scroll to that clearly unavailable section. Never copy fake success, contacts, metrics or unsupported claims. Run lint/type/unit/build/HTTP checks, log deviations; browser criteria remain partial. ECHO-109 compares this work, not an alternative preview design.
+2. **Immediately following — real inquiry milestone:** ECHO-201/202/203 (disposable PostgreSQL, migrations/constraints, shared Unicode-aware validation), then ECHO-204/205/206/207 (durable endpoint + canonical localized homepage form, origin/size/abuse/idempotency protection), then ECHO-208/210 (restricted readback, integration/concurrency/failure tests, browser-to-DB evidence when available). These are sequential sub-batches, not permission to skip safeguards. Reuse the form on the later contact page. ECHO-209 stays optional/disabled without an approved inbox. Finish ECHO-306 conversion acceptance here; no fake-success interim.
+3. **Remaining product:** ECHO-401–407 real service/work/about/contact/privacy pages → ECHO-501–506 complete FA/EN/AR content/native review → P6/P7 hardening/release. Basic localization/accessibility/security accompany every feature, not a later retrofit.
+4. **Parallel evidence, not a stalled implementation queue:** ECHO-003/105/107/108, ECHO-109/308 comparison/keyboard/zoom and hosted ECHO-103. Existing Fedora browser over localhost-only SSH forwarding is acceptable. No repeated installers/security changes. Keep tasks unchecked until their actual criteria pass; no release with outstanding browser/security/data gates.
+
+No business decision blocks faithful layout implementation: missing publishable facts require omission or explicit concept labeling, not invented content. Usable isolated PostgreSQL tooling is required for DB integration; request approval only if provisioning requires system/host/network changes. D5 blocks operational handoff; D6, verified contacts and hosting approvals block release, not synthetic local development. Significant visual departures require owner approval before implementation.

@@ -1,10 +1,12 @@
 # Echo Devs — Coral & Charcoal
 
-P0 design direction, 2026-11-04. The palette/personality are accepted in SCOPE; final logo, copy and rendered previews still need owner approval (D7). This is not a claim of browser-tested design approval.
+Owner clarification, 2026-11-05: **original `code.html` is the APPROVED UI BASELINE**, not inspiration. `design/reference/code.html` preserves it unchanged; the supplied screenshot supplements it. Approval of the design is not evidence that a reconstructed implementation has passed browser QA. This document guides faithful migration, not a replacement design system.
 
 ## Preserve and refine
 
-Keep the prototype's warm surfaces, coral highlights, restrained rounded cards, generous whitespace, benefit-led hero plus technical visual, three service pillars, work, benefits, six-step process and inquiry CTA. Use selective technical character, not an always-moving dashboard. Prefer distinct section hierarchy over repeating glass cards everywhere.
+Preserve the HTML's overall layout/hierarchy, section composition, warm surfaces/coral highlights, typography, spacing/proportions, card/glass treatments, hero technical visual, primary/secondary CTAs, capability strip, service pillars, concepts/work, benefits, six-step process and inquiry/footer. Preserve its interaction character where compatible with accessibility and performance. Do not replace these with a new visual concept or generic card system.
+
+Only targeted accessibility, responsive, functional, consistency and demonstrable usability fixes are authorized. Record source-to-component deviations with reasons; seek approval for significant visual changes. Existing opaque tokens/shared components are implementation tools, not a replacement baseline: adapt them narrowly where faithful sections require it. Contrast must be checked over actual translucent surfaces. No new UI framework or token expansion without a concrete feature need.
 
 The old Sahara/sienna/EB Garamond direction is superseded, not combined with this system. Its exact source is preserved in `design/reference/DESIGN.sahara.md`. The unmodified prototype is `design/reference/code.html`; do not ship either reference in `public/`.
 
@@ -32,9 +34,9 @@ These are starting pairs, not a full accessibility pass. Decorative borders cann
 - Logical CSS properties; `fa/ar` RTL, `en` LTR. Isolate email/phone/code using `dir="ltr"`/`bdi`. Never letter-space connected Arabic/Persian text.
 - Stable header height, no hover expansion. Keep all routes reachable through a keyboard-operable mobile menu. Visible focus, skip link, ~44px touch targets; anchors clear the header.
 - One canonical form; associated labels, field descriptions/errors, pending and accessible result states. Never claim submission success without committed storage.
-- Default hero art can be static. If retained, decorative effects must honor reduced motion, stop when hidden and have bounded cost. No motion-dependent content.
+- Preserve the hero artwork/composition. A static rendering of the same technical visual is an allowed reduced-motion/performance fallback, not permission for unrelated replacement art. Decorative effects must honor reduced motion, stop when hidden and have bounded cost. No motion-dependent content.
 - Preview both themes and all locales at 320/375/768/1024/1440px and 200% zoom/reflow. No screenshot or responsive result exists yet.
 
 ## Identity deliverables (not yet created)
 
-Owner-approved distinguishable mark rather than the hamburger-like current symbol; horizontal wordmark, icon-only, light/dark, monochrome, small-size favicon and social image variants. No speculative customer logos, team portraits or compliance badges. Actual work visuals require provenance and publication permission.
+Preserve the approved baseline mark/wordmark pending any explicitly approved replacement. Horizontal, icon-only, light/dark, monochrome, favicon and social variants must remain consistent. No speculative customer logos, team portraits or compliance badges. Actual work visuals require provenance and publication permission.

@@ -5,7 +5,9 @@
 ## Product contract
 - Read `SCOPE.md` and `ROADMAP.md` before planning or editing.
 - `SCOPE.md` defines what is in and out. `ROADMAP.md` contains task IDs, dependency order and acceptance criteria.
-- The uploaded prototype is a visual reference, not a production architecture or a source of factual claims.
+- The original `code.html` (immutable copy: `design/reference/code.html`) is the **owner-approved authoritative UI baseline**, not inspiration for a redesign. Preserve its layout, hierarchy, sections, hero/CTAs, typography, spacing, proportions, card treatments and interaction character as closely as practical. It is not authority for production architecture, factual claims or unsafe behavior.
+- Allow targeted accessibility, responsiveness, functionality, consistency and demonstrated usability fixes. Significant visual departures require explicit owner approval; existing foundation components are not permission to replace the approved design.
+- Delivery order: faithful homepage reconstruction/population → real inquiry/PostgreSQL vertical slice → remaining pages → complete FA/EN/AR content → production hardening/release. Reuse compatible locale/theme/accessibility infrastructure; expand primitives only for an actual feature requirement.
 - Never invent project wins, customers, member profiles, metrics, certifications, contacts, quotes, legal terms, domain ownership or operational capability.
 - Keep visible proof and copy honest; distinguish Client, Internal and Concept work.
 - Languages fa/en/ar and mobile usability are first-class requirements, not final polish.
@@ -37,5 +39,6 @@
 
 ## Verification and stopping conditions
 - Don't mark a task done if test failed or wasn't run; use PARTIAL/BLOCKED and explain.
+- Missing VM Chromium does not block non-browser-dependent implementation. Keep ECHO-003 and browser acceptance open, use owner-side Fedora browser checks through an existing localhost-only SSH tunnel when needed, and require actual visual evidence before production release. Do not repeatedly install/download browser tooling or weaken isolation.
 - Halt operations that could destroy real data, publish PII, cause costs, or launch to real users until explicit approval.
 - Keep each session focused; progress should be auditable from changed-file reports, checklist and test evidence. Human-created commits may supplement this evidence; they are never a task completion requirement.

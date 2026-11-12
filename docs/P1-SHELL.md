@@ -1,5 +1,12 @@
 # ECHO-107/108 and deferred ECHO-105 Header
 
+**Current handoff override, 2026-11-05:** this is implementation evidence, not
+the next delivery order. The owner approved original `code.html` as the UI
+baseline and authorized faithful homepage reconstruction before the immediate
+inquiry/PostgreSQL slice. Existing shell presentation is not a replacement visual
+target. Preserve its compatible behavior; browser gaps below remain acceptance/
+release gates, not implementation blockers. Follow ROADMAP's immediate batches.
+
 Date: 2026-11-05. Status: **implementation/local verification complete;
 acceptance partial**. ECHO-105 remains partial as requested. ECHO-107/108 also
 remain unchecked because browser reload/paint and 320px keyboard acceptance have
@@ -140,5 +147,7 @@ deployment, network/host configuration or Git publication operations.
 
 Suggested human commit: `feat(ECHO-107,ECHO-108): add theme modes and accessible header`
 
-Next recommended batch: browser acceptance/reference evidence, then ECHO-109
-focused design preview (not a full homepage).
+Next recommended batch: faithful homepage reconstruction/population (ECHO-301–307),
+then immediately the real inquiry/PostgreSQL milestone (ECHO-201–210). ECHO-109
+compares the reconstruction; browser/reference evidence proceeds alongside work
+and remains mandatory before release. No new UI infrastructure project.
