@@ -63,13 +63,13 @@ export function InquiryForm({ content: t, locale, copy, label, sourcePage = `/${
     </div>}
     <fieldset disabled={!ready || locked}><legend>{copy.intro}</legend>
       <div className="inquiry-fields">
-        <Field id="inquiry-fullName" name="fullName" dir="auto" label={t.fields.name} autoComplete="name" maxLength={120} required requiredIndicator={copy.requiredField} error={error("fullName")} />
+        <Field id="inquiry-fullName" name="fullName" label={t.fields.name} autoComplete="name" maxLength={120} required requiredIndicator={copy.requiredField} error={error("fullName")} />
         <Field id="inquiry-email" name="email" type="email" dir="ltr" label={copy.email} aria-describedby="inquiry-help" autoComplete="email" maxLength={254} error={error("email")} />
         <Field id="inquiry-phone" name="phone" type="tel" dir="ltr" label={copy.phone} aria-describedby="inquiry-help" autoComplete="tel" maxLength={80} error={error("phone")} />
         <div className="ui-field"><label htmlFor="inquiry-service">{t.fields.service}</label><select id="inquiry-service" name="service" defaultValue="not_sure" className="ui-field-control" aria-invalid={!!fields.service} aria-describedby={fields.service ? "inquiry-service-error" : undefined}>{services.map((value, i) => <option key={value} value={value}>{copy.serviceLabels[i]}</option>)}</select>{fields.service && <p id="inquiry-service-error" className="ui-field-error">{error("service")}</p>}</div>
         <Field id="inquiry-timeline" name="timeline" label={t.fields.timeline} maxLength={120} error={error("timeline")} />
       </div>
-      <Field id="inquiry-description" name="description" dir="auto" label={t.fields.description} description={copy.descriptionHint} multiline rows={3} minLength={20} maxLength={5000} required requiredIndicator={copy.requiredField} error={error("description")} />
+      <Field id="inquiry-description" name="description" label={t.fields.description} description={copy.descriptionHint} multiline rows={3} minLength={20} maxLength={5000} required requiredIndicator={copy.requiredField} error={error("description")} />
       <div hidden aria-hidden="true"><label htmlFor="inquiry-website">Website</label><input id="inquiry-website" name="website" tabIndex={-1} autoComplete="off" /></div>
     </fieldset>
     <div ref={status} tabIndex={-1} className="inquiry-status" role="status" aria-live="polite" aria-atomic="true">

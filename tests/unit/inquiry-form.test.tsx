@@ -25,6 +25,12 @@ it.each(locales)("submits localized %s form, announces confirmation and retains 
     expect(control.getAttribute("tabindex")).not.toBe("-1");
   }
   expect(host.querySelector('[name="email"]')?.getAttribute("dir")).toBe("ltr");
+  expect(host.querySelector('[name="phone"]')?.getAttribute("dir")).toBe("ltr");
+  // Localized text fields must inherit the document direction so an empty
+  // Persian/Arabic field does not resolve to LTR via dir="auto".
+  for (const name of ["fullName", "timeline", "description"]) {
+    expect(host.querySelector(`[name="${name}"]`)?.hasAttribute("dir")).toBe(false);
+  }
   expect(host.querySelector(`form a[href="/${locale}/privacy"]`)?.textContent).toBe(inquiryCopy[locale].privacy);
   fill(); await submit();
   expect(fetcher).toHaveBeenCalledTimes(1);

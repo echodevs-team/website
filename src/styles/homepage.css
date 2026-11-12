@@ -118,8 +118,10 @@
 .sample-bars span { flex: 1; background: var(--color-brand); border-radius: .25rem .25rem 0 0; }
 .sample-caption { font-size: .6875rem; line-height: 1.6; }
 .sample-chat { display: grid; gap: .5rem; }
-.sample-chat p { padding: .5rem; background: var(--color-surface); font-size: .6875rem; border-radius: .5rem .5rem 0 .5rem; max-inline-size: 85%; }
-.sample-chat p + p { justify-self: end; background: color-mix(in srgb, var(--color-brand) 15%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-brand) 30%, transparent); border-radius: .5rem .5rem .5rem 0; }
+.sample-chat p { padding: .5rem; background: var(--color-surface); font-size: .6875rem; max-inline-size: 85%;
+  border-start-start-radius: .5rem; border-start-end-radius: .5rem; border-end-start-radius: .5rem; border-end-end-radius: 0; }
+.sample-chat p + p { justify-self: end; background: color-mix(in srgb, var(--color-brand) 15%, var(--color-surface)); border: 1px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
+  border-end-start-radius: 0; border-end-end-radius: .5rem; }
 .sample-booking { display: grid; gap: .5rem; }
 .sample-booking p { display: flex; align-items: center; justify-content: space-between; gap: .5rem; border-radius: .5rem; background: var(--color-surface); padding: .5rem; font-size: .75rem; }
 .sample-booking p > span:first-child { min-inline-size: 0; }
