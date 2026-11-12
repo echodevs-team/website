@@ -59,7 +59,7 @@ describe("localized header", () => {
     expect(host.querySelector("header")).not.toBeNull();
     expect(host.textContent).toContain(t.Header.services);
     expect(host.querySelectorAll(".desktop-navigation .primary-links a")).toHaveLength(6);
-    for (const a of host.querySelectorAll("a")) expect(a.getAttribute("href")).toMatch(/^\/(fa|en|ar)(\/(services|work)|#(hero|demos|why-us|process|contact))?$/);
+    for (const a of host.querySelectorAll("a")) expect(a.getAttribute("href")).toMatch(/^\/(fa|en|ar)(\/(about|services|work)|#(hero|demos|why-us|process|contact))?$/);
     for (const target of locales) {
       expect(host.querySelector(`a[href="/${target}"][hreflang="${target}"]`)?.textContent).toBeTruthy();
     }
@@ -71,6 +71,11 @@ describe("localized header", () => {
     await mount(<Header locale="fa" path="/services" />);
     expect(host.querySelector('a[hreflang="en"]')?.getAttribute("href")).toBe("/en/services");
     expect(host.querySelector('.primary-links a[href="/fa/services"]')?.getAttribute("aria-current")).toBe("page");
+  });
+  it("marks About as the current destination and keeps it in the mobile menu", async () => {
+    await mount(<Header locale="en" path="/about" />);
+    expect(host.querySelectorAll('.primary-links a[href="/en/about"][aria-current="page"]')).toHaveLength(2);
+    expect(host.querySelector('a[hreflang="ar"]')?.getAttribute("href")).toBe("/ar/about");
   });
   it("hydrates the complete header without recoverable mismatches", async () => {
     const node = <Header locale="ar" />;

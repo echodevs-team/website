@@ -254,6 +254,15 @@ Next: human-controlled publication/hosted validation of ECHO-103; then authorize
 - **PASS:** lint, typecheck, **63 focused tests / 8 files**, production build, localized HTTP routes/link-targets/404/theme-init/preview regressions, original reference integrity and diff whitespace. Temporary HTTP server stopped. Full unit suite/DB integration not repeated for this CSS-only fix. No browser console, native keyboard, responsive, zoom or visual fidelity pass claimed.
 - Next evidence milestone: owner-side Firefox review and targeted remediation; next separately authorized product task remains ECHO-404 with approved identity facts. This review stops here.
 
+### ECHO-404 implementation evidence — 2026-11-12
+
+**PARTIAL acceptance; localized About/Team implemented.** `/fa/about`, `/en/about`, `/ar/about` render seven sections: collective team identity, capabilities, working principles, requirement discovery, a four-stage delivery path and client collaboration, plus a next-step panel. Profile notes and company-fact notes explicitly state that individual names/biographies/photos, founding date, office, registration and delivery statistics are not published because they are unverified. No individual member, client, metric, certification, guarantee or response-time claim was invented. Capabilities link to implemented service anchors; the final panel links to `/services`, `/work` and the existing localized homepage `#contact` inquiry. No form/API/DB/validation change.
+
+- **PASS:** lint, typecheck, **169 unit tests / 19 files**, production build (three About routes statically generated), production HTTP locale/direction/metadata/section/link-target/unknown-locale-404 checks plus homepage/services/work/theme/redirect regressions; original reference ZIP/hash/CRC/copy integrity; `git diff --check`. Owned loopback test server stopped. Focused 45 tests / 6 files also pass. PostgreSQL rerun not required: no related contract changed.
+- Header desktop/mobile/no-script navigation now marks About as implemented and current; the shared footer adds an About link in its status row. Language switching preserves `/about`. Reused approved section/glass/type/token language with one narrow `about.css`; no redesign, dependency, CMS or deployment. Existing files preserved; exact evidence and file list: `docs/P4-ABOUT.md`.
+- **Outstanding:** actual rendered responsive/theme/reference comparison, native keyboard/focus/screen-reader/200% zoom checks and owner/native copy review (collective-identity wording and unpublished-profile statements). No browser launched or downloaded; checkbox stays open; no release sign-off implied.
+- Next recommended P4 task: **ECHO-405 `/contact`**, separately authorized. This batch stops after ECHO-404.
+
 ## P5 — Full trilingual product, not a language toggle mock
 **Goal:** Every required route and transaction is good in Persian, English and Arabic.  
 **Exit gate:** Language matrix complete; no wrong direction, missing dictionary keys, fake translations or SEO gaps.

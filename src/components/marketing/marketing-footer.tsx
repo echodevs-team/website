@@ -13,7 +13,8 @@ export function MarketingFooter({ locale, onHome = false }: { locale: Locale; on
   const t = homeContent[locale];
   const chrome = chromeContent[locale];
   const services = servicesContent[locale];
-  const foundation = getMessages(locale).Foundation;  const home = onHome ? "" : localePath(locale);
+  const { Foundation: foundation, Header: nav } = getMessages(locale);
+  const home = onHome ? "" : localePath(locale);
   const servicesPath = localePath(locale, "/services");
   return <Footer className="home-footer"><div className="footer-columns">
     <div className="footer-intro">
@@ -38,6 +39,9 @@ export function MarketingFooter({ locale, onHome = false }: { locale: Locale; on
     </div>
   </div><div className="footer-bottom">
     <p><bdi lang="en">Echo Devs</bdi> · {foundation.preview}</p>
-    <Link href={`${home}#hero`}>{t.backTop} ↑</Link>
+    <div className="footer-bottom-links">
+      <Link href={localePath(locale, "/about")}>{nav.about}</Link>
+      <Link href={`${home}#hero`}>{t.backTop} ↑</Link>
+    </div>
   </div></Footer>;
 }

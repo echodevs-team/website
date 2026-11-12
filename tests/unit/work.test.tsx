@@ -57,7 +57,7 @@ describe("ECHO-402 grouped work list", () => {
     for (const node of host.querySelectorAll("[aria-labelledby]")) expect(host.querySelector(`[id="${node.getAttribute("aria-labelledby")}"]`)).not.toBeNull();
     for (const link of host.querySelectorAll("a")) {
       const href = link.getAttribute("href")!;
-      expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(services|work)(\/(analytics|chat|booking))?($|#)|#|$))/);
+      expect(href).toMatch(/^(#|\/(fa|en|ar)(\/(about|services|work)(\/(analytics|chat|booking))?($|#)|#|$))/);
       if (href.startsWith("#")) expect(host.querySelector(`[id="${href.slice(1)}"]`)).not.toBeNull();
       else if (href.includes("#")) {
         const [pathname, id] = href.split("#");

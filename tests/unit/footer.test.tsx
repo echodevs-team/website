@@ -57,7 +57,7 @@ describe("reference footer composition", () => {
     expect(host.querySelector(`a[href="/${locale}#hero"]`)).not.toBeNull();
     for (const link of host.querySelectorAll("a")) {
       const href = link.getAttribute("href")!;
-      expect(href).toMatch(/^\/(fa|en|ar)(\/(services|work)(#[a-z]+)?|#[a-z-]+)?$/);
+      expect(href).toMatch(/^\/(fa|en|ar)(\/(about|services|work)(#[a-z]+)?|#[a-z-]+)?$/);
     }
     const ids = [...host.querySelectorAll("[id]")].map((node) => node.id);
     expect(new Set(ids).size).toBe(ids.length);

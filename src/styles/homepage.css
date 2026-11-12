@@ -183,6 +183,8 @@
 .footer-contact-link { display: inline-flex; align-items: center; gap: .5rem; min-block-size: var(--target-size); color: var(--color-action); font-weight: var(--weight-medium); }
 .footer-bottom { margin-block-start: 2.5rem; border-block-start: 1px solid var(--color-border); padding-block-start: 1.25rem; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; color: var(--color-muted); font: .7rem/1.8 var(--font-mono); }
 .footer-bottom p { margin: 0; }
+.footer-bottom-links { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1rem; }
+.footer-bottom-links a { display: inline-flex; align-items: center; min-block-size: var(--target-size); }
 .section-rail { display: none; }
 @media (min-width: 40rem) {
   .hero-copy h1 { font-size: 3rem; }

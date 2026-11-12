@@ -23,7 +23,7 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
         <li><Link href={`${homePath}#hero`} aria-current={path === "/" ? "page" : undefined}>{t.home}</Link></li>
         <li><Link href={localePath(locale, "/services")} aria-current={path === "/services" ? "page" : undefined}>{t.services}</Link></li>
         <li><Link href={localePath(locale, "/work")} aria-current={path === "/work" ? "page" : undefined}>{t.work}</Link></li>
-        <li><Link href={`${homePath}#why-us`}>{t.about}</Link></li>
+        <li><Link href={localePath(locale, "/about")} aria-current={path === "/about" ? "page" : undefined}>{t.about}</Link></li>
         <li><Link href={`${homePath}#process`}>{home.processLabel}</Link></li>
         <li><Link href={`${homePath}#contact`}>{t.contact}</Link></li>
       </ul>
@@ -56,8 +56,8 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
     </Container>
     <noscript><Container className="no-script-navigation">
       <nav aria-label={t.primary}><ul className="primary-links">
-        {([["hero", t.home], ["services", t.services], ["work", t.work], ["why-us", t.about], ["process", home.processLabel], ["contact", t.contact]] as const).map(([id, label]) =>
-          <li key={id}><Link href={id === "services" || id === "work" ? localePath(locale, `/${id}`) : `${homePath}#${id}`}>{label}</Link></li>)}
+        {([[`${homePath}#hero`, t.home], [localePath(locale, "/services"), t.services], [localePath(locale, "/work"), t.work], [localePath(locale, "/about"), t.about], [`${homePath}#process`, home.processLabel], [`${homePath}#contact`, t.contact]] as const).map(([href, label]) =>
+          <li key={href}><Link href={href}>{label}</Link></li>)}
       </ul></nav>
       <nav aria-label={foundation.languages}><ul className="language-links">
         {locales.map((target) => <li key={target}><Link href={localePath(target, path)}

@@ -56,7 +56,8 @@ try {
     assert.match(html, /aria-haspopup="dialog"/);
     assert.ok(html.includes(`href="/${locale}/services"`), "Services is implemented and discoverable");
     assert.ok(html.includes(`href="/${locale}/work"`), "Work is implemented and discoverable");
-    for (const path of ["about", "contact", "privacy"]) {
+    assert.ok(html.includes(`href="/${locale}/about"`), "About is implemented and discoverable");
+    for (const path of ["contact", "privacy"]) {
       assert.ok(!html.includes(`href="/${locale}/${path}"`), "Unbuilt pages must not be fake links");
     }
     assert.match(html, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
@@ -108,6 +109,27 @@ try {
     assert.ok(services.includes(`href="/${locale}#contact"`));
     assert.ok(!services.includes("<form"));
     console.log(`PASS /${locale}/services: localized route, metadata, three pillars, equivalent locale links, existing inquiry destination`);
+
+    const aboutResponse = await request(`/${locale}/about`);
+    assert.equal(aboutResponse.status, 200);
+    const about = await aboutResponse.text();
+    const aboutTitle = { fa: "تیمی جمعی برای ساخت نرم‌افزار سنجیده", en: "A collective team for considered software", ar: "فريق جماعي لبناء برمجيات مدروسة" }[locale];
+    assert.match(about, new RegExp(`<html[^>]*lang="${locale}"[^>]*dir="${dir}"`));
+    assert.ok(about.includes(`<h1 id="about-title">${aboutTitle}</h1>`));
+    assert.ok(about.includes(`<title>${aboutTitle} — Echo Devs</title>`));
+    assert.match(about, /<meta name="description" content="[^"]+"/);
+    assert.match(about, /<meta name="robots" content="noindex, nofollow"/);
+    for (const id of ["about-team", "about-capabilities", "about-principles", "about-discovery", "about-delivery", "about-collaboration", "about-next"]) {
+      assert.ok(about.includes(`id="${id}"`), `${locale} renders ${id}`);
+    }
+    for (const target of ["fa", "en", "ar"]) assert.ok(about.includes(`href="/${target}/about"`));
+    for (const id of ["websites", "software", "ai"]) assert.ok(about.includes(`href="/${locale}/services#${id}"`));
+    for (const id of ["services", "work"]) assert.ok(about.includes(`href="/${locale}/${id}"`));
+    assert.ok(about.includes(`href="/${locale}#contact"`));
+    assert.ok(about.includes('class="site-header"') && about.includes("<footer"));
+    assert.ok(!about.includes("<form"));
+    assert.ok(!/mailto:|https:\/\/|HIPAA|SLA|24\/7/.test(about));
+    console.log(`PASS /${locale}/about: localized team identity, capabilities, principles, collaboration path, implemented destinations`);
 
     const workResponse = await request(`/${locale}/work`);
     assert.equal(workResponse.status, 200);
@@ -212,7 +234,7 @@ try {
   const spoofed = await request("/en/missing", { headers: { "x-echo-locale": "ar" } });
   assert.equal(spoofed.status, 404);
   assert.match(await spoofed.text(), /<html[^>]*lang="en"[^>]*dir="ltr"/);
-  for (const path of ["/fr", "/fr/work", "/fr/work/analytics", "/en/work/missing", "/fr/services", "/en/services/missing", "/fr/missing", "/design/reference/code.html", "/code.html",
+  for (const path of ["/fr", "/fr/work", "/fr/work/analytics", "/en/work/missing", "/fr/services", "/fr/about", "/en/services/missing", "/fr/missing", "/design/reference/code.html", "/code.html",
     "/design/reference/original/cvecho.zip", "/design/reference/original/screen.png", "/.env.example", "/package.json"]) {
     const response = await request(path);
     assert.equal(response.status, 404, path);
