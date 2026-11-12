@@ -1,3 +1,3 @@
-# Database boundary (P2, not implemented)
+# Database boundary (P2-A)
 
-Future PostgreSQL client/schema code is server-only and belongs here; migrations belong in `db/migrations/` when introduced. Never import DB code from Client Components or configure real credentials in source. No DB dependency, schema, connection, migration or inquiry backend exists in this batch.
+`client.ts` is server-only: bounded `pg` pool and timeouts, lazy environment configuration. Versioned SQL lives in `db/migrations/`; transactions/idempotency live in `../inquiries/`. No ORM, public read API or operator UI. Application credentials cannot read stored inquiry fields. See `docs/P2-A.md` for local private-socket setup, roles, migration/cleanup commands, API contract and verification gaps. Never import this module from client components or use real credentials/data in tests.

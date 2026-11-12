@@ -1,3 +1,3 @@
-# Validation boundary (P2, not implemented)
+# Validation boundary (P2-A)
 
-Future pure inquiry schemas and stable error/field codes belong here and may be shared with form code. Server validation remains authoritative. Do not import DB/environment code into these schemas. No inquiry fields, API or schema-validator dependency is implemented in this batch.
+`inquiry.ts` contains the strict pure Zod request schema, normalized input type, stable enums and safe field error codes. It has no environment/DB dependencies and can be reused when the canonical form is wired in P2-B. Server validation is authoritative. See `docs/P2-A.md` for bounds, international phone format rules, response codes and UI requirements. Current homepage controls remain disabled.
