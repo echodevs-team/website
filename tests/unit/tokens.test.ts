@@ -16,6 +16,9 @@ function contrast(a: string, b: string) {
   const values = [luminance(a), luminance(b)].sort((x, y) => y - x);
   return (values[0] + 0.05) / (values[1] + 0.05);
 }
+function mix(a: string, b: string, alpha: number) {
+  return "#" + [1, 3, 5].map((offset) => Math.round(parseInt(a.slice(offset, offset + 2), 16) * alpha + parseInt(b.slice(offset, offset + 2), 16) * (1 - alpha)).toString(16).padStart(2, "0")).join("");
+}
 
 describe.each(["light", "dark"])("%s semantic palette", (theme) => {
   const colors = palette(`[data-theme="${theme}"]`);
@@ -35,6 +38,21 @@ describe.each(["light", "dark"])("%s semantic palette", (theme) => {
       expect(contrast(colors["on-action"], colors[state]), state).toBeGreaterThanOrEqual(4.5);
     }
     expect(contrast(colors["disabled-text"], colors["disabled-background"])).toBeGreaterThanOrEqual(4.5);
+  });
+  it("keeps homepage text readable over modeled glass and preview surfaces", () => {
+    // sRGB compositing approximation, not a rendered-pixel/browser audit.
+    const backdrop = mix(colors.brand, colors.background, .12);
+    const band = mix(colors.surface, backdrop, .18);
+    const fill = theme === "light" ? colors.surface : colors.background;
+    const alpha = theme === "light" ? .28 : .35;
+    const glass = mix(fill, backdrop, alpha);
+    const inquiryPanel = mix(colors.surface, glass, .6);
+    const surfaces = [glass, mix(fill, band, alpha), inquiryPanel,
+      mix(colors.surface, inquiryPanel, .82), mix(colors.surface, backdrop, .85),
+      mix(colors.brand, colors.surface, .1), mix(colors.text, colors.background, .07)];
+    for (const surface of surfaces) {
+      for (const role of ["text", "muted", "action"]) expect(contrast(colors[role], surface), `${theme}: ${role} over ${surface}`).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });
 

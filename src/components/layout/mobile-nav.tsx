@@ -22,7 +22,7 @@ export function MobileNav({ labels, children }: {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const desktop = window.matchMedia("(min-width: 80rem)");
+    const desktop = window.matchMedia("(min-width: 64rem)");
     function resized() {
       if (desktop.matches) {
         dialog.current?.close();
@@ -47,7 +47,7 @@ export function MobileNav({ labels, children }: {
       onKeyDown={(event) => { if (event.key === "Escape") { event.preventDefault(); close(); } }}
       onClose={() => {
         setOpen(false);
-        if (window.matchMedia("(min-width: 80rem)").matches) {
+        if (window.matchMedia("(min-width: 64rem)").matches) {
           document.querySelector<HTMLElement>(".header-brand")?.focus();
         } else trigger.current?.focus();
       }}

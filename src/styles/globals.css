@@ -3,6 +3,9 @@
 @import "./tokens.css";
 @import "./primitives.css";
 @import "./header.css";
+@import "./homepage.css";
+@import "./services.css";
+@import "./work.css";
 
 * { box-sizing: border-box; }
 body {

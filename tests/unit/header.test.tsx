@@ -5,7 +5,7 @@ import { renderToString } from "react-dom/server";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { Header } from "../../src/components/layout/header";
 import { MobileNav } from "../../src/components/layout/mobile-nav";
-import { ThemeSelect } from "../../src/components/ui/theme-select";
+import { ThemeControl } from "../../src/components/ui/theme-control";
 import { Link } from "../../src/components/ui/link";
 import { getMessages } from "../../src/i18n/messages";
 import { locales } from "../../src/i18n/config";
@@ -50,15 +50,16 @@ async function mount(node: ReactNode) {
   await act(() => root?.render(node));
 }
 function buttons() { return [...host.querySelectorAll("button")]; }
-async function open() { await act(() => buttons()[0].click()); }
+async function open() { await act(() => host.querySelector<HTMLButtonElement>(".mobile-navigation > button")!.click()); }
 
 describe("localized header", () => {
-  it.each(locales)("uses safe locale destinations and honest placeholders in %s", async (locale) => {
+  it.each(locales)("uses safe locale destinations and homepage anchors in %s", async (locale) => {
     await mount(<Header locale={locale} />);
     const t = getMessages(locale);
     expect(host.querySelector("header")).not.toBeNull();
-    expect(host.textContent).toContain(t.Header.planned);
-    for (const a of host.querySelectorAll("a")) expect(a.getAttribute("href")).toMatch(/^\/(fa|en|ar)$/);
+    expect(host.textContent).toContain(t.Header.services);
+    expect(host.querySelectorAll(".desktop-navigation .primary-links a")).toHaveLength(6);
+    for (const a of host.querySelectorAll("a")) expect(a.getAttribute("href")).toMatch(/^\/(fa|en|ar)(\/(services|work)|#(hero|demos|why-us|process|contact))?$/);
     for (const target of locales) {
       expect(host.querySelector(`a[href="/${target}"][hreflang="${target}"]`)?.textContent).toBeTruthy();
     }
@@ -67,8 +68,9 @@ describe("localized header", () => {
     expect(host.querySelector('[role="menu"]')).toBeNull();
   });
   it("preserves the equivalent path for locale links", async () => {
-    await mount(<Header locale="fa" path="/work/example" />);
-    expect(host.querySelector('a[hreflang="en"]')?.getAttribute("href")).toBe("/en/work/example");
+    await mount(<Header locale="fa" path="/services" />);
+    expect(host.querySelector('a[hreflang="en"]')?.getAttribute("href")).toBe("/en/services");
+    expect(host.querySelector('.primary-links a[href="/fa/services"]')?.getAttribute("aria-current")).toBe("page");
   });
   it("hydrates the complete header without recoverable mismatches", async () => {
     const node = <Header locale="ar" />;
@@ -77,7 +79,9 @@ describe("localized header", () => {
     const errors: unknown[] = [];
     await act(() => { root = hydrateRoot(host, node, { onRecoverableError: (error) => errors.push(error) }); });
     expect(errors).toEqual([]);
-    expect([...host.querySelectorAll("select")].every((s) => s.value === "dark")).toBe(true);
+    expect(host.querySelectorAll('.desktop-navigation [aria-pressed="true"]')).toHaveLength(1);
+    expect(host.querySelector('.desktop-navigation [aria-pressed="true"]')?.getAttribute("aria-label")).toBe(getMessages("ar").Theme.dark);
+    expect([...host.querySelectorAll(".theme-control button")].every((button) => !(button as HTMLButtonElement).disabled)).toBe(true);
     await open();
     expect(host.querySelector("dialog")?.open).toBe(true);
   });
@@ -143,39 +147,43 @@ describe("mobile dialog lifecycle", () => {
   });
 });
 
-describe("theme select hydration", () => {
+describe("theme control hydration", () => {
   it("stays safely disabled if the head initializer was blocked", async () => {
     delete document.documentElement.dataset.themeMode;
-    await mount(<ThemeSelect labels={getMessages("en").Theme} />);
-    expect(host.querySelector("select")?.disabled).toBe(true);
+    await mount(<ThemeControl labels={getMessages("en").Theme} />);
+    const options = [...host.querySelectorAll<HTMLButtonElement>(".theme-control button")];
+    expect(options).toHaveLength(3);
+    expect(options.every((button) => button.disabled)).toBe(true);
+    expect(options.some((button) => button.getAttribute("aria-pressed") === "true")).toBe(false);
   });
   it("hydrates deterministically then reflects the initialized preference", async () => {
     const labels = getMessages("fa").Theme;
-    const node = <ThemeSelect labels={labels} />;
+    const node = <ThemeControl labels={labels} />;
     host.innerHTML = renderToString(node);
-    expect(host.querySelector("select")?.disabled).toBe(true);
+    expect([...host.querySelectorAll<HTMLButtonElement>("button")].every((button) => button.disabled)).toBe(true);
     document.documentElement.dataset.themeMode = "dark";
     const errors: unknown[] = [];
     await act(() => { root = hydrateRoot(host, node, { onRecoverableError: (error) => errors.push(error) }); });
     expect(errors).toEqual([]);
-    expect(host.querySelector("select")?.value).toBe("dark");
-    expect(host.querySelector("select")?.disabled).toBe(false);
+    expect(host.querySelector('[aria-pressed="true"]')?.getAttribute("aria-label")).toBe(labels.dark);
+    expect([...host.querySelectorAll<HTMLButtonElement>("button")].every((button) => !button.disabled)).toBe(true);
   });
   it("dispatches validated choices and synchronizes multiple controls", async () => {
     const labels = getMessages("en").Theme;
-    await mount(<><ThemeSelect labels={labels} /><ThemeSelect labels={labels} /></>);
+    await mount(<><ThemeControl labels={labels} /><ThemeControl labels={labels} /></>);
     const listener = vi.fn((event: Event) => {
       document.documentElement.dataset.themeMode = (event as CustomEvent).detail;
       window.dispatchEvent(new Event(themeUpdateEvent));
     });
     window.addEventListener(themeChangeEvent, listener);
     try {
-      const select = host.querySelector("select")!;
-      select.value = "light";
-      await act(() => select.dispatchEvent(new Event("change", { bubbles: true })));
+      expect(host.querySelector('[aria-pressed="true"]')?.getAttribute("aria-label")).toBe(labels.system);
+      const dark = [...host.querySelectorAll<HTMLButtonElement>(`button[aria-label="${labels.dark}"]`)];
+      expect(dark).toHaveLength(2);
+      await act(() => dark[0].click());
       expect(listener).toHaveBeenCalledOnce();
-      expect([...host.querySelectorAll("select")].map((s) => s.value)).toEqual(["light", "light"]);
-      expect(new Set([...host.querySelectorAll("select")].map((s) => s.id)).size).toBe(2);
+      expect((listener.mock.calls[0][0] as CustomEvent).detail).toBe("dark");
+      expect([...host.querySelectorAll('[aria-pressed="true"]')].map((button) => button.getAttribute("aria-label"))).toEqual([labels.dark, labels.dark]);
     } finally { window.removeEventListener(themeChangeEvent, listener); }
   });
 });
