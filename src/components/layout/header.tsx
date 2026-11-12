@@ -22,7 +22,7 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
       <ul className="primary-links">
         <li><Link href={`${homePath}#hero`} aria-current={path === "/" ? "page" : undefined}>{t.home}</Link></li>
         <li><Link href={localePath(locale, "/services")} aria-current={path === "/services" ? "page" : undefined}>{t.services}</Link></li>
-        <li><Link href={localePath(locale, "/work")} aria-current={path === "/work" ? "page" : undefined}>{t.work}</Link></li>
+        <li><Link href={localePath(locale, "/work")} aria-current={path === "/work" || path.startsWith("/work/") ? "page" : undefined}>{t.work}</Link></li>
         <li><Link href={localePath(locale, "/about")} aria-current={path === "/about" ? "page" : undefined}>{t.about}</Link></li>
         <li><Link href={`${homePath}#process`}>{home.processLabel}</Link></li>
         <li><Link href={localePath(locale, "/contact")} aria-current={path === "/contact" ? "page" : undefined}>{t.contact}</Link></li>

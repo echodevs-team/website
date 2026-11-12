@@ -51,6 +51,12 @@ describe("reference footer composition", () => {
     expect(footer.innerHTML).not.toMatch(/mailto:|https?:\/\/|©|HIPAA|24\/7|SLA|contact@|github|telegram/i);
   });
 
+  it.each(locales)("labels the Work link as concept studies rather than verified client work in %s", (locale) => {
+    const expected = { en: /concept studies/i, fa: /مفهومی/, ar: /تصورية/ } as const;
+    expect(chromeContent[locale].footer.demos).toMatch(expected[locale]);
+    expect(chromeContent[locale].footer.demos).not.toMatch(/selected|نمونه‌کار|الأعمال/i);
+  });
+
   it.each(locales)("keeps off-home footer destinations absolute and implemented in %s", (locale) => {
     const host = document.createElement("div");
     host.innerHTML = renderToStaticMarkup(<MarketingFooter locale={locale} />);

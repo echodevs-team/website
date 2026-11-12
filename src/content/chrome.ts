@@ -17,7 +17,7 @@ const fa: ChromeContent = {
   tagline: "استودیو توسعه نرم‌افزار و راهکارهای هوشمند",
   footer: {
     servicesHeading: "ستون‌های خدمات",
-    demos: "دموها و نمونه‌کارها",
+    demos: "دموها و طرح‌های مفهومی",
     contactHeading: "کانال‌های ارتباطی",
     intake: "پذیرش پروژه با توافق دامنه",
     architecture: "معماری قابل نگهداری",
@@ -28,7 +28,7 @@ const en: ChromeContent = {
   tagline: "Software studio for considered digital products",
   footer: {
     servicesHeading: "Service pillars",
-    demos: "Demos and selected work",
+    demos: "Demos and concept studies",
     contactHeading: "Contact channels",
     intake: "Project intake by scope agreement",
     architecture: "Maintainable architecture",
@@ -39,7 +39,7 @@ const ar: ChromeContent = {
   tagline: "استوديو هندسة برمجيات لحلول رقمية مدروسة",
   footer: {
     servicesHeading: "محاور الخدمات",
-    demos: "النماذج والأعمال",
+    demos: "النماذج والدراسات التصورية",
     contactHeading: "قنوات التواصل",
     intake: "استقبال المشاريع بعد اتفاق النطاق",
     architecture: "بنية قابلة للصيانة",

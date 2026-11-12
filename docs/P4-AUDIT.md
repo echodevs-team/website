@@ -15,7 +15,7 @@ The audit read the actual rendered production output of all **27 localized marke
 - FA/EN/AR message-key parity and accidental English fallback;
 - the approved reference's example metrics, certifications, vendors and company names.
 
-The durable evidence is `scripts/smoke-http.mjs` (new whole-site crawl) and `tests/unit/assets.test.ts` (font/attribution surface). No browser tooling was available or downloaded.
+The durable evidence is `scripts/smoke-http.mjs` (whole-site crawl, including Work current-state on detail routes), `tests/unit/assets.test.ts` (font/attribution surface) and the header/footer component tests. No browser was downloaded for this batch, and no visual or assistive-technology result is claimed.
 
 ## Findings
 
@@ -39,18 +39,22 @@ The durable evidence is `scripts/smoke-http.mjs` (new whole-site crawl) and `tes
 | FA/EN/AR parity | Message keys have no missing/extra entries; no accidental English fallback beyond technical terms; the three locales make materially equivalent promises. | `src/i18n/messages` parity check; unit copy-parity tests | Verified |
 | About `next.note` | Said the homepage inquiry was the "only implemented contact path", contradicting the delivered Contact page. | `src/content/about.ts`; `docs/P4-CONTACT.md` | **Fixed** (EN/FA/AR) |
 | Shared `contactsPending` | Said "No contact links are published yet", contradicting the implemented Contact route and its inquiry. | `src/content/home.ts` (homepage + footer) | **Fixed** (EN/FA/AR) |
+| Header on `/work/{analytics,chat,booking}` | The Work primary-nav link lacked `aria-current="page"` even though those are implemented Work destinations. | Rendered production HTML of the nine detail routes; `header.test.tsx`; new HTTP assertion | **Fixed** (EN/FA/AR) |
+| Footer Work label | "Demos and selected work" / "دموها و نمونه‌کارها" / "النماذج والأعمال" implied verified selected work, but `/work` publishes only concept studies plus honest client/internal empty states. | `src/content/chrome.ts`; `work` page content | **Fixed** (EN/FA/AR) |
 | Homepage metadata | The homepage inherits the layout preview title (`Echo Devs — Development preview`) instead of a page-specific title/description. | `src/app/[locale]/layout.tsx` | Owner/later task (ECHO-506/604), not changed |
 
 No other content inconsistency was supported by repository evidence, so no further copy was changed.
 
 ## Fixes applied
 
-Both changes are limited to already-established meaning: the Contact page and its shared inquiry form exist, and public email/phone/social channels remain unverified.
+The four changes are limited to already-established meaning: the Contact page and its shared inquiry form exist, the three concept details are implemented Work destinations, `/work` publishes only concept studies today, and public email/phone/social channels remain unverified.
 
 1. `src/content/about.ts` — all three `next.note` strings now state that the project inquiry is the implemented contact path and is available on both the homepage and the Contact page.
 2. `src/content/home.ts` — all three `contactsPending` strings now name unverified public email/phone/social channels and identify the project inquiry as the available contact path.
+3. `src/components/layout/header.tsx` — Work keeps `aria-current="page"` for `/work` and every `/work/{slug}` detail route; other primary-nav behavior is unchanged.
+4. `src/content/chrome.ts` — the footer Work label now reads "Demos and concept studies" / "دموها و طرح‌های مفهومی" / "النماذج والدراسات التصورية", matching the concept-only work page.
 
-Regression coverage was added to `tests/unit/about.test.tsx` and `tests/unit/homepage.test.tsx`, plus `tests/unit/assets.test.ts` for the font/license surface.
+Regression coverage was added to `tests/unit/about.test.tsx`, `tests/unit/homepage.test.tsx`, `tests/unit/header.test.tsx` (detail-route current state), `tests/unit/footer.test.tsx` (honest concept-only label), `scripts/smoke-http.mjs` (production detail-route current state), plus `tests/unit/assets.test.ts` for the font/license surface.
 
 ## Owner decisions still required
 
@@ -75,11 +79,11 @@ Regression coverage was added to `tests/unit/about.test.tsx` and `tests/unit/hom
 
 | Check | Result |
 | --- | --- |
-| `npm run lint` | PASS |
+| `npm run lint` | PASS for all changed files and all tracked repository source |
 | `npm run typecheck` | PASS |
-| `npm test` | PASS: 195 tests / 22 files (includes new `assets.test.ts`) |
-| `npm run build` | PASS: 22 localized marketing pages plus root/404/API as before |
-| `npm run test:http` | PASS: all prior locale/route/content/404/redirect checks plus the new 27-document link/anchor/asset crawl and six-font check; owned loopback server stopped |
+| `npm test` | PASS: 199 tests / 22 files (195 prior plus four header/footer regressions) |
+| `npm run build` | PASS: 27 localized marketing routes plus root/404/API/icon |
+| `npm run test:http` | PASS: all prior locale/route/content/404/redirect checks plus the 27-document link/anchor/asset crawl, Work detail current-state and six-font check; owned loopback server stopped |
 | `npm run verify:reference` | PASS: original ZIP/HTML/screenshot/design hashes, CRCs and preserved prototype consistency |
 | `git diff --check` | PASS |
 | Browser launch | NOT RUN/available; no download or security change attempted |
@@ -90,13 +94,16 @@ PostgreSQL integration tests were not repeated: no schema, API, validation, pers
 
 - `src/content/about.ts` — corrected `next.note` in FA/EN/AR
 - `src/content/home.ts` — corrected `contactsPending` in FA/EN/AR
-- `scripts/smoke-http.mjs` — durable whole-site link/anchor/asset crawl and font serving check
+- `src/components/layout/header.tsx` — Work `aria-current` on `/work/{slug}` detail routes
+- `src/content/chrome.ts` — footer Work label now says concept studies in FA/EN/AR
+- `scripts/smoke-http.mjs` — whole-site link/anchor/asset crawl, font serving and detail-route current-state check
 - `tests/unit/assets.test.ts` — font references, provenance/license evidence and no unlicensed raster assets
 - `tests/unit/about.test.tsx`, `tests/unit/homepage.test.tsx` — corrected-copy regression assertions
+- `tests/unit/header.test.tsx`, `tests/unit/footer.test.tsx` — navigation-current and honest-label regressions
 - `docs/P4-AUDIT.md`, `ROADMAP.md` — audit evidence and open acceptance
 
 ## Outstanding acceptance and next task
 
-Visual, keyboard, screen-reader, zoom, owner/native copy and legal acceptance remain open, so ECHO-407 stays unchecked. The audit found no broken primary links, missing assets or false production claims; the only verified content defects were the two stale contact statements above, now corrected in all locales.
+Visual, keyboard, screen-reader, zoom, owner/native copy and legal acceptance remain open, so ECHO-407 stays unchecked. The audit found no broken primary links, missing assets or false production claims. Four verified defects were corrected in all locales: two stale contact statements, the missing Work current-state on concept detail routes, and the footer label that implied verified selected work on a concept-only page.
 
 Next recommended task after ECHO-407 acceptance: **ECHO-501/P5** localized content-dictionary and parity validation, or owner-authorized `ECHO-406` legal decisions first. This batch stops at ECHO-407.

@@ -215,6 +215,7 @@ try {
       for (const target of ["fa", "en", "ar"]) assert.ok(detail.includes(`href="/${target}/work/${slug}"`));
       for (const id of ["work-detail-title", "proposal-title", "workflow-title", "scope-title", "proposed-stack", "related-title"]) assert.ok(detail.includes(`id="${id}"`));
       assert.ok(detail.includes(`href="/${locale}/work"`));
+      assert.match(detail, new RegExp(`<a[^>]*href="/${locale}/work"[^>]*aria-current="page"`), "Work nav is current on concept detail");
       assert.ok(detail.includes(`href="/${locale}#contact"`));
       assert.ok(detail.includes(`href="/${locale}/services#`));
       for (const match of detail.matchAll(/href="(\/[^"]+)"/g)) {

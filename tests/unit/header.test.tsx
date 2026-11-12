@@ -73,6 +73,14 @@ describe("localized header", () => {
     expect(host.querySelector('a[hreflang="en"]')?.getAttribute("href")).toBe("/en/services");
     expect(host.querySelector('.primary-links a[href="/fa/services"]')?.getAttribute("aria-current")).toBe("page");
   });
+  it("keeps Work current on concept detail routes", async () => {
+    for (const path of ["/work", "/work/analytics"]) {
+      if (root) { await act(() => root?.unmount()); root = undefined; }
+      await mount(<Header locale="en" path={path} />);
+      expect(host.querySelectorAll('.primary-links a[href="/en/work"][aria-current="page"]')).toHaveLength(2);
+      expect(host.querySelector('a[hreflang="ar"]')?.getAttribute("href")).toBe(`/ar${path}`);
+    }
+  });
   it("marks About as the current destination and keeps it in the mobile menu", async () => {
     await mount(<Header locale="en" path="/about" />);
     expect(host.querySelectorAll('.primary-links a[href="/en/about"][aria-current="page"]')).toHaveLength(2);
