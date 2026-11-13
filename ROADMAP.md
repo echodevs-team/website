@@ -345,7 +345,7 @@ download, dependency, security/global rendering or marketing-source change.
 - [ ] **ECHO-502 [P5]** Translate navigation, service content, pages, CTA, form validation, loading/success/error/404, accessible labels. **Accept:** full coverage; copy owner reviews sensitive claims.
 - [x] **ECHO-503 [P5]** Audit RTL/LTR including mixed email/phone/URL/code, number shaping, inline icons, directional layout, mobile navigation. **Accept:** screenshot and keyboard matrix pass.
 - [x] **ECHO-504 [P5]** Retain equivalent route/slug on language switch; store intentional user preference. **Accept:** changing language on project detail stays on same project.
-- [ ] **ECHO-505 [P5]** Validate font loading/fallback, Arabic shaping, content expansion, Persian punctuation and appropriate localized formatting. **Accept:** no clipping and readable mixed scripts.
+- [x] **ECHO-505 [P5]** Validate font loading/fallback, Arabic shaping, content expansion, Persian punctuation and appropriate localized formatting. **Accept:** no clipping and readable mixed scripts.
 - [ ] **ECHO-506 [P5]** Localized metadata, canonical URLs, `hreflang`, sitemap/robots, locale-aware 404. **Accept:** scripted HTML inspection for each locale route.
 
 ### ECHO-501 localization parity — 2026-11-12
@@ -485,6 +485,34 @@ imported with its real revision and marked imported; nothing was fabricated.
 production build, HTTP matrix, reference verification. Guide: `docs/QA-SYSTEM.md`;
 per-task automated history: `qa/results/automated.jsonl`. QA reports are generated
 into ignored `qa/.out/`, so acceptance never depends on an ephemeral file.
+
+### ECHO-505 typography and localization rendering — 2026-11-13
+
+**PASS for the stated acceptance (no clipping and readable mixed scripts) under
+WebKitGTK; native FA/AR reading quality, cross-engine parity, human
+screen-reader and real 200% zoom gates stay with ECHO-505/601/605.** Added a
+static font/content audit (`scripts/typography_audit.py`, 160 checks) and a real
+WebKitGTK 2.52.6 + Xvfb matrix (`scripts/audit-typography.py`) covering all 27
+localized routes at 1440/1024/768/375/320 px in light and representative dark,
+with 78 page cases, 2 fallback simulations, 3296 checks and 80 PNGs per run.
+Fixed one confirmed defect: the mono token stack forced Persian/Arabic chrome
+(brand chip, footer badges/headings/status, runtime labels, language names) onto
+an unreviewed system monospace fallback; `--font-mono` now lists Vazirmatn after
+`ui-monospace` and all 404 measured mono rows match the approved face. Baseline
+`7bc8cbb` reported 76 real mono failures; a further 260 English-locale failures
+were traced to lazy font loading in the harness and fixed by force-loading the
+declared weights (both baselines retained). **PASS:** clean after run `bd4d5ed`
+(3296 checks/80 screenshots, 0 failures, six faces loaded, no external font
+requests, no clipping/overflow/header overlap, fallback delta 11 px), 14 Python
+harness tests, 7 typography unit tests, 33 files/335 tests, lint, typecheck,
+production build, HTTP crawl (27 documents/73 destinations, six served font
+subsets), reference verification, `qa:validate` (25 tests/13 suites) and both QA
+runs (10 PASS/1 BLOCKED/3 pre-existing STALE; browser matrix 11 PASS). Evidence
+ZIP: `test-results/echo-505-typography-evidence.zip` (23,578,695 bytes, 255
+entries, ZIP and PNG CRC verified); report: `docs/P5-ECHO-505.md`. Manual
+native/zoom/cross-engine cases remain NOT_RUN; no API/DB, intake, `noindex`,
+redesign, brand-face replacement or deployment change. ECHO-506 and later tasks
+not started.
 
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  

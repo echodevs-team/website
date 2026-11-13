@@ -92,11 +92,16 @@ The site ships one family, **Vazirmatn**, as six self-hosted WOFF2 subsets in
   names, brand chip, footer badges and headings, runtime labels) must resolve to
   Vazirmatn rather than an unreviewed system fallback. Removing Vazirmatn from
   that stack is a regression, not a style tweak.
-- Persian/Arabic arrows (`←`, `→`, `↗`) and the `↑` in mixed chrome sit outside
-  the subset ranges and intentionally use the system fallback; they must never
-  render as tofu. Vazirmatn also intentionally shares some glyph shapes between
-  Persian (`۱۲۳`) and Arabic-Indic (`١٢٣`) digits, so duplicate-glyph checks must
-  not treat those as missing glyphs.
+- Directional arrows in interface copy (`←`/`→` in the concept chat tails and
+  `↗` on link CTAs) sit outside the shipped subset ranges and intentionally use
+  the system fallback; `↑`/`↓` glyphs are inside the Latin range. None of them
+  may render as tofu. Vazirmatn also intentionally shares some glyph shapes
+  between Persian (`۱۲۳`) and Arabic-Indic (`١٢٣`) digits, so duplicate-glyph
+  checks must not treat those as missing glyphs.
+- Note that `document.fonts.check()` reports whether a usable face is loaded for
+  the family; it does not prove that a specific codepoint is inside a face's
+  `unicode-range`. Codepoint coverage is asserted by the static audit's range
+  analysis plus the rendered-page fallback scan, not by `check()` alone.
 - Letter spacing and uppercasing are scoped to `:lang(en)` or to the Latin
   locale codes; they are never applied to Arabic-script text, where they break
   joining and reading.
