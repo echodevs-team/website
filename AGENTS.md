@@ -20,7 +20,16 @@
 5. Run relevant checks and record actual outputs. Never claim a browser/test/deploy result that did not occur.
 6. Review own diff for privacy leaks, secrets, unapproved external links, i18n, and performance regressions.
 7. Update ROADMAP task status only if acceptance evidence exists. Agents may create focused local Git commits for completed, verified logical changes (owner policy, 2026-11-12). Never push, rewrite shared history, or start a new development batch without explicit owner authorization; leave unrelated work uncommitted for human review.
-8. Report with ROADMAP's task report format and name next task.
+8. Record test outcomes in the QA registry: `npm run qa:run` for automated suites (clean tree, focused selection while iterating), and `npm run qa:manual` for human acceptance you were authorized to perform. Do not report status from console output alone.
+9. Report with ROADMAP's task report format and name next task.
+
+## QA tracking
+- `qa/registry.json` and `qa/results/*.jsonl` are the source of truth for test definitions and recorded outcomes; `docs/QA-SYSTEM.md` describes the workflow.
+- Never write a PASS for something that was not executed, never fabricate a reviewer or timestamp, and never delete a failed or stale record. Corrections are new records that supersede the old one.
+- Automated results must come from a clean commit; a dirty-tree run is displayed as STALE on purpose. Run QA after committing the implementation, then commit the new result lines.
+- Owner/legal gates are human decisions: technical test success does not approve them, and `--role owner`/`--role legal` must only be used by that person after reviewing the evidence.
+- Generated logs and reports under `qa/.out/` and screenshot runs under `test-results/` stay untracked; durable acceptance evidence goes in `qa/evidence/<TEST-ID>/`.
+- Keep ROADMAP checkboxes for implementation status; do not duplicate QA pass/fail state there.
 
 ## Git and commits
 - Local commits are permitted for finished, verified changes within the authorized batch. Group related files into small, reviewable commits with task-ID Conventional Commit messages.

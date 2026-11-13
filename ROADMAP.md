@@ -449,9 +449,51 @@ no backdrop blur (opacity layer only; owner GPU-browser check needed), no
 Chromium/Firefox, native-language, screen-reader/zoom or owner sign-off. Findings
 #4–#6 remain deferred; ECHO-505 and later tasks not started.
 
+### ECHO-VF01-R1 targeted visual follow-up — 2026-11-13
+
+**PASS for the copy correction and evidence-manifest fix; Firefox GPU header
+check remains a pending manual test.** Follow-up from the independent review of
+ECHO-VF01. About no longer states a team size in FA/EN/AR (headings now "A team
+aligned around the problem" / «تیمی هم‌راستا برای حل مسئله» / «فريق يجمع خبراته
+لحل المشكلة», plus the adjacent collaboration paragraph), with a regression guard
+that scans the whole About content tree for unsupported size phrasing. The
+evidence harness now builds URLs through `scripts/evidence_manifest.py`, which
+fixes `/facontact` → `/fa/contact`, records `testedSourceRevision` and
+`worktreeDirty`, and leaves `documentationRevision` null for a human to assign;
+`scripts/test_evidence_manifest.py` covers the regression. Copy and harness
+changes are committed as `a94fb57`. New About-only run from clean `a94fb57`:
+39 checks, 6 captures at 375 and 1440, URLs `/fa/about` etc. **PASS:** lint, typecheck, 32
+files/328 tests, production build, HTTP matrix, reference verification, 15 Python
+harness tests. Evidence ZIP:
+`test-results/echo-vf01-r1-about-evidence.zip`; report:
+`docs/ECHO-VF01-R1.md`. No header CSS change: WebKitGTK software rendering cannot
+prove backdrop blur, so `MANUAL-FIREFOX-GLASS` stays NOT_RUN with an owner-ready
+procedure instead of a claimed pass.
+
+### ECHO-QA01 repository QA tracking system — 2026-11-13
+
+**PASS for the implemented system and its own tests; project acceptance remains
+open by design.** Adds `qa/registry.json` (21 cases: 11 automated, 10 manual, 11
+suites), a dependency-free runner/status/report/manual CLI (`npm run qa:run`,
+`qa:status`, `qa:report`, `qa:manual`, `qa:validate`), append-only JSONL history,
+and conservative freshness rules that report STALE instead of guessing. Status is
+evidence-backed: missing results are NOT_RUN, dirty-tree or non-ancestor results
+are STALE, owner/legal gates require the matching reviewer role, and missing
+evidence stays REVIEW_REQUIRED. Historical ECHO-503/504/VF01/unit evidence is
+imported with its real revision and marked imported; nothing was fabricated.
+**PASS:** 32 files/328 tests (including 54 QA self-tests), lint, typecheck,
+production build, HTTP matrix, reference verification. Guide: `docs/QA-SYSTEM.md`;
+per-task automated history: `qa/results/automated.jsonl`. QA reports are generated
+into ignored `qa/.out/`, so acceptance never depends on an ephemeral file.
+
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  
 **Exit gate:** Release checklist all green or documented owner-approved noncritical exception.
+
+Test status for this phase is tracked in the QA registry (`npm run qa:status`),
+not by duplicating pass/fail state in this file. `docs/QA-SYSTEM.md` explains the
+workflow; the report distinguishes implementation, automated verification,
+manual acceptance, owner/legal sign-off and release readiness.
 
 Owner visual follow-ups confirmed from ECHO-503 are tracked in
 `docs/ECHO-503-VISUAL-FOLLOWUPS.md`; #1–#3 were resolved in ECHO-VF01 with

@@ -118,6 +118,13 @@ is not committed.
 Run folders: `test-results/echo-vf01-before-20261113-070032` (146 checks) and
 `test-results/echo-vf01-after-20261113-070429` (167 checks).
 
+**Known issue in this historical manifest (not rewritten):** the harness of the
+time concatenated `origin + '/' + locale + route.lstrip('/')`, so route entries
+read `/facontact`, `/encontact`, `/arcontact` instead of `/fa/contact` and so on.
+The screenshots themselves are valid. The serialization bug and its fix are
+documented in `docs/ECHO-VF01-R1.md`; new runs record `testedSourceRevision`,
+`worktreeDirty` and exact URLs.
+
 ### Environment and limitation
 
 WebKitGTK **2.52.6** with the Cairo snapshot API under
