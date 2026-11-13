@@ -41,7 +41,9 @@
     "http": {
       "command": "npm run test:http",
       "timeoutMs": 600000,
-      "requiresPath": [".next/BUILD_ID"],
+      "requiresPath": [
+        ".next/BUILD_ID"
+      ],
       "note": "Starts its own loopback server from the production build."
     },
     "reference": {
@@ -54,38 +56,78 @@
       "timeoutMs": 300000,
       "note": "Pure tests for the evidence metadata and WebKit snapshot bindings; no browser."
     },
+    "typography": {
+      "command": "python3 scripts/typography_audit.py",
+      "timeoutMs": 120000,
+      "note": "Pure static audit of self-hosted font assets, @font-face ranges, font stacks and RTL punctuation; no browser or build required."
+    },
     "browser-rtl": {
       "command": "xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-rtl.py",
       "timeoutMs": 1800000,
       "optIn": true,
-      "requiresCommand": ["xvfb-run"],
-      "requiresModule": ["gi"],
-      "requiresPath": [".next/BUILD_ID"],
+      "requiresCommand": [
+        "xvfb-run"
+      ],
+      "requiresModule": [
+        "gi"
+      ],
+      "requiresPath": [
+        ".next/BUILD_ID"
+      ],
       "note": "WebKitGTK/Xvfb screenshot and keyboard matrix; never installs a browser."
     },
     "browser-locale": {
       "command": "xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-locale-switch.py",
       "timeoutMs": 1200000,
       "optIn": true,
-      "requiresCommand": ["xvfb-run"],
-      "requiresModule": ["gi"],
-      "requiresPath": [".next/BUILD_ID"],
+      "requiresCommand": [
+        "xvfb-run"
+      ],
+      "requiresModule": [
+        "gi"
+      ],
+      "requiresPath": [
+        ".next/BUILD_ID"
+      ],
       "note": "WebKitGTK locale-switch harness with its own loopback server."
     },
     "browser-visual": {
       "command": "xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-visual-corrections.py --task ECHO-VF01-R1 --phase after --only about",
       "timeoutMs": 1200000,
       "optIn": true,
-      "requiresCommand": ["xvfb-run"],
-      "requiresModule": ["gi"],
-      "requiresPath": [".next/BUILD_ID"],
+      "requiresCommand": [
+        "xvfb-run"
+      ],
+      "requiresModule": [
+        "gi"
+      ],
+      "requiresPath": [
+        ".next/BUILD_ID"
+      ],
       "note": "WebKitGTK visual harness; renders no backdrop blur in this environment."
+    },
+    "browser-typography": {
+      "command": "xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-typography.py --phase after",
+      "timeoutMs": 2400000,
+      "optIn": true,
+      "requiresCommand": [
+        "xvfb-run"
+      ],
+      "requiresModule": [
+        "gi"
+      ],
+      "requiresPath": [
+        ".next/BUILD_ID"
+      ],
+      "note": "WebKitGTK/Xvfb typography, shaping, expansion, fallback and screenshot matrix; never installs a browser."
     },
     "postgres": {
       "command": "npm run test:inquiries",
       "timeoutMs": 1800000,
       "optIn": true,
-      "requiresPath": [".local/dev-pg/app.env"],
+      "requiresPath": [
+        ".local/dev-pg/app.env"
+      ],
       "note": "Development PostgreSQL only. Never point this at production or shared data."
     }
   },
@@ -96,7 +138,9 @@
       "category": "build",
       "type": "automated",
       "suite": "lint",
-      "milestones": ["P6"],
+      "milestones": [
+        "P6"
+      ],
       "expected": "npm run lint exits 0 with no warnings or errors.",
       "evidence": "Captured command exit status and log in qa/.out/logs.",
       "criticality": "high",
@@ -108,7 +152,9 @@
       "category": "build",
       "type": "automated",
       "suite": "typecheck",
-      "milestones": ["P6"],
+      "milestones": [
+        "P6"
+      ],
       "expected": "next typegen and tsc --noEmit exit 0.",
       "evidence": "Captured command exit status and log.",
       "criticality": "high",
@@ -120,8 +166,18 @@
       "category": "unit",
       "type": "automated",
       "suite": "unit",
-      "milestones": ["ECHO-501", "ECHO-503", "ECHO-504", "ECHO-VF01", "ECHO-QA01"],
-      "locales": ["fa", "en", "ar"],
+      "milestones": [
+        "ECHO-501",
+        "ECHO-503",
+        "ECHO-504",
+        "ECHO-VF01",
+        "ECHO-QA01"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
       "expected": "Every Vitest file passes, including content parity, locale switching, visual regressions and the QA system tests.",
       "evidence": "Vitest summary and log in qa/.out/logs.",
       "criticality": "high",
@@ -133,7 +189,9 @@
       "category": "build",
       "type": "automated",
       "suite": "build",
-      "milestones": ["P6"],
+      "milestones": [
+        "P6"
+      ],
       "expected": "next build exits 0 and reports the localized routes as static or SSG.",
       "evidence": "Build log in qa/.out/logs.",
       "criticality": "release",
@@ -145,9 +203,27 @@
       "category": "http",
       "type": "automated",
       "suite": "http",
-      "milestones": ["ECHO-406", "ECHO-501", "ECHO-504"],
-      "routes": ["/", "/services", "/work", "/work/analytics", "/work/chat", "/work/booking", "/about", "/contact", "/privacy"],
-      "locales": ["fa", "en", "ar"],
+      "milestones": [
+        "ECHO-406",
+        "ECHO-501",
+        "ECHO-504"
+      ],
+      "routes": [
+        "/",
+        "/services",
+        "/work",
+        "/work/analytics",
+        "/work/chat",
+        "/work/booking",
+        "/about",
+        "/contact",
+        "/privacy"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
       "expected": "The HTTP smoke suite passes for all 27 localized documents, redirects, 404 fallback and link crawl.",
       "evidence": "Smoke output and log in qa/.out/logs.",
       "criticality": "high",
@@ -159,7 +235,10 @@
       "category": "build",
       "type": "automated",
       "suite": "reference",
-      "milestones": ["ECHO-003", "P6"],
+      "milestones": [
+        "ECHO-003",
+        "P6"
+      ],
       "expected": "Original SHA-256 hashes, member CRCs and extracted copies still match.",
       "evidence": "Verification output and log.",
       "criticality": "high",
@@ -171,7 +250,10 @@
       "category": "integration",
       "type": "automated",
       "suite": "harness",
-      "milestones": ["ECHO-VF01", "ECHO-VF01-R1"],
+      "milestones": [
+        "ECHO-VF01",
+        "ECHO-VF01-R1"
+      ],
       "expected": "URL serialization, route aliases, revision fields and evidence-root safety tests pass.",
       "evidence": "unittest output and log.",
       "criticality": "medium",
@@ -183,14 +265,33 @@
       "category": "browser",
       "type": "automated",
       "suite": "browser-rtl",
-      "milestones": ["ECHO-503"],
-      "locales": ["fa", "en", "ar"],
-      "viewports": ["1440x900", "1024x900", "768x900", "375x812", "320x720"],
+      "milestones": [
+        "ECHO-503"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "1024x900",
+        "768x900",
+        "375x812",
+        "320x720"
+      ],
       "expected": "The audit-rtl harness passes with no unexpected overflow, bidi or focus regressions.",
       "evidence": "Run folder under test-results/ plus harness exit status.",
       "criticality": "high",
       "releaseRelevant": true,
-      "watch": ["src/**", "scripts/audit-rtl.py", "scripts/webkit_snapshot.py", "scripts/evidence_manifest.py", "package.json", "next.config.ts"]
+      "watch": [
+        "src/**",
+        "scripts/audit-rtl.py",
+        "scripts/webkit_snapshot.py",
+        "scripts/evidence_manifest.py",
+        "package.json",
+        "next.config.ts"
+      ]
     },
     {
       "id": "BROWSER-LOCALE-SWITCH",
@@ -198,15 +299,40 @@
       "category": "browser",
       "type": "automated",
       "suite": "browser-locale",
-      "milestones": ["ECHO-504"],
-      "routes": ["/", "/services", "/work", "/work/analytics", "/work/chat", "/work/booking", "/about", "/contact", "/privacy"],
-      "locales": ["fa", "en", "ar"],
-      "viewports": ["1440x900", "375x812"],
+      "milestones": [
+        "ECHO-504"
+      ],
+      "routes": [
+        "/",
+        "/services",
+        "/work",
+        "/work/analytics",
+        "/work/chat",
+        "/work/booking",
+        "/about",
+        "/contact",
+        "/privacy"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "375x812"
+      ],
       "expected": "The locale-switch harness passes for route retention, fragment carry-over and cookie persistence.",
       "evidence": "Run folder under test-results/ and harness exit status.",
       "criticality": "high",
       "releaseRelevant": true,
-      "watch": ["src/**", "scripts/audit-locale-switch.py", "scripts/webkit_snapshot.py", "package.json", "next.config.ts"]
+      "watch": [
+        "src/**",
+        "scripts/audit-locale-switch.py",
+        "scripts/webkit_snapshot.py",
+        "package.json",
+        "next.config.ts"
+      ]
     },
     {
       "id": "BROWSER-VISUAL-CORRECTIONS",
@@ -214,15 +340,38 @@
       "category": "visual",
       "type": "automated",
       "suite": "browser-visual",
-      "milestones": ["ECHO-VF01", "ECHO-VF01-R1"],
-      "routes": ["/contact", "/work", "/about"],
-      "locales": ["fa", "en", "ar"],
-      "viewports": ["1440x900", "375x812", "320x720", "768x900", "1024x900"],
+      "milestones": [
+        "ECHO-VF01",
+        "ECHO-VF01-R1"
+      ],
+      "routes": [
+        "/contact",
+        "/work",
+        "/about"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "375x812",
+        "320x720",
+        "768x900",
+        "1024x900"
+      ],
       "expected": "Captures succeed with correct URLs, header band thresholds, Work ordering and size-neutral About copy.",
       "evidence": "Run folder under test-results/ plus manifest with tested revision.",
       "criticality": "high",
       "releaseRelevant": true,
-      "watch": ["src/**", "scripts/audit-visual-corrections.py", "scripts/evidence_manifest.py", "scripts/webkit_snapshot.py", "package.json"]
+      "watch": [
+        "src/**",
+        "scripts/audit-visual-corrections.py",
+        "scripts/evidence_manifest.py",
+        "scripts/webkit_snapshot.py",
+        "package.json"
+      ]
     },
     {
       "id": "PG-INQUIRY-INTEGRATION",
@@ -230,22 +379,166 @@
       "category": "integration",
       "type": "automated",
       "suite": "postgres",
-      "milestones": ["ECHO-202", "ECHO-204", "ECHO-208"],
+      "milestones": [
+        "ECHO-202",
+        "ECHO-204",
+        "ECHO-208"
+      ],
       "expected": "Schema, validation, durable insert, least-privilege roles and recovery checks pass against the disposable development database.",
       "evidence": "Command log; database artifacts stay in .local/ and are never committed.",
       "criticality": "release",
       "releaseRelevant": true,
-      "watch": ["src/**", "db/**", "scripts/test-inquiries.mjs", "scripts/migrate.mjs", "package.json"]
+      "watch": [
+        "src/**",
+        "db/**",
+        "scripts/test-inquiries.mjs",
+        "scripts/migrate.mjs",
+        "package.json"
+      ]
+    },
+    {
+      "id": "TYPOGRAPHY-FONT-ASSETS",
+      "title": "Self-hosted font assets, unicode ranges and font stacks",
+      "category": "localization",
+      "type": "automated",
+      "suite": "typography",
+      "milestones": [
+        "ECHO-505"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "expected": "Six Vazirmatn WOFF2 faces exist with WOFF2 signatures; the Arabic ranges cover Persian/Arabic letters, join controls, punctuation and digits; the Latin ranges cover Latin text and typographic punctuation; the font stacks keep Vazirmatn plus a generic fallback; no external font request is referenced; RTL copy uses Arabic punctuation and native digits.",
+      "evidence": "Command output and JSON report in qa/.out/logs; font hashes are also recorded by the browser harness.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "src/styles/fonts.css",
+        "src/styles/tokens.css",
+        "public/fonts/**",
+        "src/content/**",
+        "src/i18n/messages/**",
+        "scripts/typography_audit.py",
+        "scripts/test_typography_audit.py",
+        "tests/unit/typography.test.ts"
+      ]
+    },
+    {
+      "id": "TYPOGRAPHY-AUDIT-UNIT",
+      "title": "Typography audit and content-rule regression tests",
+      "category": "unit",
+      "type": "automated",
+      "suite": "harness",
+      "milestones": [
+        "ECHO-505"
+      ],
+      "expected": "The pure typography audit tests pass: unicode-range parsing, missing font assets, external URLs, stale monospace stacks, RTL punctuation/digit detection and the current repository audit.",
+      "evidence": "unittest output and log in qa/.out/logs.",
+      "criticality": "medium",
+      "releaseRelevant": false,
+      "watch": [
+        "scripts/typography_audit.py",
+        "scripts/test_typography_audit.py",
+        "src/styles/**",
+        "public/fonts/**",
+        "src/content/**",
+        "src/i18n/**"
+      ]
+    },
+    {
+      "id": "TYPOGRAPHY-CONTENT",
+      "title": "Persian/Arabic script, punctuation and numeral consistency",
+      "category": "localization",
+      "type": "automated",
+      "suite": "unit",
+      "milestones": [
+        "ECHO-505"
+      ],
+      "locales": [
+        "fa",
+        "ar"
+      ],
+      "expected": "The Vitest typography tests pass: Persian yeh/kaf versus Arabic yeh/kaf, Persian versus Arabic-Indic digits, Arabic prose punctuation, no Western digits in RTL prose, and Vazirmatn retained in the monospace stack for script fallback.",
+      "evidence": "Vitest summary and log in qa/.out/logs.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "tests/unit/typography.test.ts",
+        "src/content/**",
+        "src/i18n/**",
+        "src/styles/tokens.css"
+      ]
+    },
+    {
+      "id": "BROWSER-TYPOGRAPHY-MATRIX",
+      "title": "WebKitGTK typography, shaping and expansion matrix",
+      "category": "browser",
+      "type": "automated",
+      "suite": "browser-typography",
+      "milestones": [
+        "ECHO-505"
+      ],
+      "routes": [
+        "/",
+        "/services",
+        "/work",
+        "/work/analytics",
+        "/work/chat",
+        "/work/booking",
+        "/about",
+        "/contact",
+        "/privacy"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "1024x900",
+        "768x900",
+        "375x812",
+        "320x720"
+      ],
+      "expected": "Every browser check succeeds: fonts load and are used, no clipping/overflow/truncation/header collision, readable line heights, no duplicate .notdef glyphs, no external font requests, no unexpected characters outside the approved ranges, Arabic text in mono chrome uses Vazirmatn, and the declared fallback stack renders FA/AR text without overflow.",
+      "evidence": "Run folder under test-results/ with manifest, screenshots, audit.json and font-faces.json.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "src/**",
+        "public/fonts/**",
+        "scripts/audit-typography.py",
+        "scripts/typography_audit.py",
+        "scripts/evidence_manifest.py",
+        "scripts/webkit_snapshot.py",
+        "package.json",
+        "next.config.ts"
+      ]
     },
     {
       "id": "MANUAL-FIREFOX-GLASS",
       "title": "Firefox GPU check: sticky header legibility and backdrop blur",
       "category": "visual",
       "type": "manual",
-      "milestones": ["ECHO-VF01", "ECHO-VF01-R1"],
-      "routes": ["/contact"],
-      "locales": ["en", "fa", "ar"],
-      "viewports": ["320x720", "375x812"],
+      "milestones": [
+        "ECHO-VF01",
+        "ECHO-VF01-R1"
+      ],
+      "routes": [
+        "/contact"
+      ],
+      "locales": [
+        "en",
+        "fa",
+        "ar"
+      ],
+      "viewports": [
+        "320x720",
+        "375x812"
+      ],
       "procedure": [
         "Open http://127.0.0.1:3210/en/contact in Firefox on the Fedora host.",
         "Set a 375x812 viewport (responsive mode), light theme, and scroll so the inquiry form sits behind the sticky header.",
@@ -261,36 +554,66 @@
       "criticality": "high",
       "releaseRelevant": true,
       "gate": "technical",
-      "watch": ["src/styles/header.css", "src/components/layout/header.tsx", "src/styles/tokens.css", "src/content/home.ts", "src/content/contact.ts", "src/styles/contact.css"]
+      "watch": [
+        "src/styles/header.css",
+        "src/components/layout/header.tsx",
+        "src/styles/tokens.css",
+        "src/content/home.ts",
+        "src/content/contact.ts",
+        "src/styles/contact.css"
+      ]
     },
     {
       "id": "MANUAL-CROSSENGINE-PARITY",
       "title": "Chromium and Firefox critical-path parity",
       "category": "browser",
       "type": "manual",
-      "milestones": ["ECHO-605"],
-      "routes": ["/", "/services", "/work", "/about", "/contact", "/privacy"],
-      "locales": ["fa", "en", "ar"],
-      "viewports": ["1440x900", "375x812"],
+      "milestones": [
+        "ECHO-505",
+        "ECHO-605"
+      ],
+      "routes": [
+        "/",
+        "/services",
+        "/work",
+        "/about",
+        "/contact",
+        "/privacy"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "375x812"
+      ],
       "procedure": [
         "In Chromium and Firefox, load the homepage, services, work, about, contact and privacy pages in FA/EN/AR.",
         "Check navigation, language switching, theme switching, mobile drawer, keyboard focus and the inquiry form default/error states.",
+        "Check Persian/Arabic joining, punctuation, mixed Latin tokens and fallback font rendering in both engines.",
         "Compare against the WebKitGTK evidence for layout, overflow and direction regressions.",
         "Record each engine, version and OS with screenshots of any difference."
       ],
-      "expected": "No critical-path layout, direction, focus or form regression in either engine; differences are documented rather than assumed.",
+      "expected": "No critical-path layout, direction, focus, shaping or font-fallback regression in either engine; differences are documented rather than assumed.",
       "evidence": "Screenshots per engine and locale for the critical paths, plus a short findings note.",
       "criticality": "release",
       "releaseRelevant": true,
       "gate": "technical",
-      "watch": ["src/**", "design/reference/**"]
+      "watch": [
+        "src/**",
+        "design/reference/**"
+      ]
     },
     {
       "id": "MANUAL-SR-KEYBOARD",
       "title": "Keyboard-only and screen-reader spot check",
       "category": "accessibility",
       "type": "manual",
-      "milestones": ["ECHO-601"],
+      "milestones": [
+        "ECHO-601"
+      ],
       "procedure": [
         "Navigate every marketing page with the keyboard only: skip link, header, navigation, language/theme controls, main content, footer.",
         "Confirm visible focus, logical order, no traps, Escape closes the drawer and focus returns to the trigger.",
@@ -303,16 +626,30 @@
       "criticality": "release",
       "releaseRelevant": true,
       "gate": "technical",
-      "watch": ["src/**"]
+      "watch": [
+        "src/**"
+      ]
     },
     {
       "id": "MANUAL-ZOOM-200",
       "title": "200% zoom and reflow check",
       "category": "accessibility",
       "type": "manual",
-      "milestones": ["ECHO-601"],
-      "routes": ["/", "/work", "/about", "/contact"],
-      "locales": ["fa", "en", "ar"],
+      "milestones": [
+        "ECHO-505",
+        "ECHO-601"
+      ],
+      "routes": [
+        "/",
+        "/work",
+        "/about",
+        "/contact"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
       "procedure": [
         "Set browser zoom to 200% at a 1440x900 window.",
         "Check every listed page for clipped text, hidden controls, horizontal scrolling and overlapping sticky elements.",
@@ -324,15 +661,23 @@
       "criticality": "high",
       "releaseRelevant": true,
       "gate": "technical",
-      "watch": ["src/styles/**", "src/components/**"]
+      "watch": [
+        "src/styles/**",
+        "src/components/**"
+      ]
     },
     {
       "id": "MANUAL-NATIVE-FA",
       "title": "Native Persian copy and typography review",
       "category": "localization",
       "type": "manual",
-      "milestones": ["ECHO-505", "ECHO-502"],
-      "locales": ["fa"],
+      "milestones": [
+        "ECHO-505",
+        "ECHO-502"
+      ],
+      "locales": [
+        "fa"
+      ],
       "procedure": [
         "Read every FA page against the approved terminology file.",
         "Check Persian punctuation, half-spaces, number and date formatting, and mixed Latin tokens.",
@@ -344,15 +689,24 @@
       "criticality": "release",
       "releaseRelevant": true,
       "gate": "owner",
-      "watch": ["src/content/**", "src/i18n/**", "src/styles/fonts.css"]
+      "watch": [
+        "src/content/**",
+        "src/i18n/**",
+        "src/styles/fonts.css"
+      ]
     },
     {
       "id": "MANUAL-NATIVE-AR",
       "title": "Native Arabic copy and typography review",
       "category": "localization",
       "type": "manual",
-      "milestones": ["ECHO-505", "ECHO-502"],
-      "locales": ["ar"],
+      "milestones": [
+        "ECHO-505",
+        "ECHO-502"
+      ],
+      "locales": [
+        "ar"
+      ],
       "procedure": [
         "Read every AR page against the approved terminology file.",
         "Check Arabic punctuation, number shaping, mixed Latin tokens and RTL bidi isolation.",
@@ -364,16 +718,29 @@
       "criticality": "release",
       "releaseRelevant": true,
       "gate": "owner",
-      "watch": ["src/content/**", "src/i18n/**", "src/styles/fonts.css"]
+      "watch": [
+        "src/content/**",
+        "src/i18n/**",
+        "src/styles/fonts.css"
+      ]
     },
     {
       "id": "MANUAL-404-METADATA",
       "title": "Localized 404, canonical and social metadata review",
       "category": "browser",
       "type": "manual",
-      "milestones": ["ECHO-506"],
-      "routes": ["/unknown", "/work/unknown"],
-      "locales": ["fa", "en", "ar"],
+      "milestones": [
+        "ECHO-506"
+      ],
+      "routes": [
+        "/unknown",
+        "/work/unknown"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
       "procedure": [
         "Open unknown routes under each locale and confirm the localized 404 document and navigable header or back link.",
         "Inspect canonical URLs, hreflang, OG tags and robots directives for preview and public states.",
@@ -385,17 +752,39 @@
       "criticality": "high",
       "releaseRelevant": true,
       "gate": "technical",
-      "watch": ["src/app/**", "src/components/**", "src/content/**", "src/styles/**"]
+      "watch": [
+        "src/app/**",
+        "src/components/**",
+        "src/content/**",
+        "src/styles/**"
+      ]
     },
     {
       "id": "MANUAL-OWNER-VISUAL",
       "title": "Owner visual acceptance against the approved reference",
       "category": "visual",
       "type": "manual",
-      "milestones": ["ECHO-VF01", "ECHO-VF01-R1", "ECHO-608"],
-      "routes": ["/", "/services", "/work", "/about", "/contact"],
-      "locales": ["fa", "en", "ar"],
-      "viewports": ["1440x900", "375x812"],
+      "milestones": [
+        "ECHO-VF01",
+        "ECHO-VF01-R1",
+        "ECHO-608"
+      ],
+      "routes": [
+        "/",
+        "/services",
+        "/work",
+        "/about",
+        "/contact"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "375x812"
+      ],
       "procedure": [
         "Review the regenerated evidence bundle and the live site in the owner's browser.",
         "Confirm hierarchy, spacing, typography, card treatment and theme consistency still match the approved reference.",
@@ -407,14 +796,20 @@
       "criticality": "release",
       "releaseRelevant": true,
       "gate": "owner",
-      "watch": ["src/**", "design/reference/**"]
+      "watch": [
+        "src/**",
+        "design/reference/**"
+      ]
     },
     {
       "id": "MANUAL-LEGAL-PRIVACY",
       "title": "Privacy policy and legal wording approval",
       "category": "release",
       "type": "manual",
-      "milestones": ["ECHO-506", "ECHO-606"],
+      "milestones": [
+        "ECHO-506",
+        "ECHO-606"
+      ],
       "procedure": [
         "Review the privacy page, cookie/local-preference disclosure and inquiry data handling against actual implementation.",
         "Confirm retention, deletion and operator access wording before public launch.",
@@ -432,7 +827,9 @@
       "title": "Owner release sign-off",
       "category": "release",
       "type": "manual",
-      "milestones": ["P7"],
+      "milestones": [
+        "P7"
+      ],
       "procedure": [
         "Confirm every release-relevant automated test passed at the release commit.",
         "Confirm every required manual case passed with evidence and all owner/legal gates are recorded.",
