@@ -425,13 +425,38 @@ in `docs/ECHO-503-VISUAL-FOLLOWUPS.md` and remain open; no cross-engine, native,
 screen-reader/zoom or full visual-fidelity acceptance claimed. ECHO-505 and later
 tasks not started.
 
+### ECHO-VF01 targeted visual corrections — 2026-11-13
+
+**PASS for the three owner-confirmed corrections.** Narrow authorized batch:
+sticky-header legibility, Work content hierarchy and About introduction copy.
+Baseline `8e8f746`; commits `70e414f`, `dd88984`, `2abcdfc`. The header glass fill
+rose from 82% to 90% with a 16px blur (plus the WebKit-prefixed property);
+measured band edges fell to 0.0000 in every previously affected mobile case and
+0.0008/0.0016 at 768/1024, with sticky behaviour, drawer geometry and focus
+unchanged. Work now leads with the published concept studies
+(`workDisplayOrder`) while empty client/internal groups remain honest at 115 px
+instead of 254 px: concept section 924→416 px and three concept cards inside the
+initial 1440×900 viewport (0→3). At 375 px the concept heading enters the first
+viewport; the first card is 30–31 px below the fold in FA/EN. About FA/EN/AR
+descriptions/team/notes were rewritten as purpose/capability/collaboration copy
+with no defensive verification phrasing, invented people or claims; internal
+commentary moved to docs. **PASS:** 25 before + 25 after WebKitGTK 2.52.6/Xvfb
+captures (146/167 checks), 14 focused tests, 27 files/264 tests, lint, typecheck,
+production build, HTTP matrix, reference verification, diff/secret scan. Evidence
+ZIP: `test-results/echo-vf01-visual-evidence.zip` (3,847,495 bytes, CRC- and
+PNG-verified); report: `docs/ECHO-VF01.md`. Limitations: this harness rasterises
+no backdrop blur (opacity layer only; owner GPU-browser check needed), no
+Chromium/Firefox, native-language, screen-reader/zoom or owner sign-off. Findings
+#4–#6 remain deferred; ECHO-505 and later tasks not started.
+
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  
 **Exit gate:** Release checklist all green or documented owner-approved noncritical exception.
 
 Owner visual follow-ups confirmed from ECHO-503 are tracked in
-`docs/ECHO-503-VISUAL-FOLLOWUPS.md` and remain open for the authorized
-visual/accessibility work; none were treated as resolved by ECHO-504.
+`docs/ECHO-503-VISUAL-FOLLOWUPS.md`; #1–#3 were resolved in ECHO-VF01 with
+before/after evidence, while #4 (404, ECHO-506), #5 (RTL arrow) and #6
+(full-theme/reference fidelity, ECHO-601/605/608) remain open.
 
 - [ ] **ECHO-601 [P6]** Accessibility pass: automated axe-like checks plus manual keyboard, screen-reader spot check, contrast, focus, errors, 200% zoom, reduced motion. **Accept:** zero critical/high known blockers.
 - [ ] **ECHO-602 [P6]** Performance pass: optimize font, images, animation, caching and client bundle; record test conditions. **Accept:** repeatable lab Lighthouse >=90 target, no key regressions.
