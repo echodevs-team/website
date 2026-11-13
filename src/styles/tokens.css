@@ -45,7 +45,10 @@
 }
 :root {
   --font-body: "Vazirmatn", system-ui, sans-serif;
-  --font-mono: ui-monospace, monospace;
+  /* Latin chrome stays monospaced; Persian/Arabic glyphs in mono-styled chrome
+     (language names, brand chip, footer badges) must use the approved script
+     face instead of an unreviewed system fallback. */
+  --font-mono: ui-monospace, "Vazirmatn", monospace;
   --text-small: 0.875rem;
   --text-body: 1rem;
   --text-lead: 1.125rem;
