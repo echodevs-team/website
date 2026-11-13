@@ -52,7 +52,7 @@ Opt-in suites never run implicitly. They are:
 
 | Suite | Needs | Why opt-in |
 | --- | --- | --- |
-| `browser-rtl`, `browser-locale`, `browser-visual` | `xvfb-run`, Python `gi`, `.next/BUILD_ID` | Slow; needs a production build and the WebKitGTK/Xvfb stack. |
+| `browser-rtl`, `browser-locale`, `browser-visual`, `browser-typography` | `xvfb-run`, Python `gi`, `.next/BUILD_ID` | Slow; needs a production build and the WebKitGTK/Xvfb stack. |
 | `postgres` | `.local/dev-pg/app.env` | Development database only; must never point at production data. |
 
 If a prerequisite is absent, the suite is recorded as **BLOCKED** with the exact

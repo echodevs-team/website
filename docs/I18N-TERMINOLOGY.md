@@ -76,6 +76,35 @@ or approve legal/privacy wording.
 - Email and phone inputs use `dir="ltr"`. Inline phone examples start with a
   left-to-right mark (`U+200E`) before `+44` in FA/AR hints.
 
+## Fonts and rendering
+
+The site ships one family, **Vazirmatn**, as six self-hosted WOFF2 subsets in
+`public/fonts/` (`arabic` and `latin` × weights 400/500/700) declared in
+`src/styles/fonts.css`. Nothing loads a font from a third-party origin.
+
+- Each face carries an explicit `unicode-range` and `font-display: swap`, so the
+  browser requests only the subsets a page uses and text stays readable with the
+  declared fallback while a face loads.
+- `--font-body` is `"Vazirmatn", system-ui, sans-serif`. Headings and prose both
+  use it; do not introduce a second display face without owner approval.
+- `--font-mono` is `ui-monospace, "Vazirmatn", monospace`. Latin chrome keeps a
+  monospaced look, but Persian/Arabic glyphs inside mono-styled chrome (language
+  names, brand chip, footer badges and headings, runtime labels) must resolve to
+  Vazirmatn rather than an unreviewed system fallback. Removing Vazirmatn from
+  that stack is a regression, not a style tweak.
+- Persian/Arabic arrows (`←`, `→`, `↗`) and the `↑` in mixed chrome sit outside
+  the subset ranges and intentionally use the system fallback; they must never
+  render as tofu. Vazirmatn also intentionally shares some glyph shapes between
+  Persian (`۱۲۳`) and Arabic-Indic (`١٢٣`) digits, so duplicate-glyph checks must
+  not treat those as missing glyphs.
+- Letter spacing and uppercasing are scoped to `:lang(en)` or to the Latin
+  locale codes; they are never applied to Arabic-script text, where they break
+  joining and reading.
+
+`python3 scripts/typography_audit.py` (static) and
+`scripts/audit-typography.py` (WebKitGTK browser matrix) enforce these rules;
+`tests/unit/typography.test.ts` covers the copy-level script and numeral rules.
+
 ## Source ownership
 
 | Copy | Source |
