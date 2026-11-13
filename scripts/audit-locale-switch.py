@@ -15,6 +15,7 @@ import socket
 import subprocess
 import tempfile
 import time
+import urllib.parse
 import urllib.request
 
 import gi
@@ -86,14 +87,15 @@ def open_window(context, width, height):
     return window, web
 
 
-def navigate(web, url, expected_lang, ready=True):
+def navigate(web, url, expected_lang, ready=True, expected_path=None):
     web.load_uri(url)
+    target_path = expected_path or urllib.parse.urlsplit(url).path
     deadline = time.monotonic()+15
     last = None
     while time.monotonic() < deadline:
-        state = evaluate(web, "return {ready:document.readyState,lang:document.documentElement.lang,href:location.href,cookie:document.cookie};")
+        state = evaluate(web, "return {ready:document.readyState,lang:document.documentElement.lang,href:location.href,pathname:location.pathname,cookie:document.cookie};")
         last = state
-        if state['ready'] == 'complete' and state['lang'] == expected_lang:
+        if state['ready'] == 'complete' and state['lang'] == expected_lang and state['pathname'] == target_path:
             if ready:
                 wait_ready(web)
             return state
@@ -186,6 +188,7 @@ with tempfile.TemporaryFile(mode='w+') as log:
         click(web, '.language-switch a[hreflang="ar"]')
         wait_path(web, '/ar/privacy')
         check(state(web)['lang'] == 'ar', 'privacy EN->AR keeps route')
+        check('echo_locale=ar' in state(web)['cookie'], 'privacy EN->AR stores preference')
         capture(web, 'ar-privacy-after')
 
         # Unknown slug: localized 404 with home fallback, no invented slug.
@@ -196,7 +199,7 @@ with tempfile.TemporaryFile(mode='w+') as log:
         capture(web, 'fa-unknown-slug-404')
 
         # Stored AR preference now governs the root redirect.
-        navigate(web, origin+'/', 'ar')
+        navigate(web, origin+'/', 'ar', expected_path='/ar')
         check(evaluate(web, 'return location.pathname;') == '/ar', 'root remembers stored AR preference')
 
         window.destroy()
