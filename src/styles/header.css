@@ -5,11 +5,14 @@
   background: color-mix(in srgb, var(--color-background) 93%, transparent);
   border-block-end: var(--border-width) solid color-mix(in srgb, var(--color-border) 70%, transparent);
 }
-@supports (backdrop-filter: blur(8px)) {
+@supports ((backdrop-filter: blur(8px)) or (-webkit-backdrop-filter: blur(8px))) {
   /* Blur lives on a pseudo-element so the header never becomes the containing
-     block for fixed descendants (the mobile <dialog> keeps viewport geometry). */
+     block for fixed descendants (the mobile <dialog> keeps viewport geometry).
+     The fill stays translucent, but 90% plus a stronger blur stops scrolled
+     body copy from ghosting behind the navigation; the base 93% rule remains
+     the readable fallback when the effect is unsupported. */
   .site-header { background: transparent; }
-  .site-header::before { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--color-background) 82%, transparent); backdrop-filter: blur(8px) saturate(140%); }
+  .site-header::before { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--color-background) 90%, transparent); -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%); }
 }
 /* Navigation and footer style links by position and focus ring, not underlines. */
 .site-header a { text-decoration: none; }
