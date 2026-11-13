@@ -481,7 +481,7 @@ evidence-backed: missing results are NOT_RUN, dirty-tree or non-ancestor results
 are STALE, owner/legal gates require the matching reviewer role, and missing
 evidence stays REVIEW_REQUIRED. Historical ECHO-503/504/VF01/unit evidence is
 imported with its real revision and marked imported; nothing was fabricated.
-**PASS:** 32 files/328 tests (including 54 QA self-tests), lint, typecheck,
+**PASS:** 32 files/328 tests (including 64 QA self-tests), lint, typecheck,
 production build, HTTP matrix, reference verification. Guide: `docs/QA-SYSTEM.md`;
 per-task automated history: `qa/results/automated.jsonl`. QA reports are generated
 into ignored `qa/.out/`, so acceptance never depends on an ephemeral file.
