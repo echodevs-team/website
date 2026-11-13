@@ -21,7 +21,12 @@
     "db:cleanup": "node scripts/cleanup-submissions.mjs",
     "db:roles": "node scripts/provision-inquiry-roles.mjs",
     "inquiries:ops": "node scripts/inquiry-ops.mjs",
-    "verify:reference": "python3 scripts/verify_original.py"
+    "verify:reference": "python3 scripts/verify_original.py",
+    "qa:run": "node scripts/qa.ts run",
+    "qa:status": "node scripts/qa.ts status",
+    "qa:report": "node scripts/qa.ts report",
+    "qa:manual": "node scripts/qa.ts manual",
+    "qa:validate": "node scripts/qa.ts validate"
   },
   "dependencies": {
     "next": "16.4.5",
