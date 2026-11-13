@@ -25,6 +25,27 @@ describe("ECHO-404 about and team", () => {
     }
   });
 
+  it("introduces the collective without internal verification commentary", () => {
+    // ECHO-VF01: the public introduction explains purpose and capabilities
+    // instead of emphasising missing profiles, credentials or company facts.
+    const defensive = [
+      "unverified", "credentials", "not published", "not been verified",
+      "تأییدنشده", "اعتبارهای", "منتشر نشده", "تأیید نشده",
+      "غير موثقة", "لم تُنشر", "لم تُتحقق", "اعتماد فردي",
+    ];
+    const collective = { en: "collective", fa: "جمعی", ar: "جماعي" } as const;
+    for (const locale of locales) {
+      const t = aboutContent[locale];
+      const visible = [
+        t.description, t.team.title, t.team.description, t.team.profilesTitle,
+        t.team.profilesNote, t.team.factsTitle, t.team.factsNote, t.next.note,
+      ].join(" ").toLowerCase();
+      for (const phrase of defensive) expect(visible, `${locale}: ${phrase}`).not.toContain(phrase.toLowerCase());
+      expect(visible).toContain(collective[locale]);
+      expect(t.next.note).toContain({ fa: "صفحه تماس", en: "Contact page", ar: "صفحة التواصل" }[locale]);
+    }
+  });
+
   it.each(locales)("renders the team identity, capabilities, principles and next steps in %s", (locale) => {
     const t = aboutContent[locale];
     const host = document.createElement("div");
@@ -82,6 +103,8 @@ describe("ECHO-404 about and team", () => {
     expect(host.querySelector(`a[href="/${locale}/work"]`)).not.toBeNull();
     expect(host.querySelector(`a[href="/${locale}#contact"]`)).not.toBeNull();
     expect(host.textContent).toContain(t.next.note);
+    // ECHO-VF01: the public introduction must not read as internal verification.
+    expect(host.querySelector(".about-intro")?.textContent).not.toMatch(/unverified|تأییدنشده|غير موثقة/i);
     // ECHO-407: the Contact page is implemented, so the next-step note must not
     // claim the homepage inquiry is the only contact path.
     expect(t.next.note).toContain({ fa: "صفحه تماس", en: "Contact page", ar: "صفحة التواصل" }[locale]);

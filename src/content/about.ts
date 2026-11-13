@@ -34,14 +34,14 @@ export type AboutContent = {
 
 const en: AboutContent = {
   title: "A collective team for considered software",
-  description: "Echo Devs is a collective software team. We design and build websites, custom systems and focused AI tools, and we explain the tradeoffs before work begins. This page describes how we think and cooperate; individual profiles and client references appear only when they are verified and approved.",
+  description: "Echo Devs is a collective software team. We design and build websites, custom systems and focused AI tools, and we explain the tradeoffs before work begins. We bring product thinking, interface design and reviewable engineering together, and keep decisions visible from the first conversation to handoff.",
   eyebrow: "About Echo Devs",
   badges: ["Collective development team", "Product & software engineering"],
   actions: { primary: "Start a project", secondary: "Explore services" },
   team: {
     eyebrow: "Who we are",
-    title: "A collective team, not a list of unverified credentials",
-    description: "Echo Devs works as a development collective: a small group organized around the problem at hand. Instead of presenting unverified biographies, this page explains the capabilities we bring together, the principles we work by and how a project is shaped.",
+    title: "A small team organized around the problem",
+    description: "Echo Devs works as a development collective: a group organized around the problem at hand. We combine product thinking, interface design and engineering, and keep decisions reviewable from the first conversation through handoff.",
     pointsTitle: "What the team works across",
     points: [
       { title: "Product thinking", description: "Clarify the user need, the job to be done and what success should look like before choosing a solution." },
@@ -49,10 +49,10 @@ const en: AboutContent = {
       { title: "Application engineering", description: "Build web experiences, backends and integrations with reviewable code and explicit data boundaries." },
       { title: "Practical AI", description: "Test a narrowly defined automation or assistant against representative cases, with human review and stated limits." },
     ],
-    profilesTitle: "Public profiles",
-    profilesNote: "Individual names, biographies, photographs and public profiles are not published yet. They will appear only with each person's approval; until then, this page makes no claim about individual credentials.",
-    factsTitle: "Company facts",
-    factsNote: "A founding date, office address, registration number and delivery statistics are not shown because they have not been verified for publication.",
+    profilesTitle: "Direct collaboration",
+    profilesNote: "You work with the people who design and build the product. Requirements, assumptions and changes stay in one shared written record.",
+    factsTitle: "From scope to handoff",
+    factsNote: "Work starts from a written scope with acceptance criteria and milestones, and ends with documentation and deployment notes.",
   },
   capabilities: {
     eyebrow: "Capabilities",
@@ -121,20 +121,20 @@ const en: AboutContent = {
     services: "Review services",
     work: "Explore concept work",
     contact: "Open the project inquiry",
-    note: "Public email addresses and social profiles are not published until the owner verifies them. The project inquiry is the implemented contact path and is available on both the homepage and the Contact page.",
+    note: "The project inquiry is the implemented contact path and is available on both the homepage and the Contact page.",
   },
 };
 
 const fa: AboutContent = {
   title: "تیمی جمعی برای ساخت نرم‌افزار سنجیده",
-  description: "اکو دوز یک تیم توسعه جمعی است. وب‌سایت، سامانه سفارشی و ابزار هوش مصنوعی محدود می‌سازیم و پیش از آغاز کار، گزینه‌ها و محدودیت‌ها را روشن می‌کنیم. این صفحه نحوه تفکر و همکاری ما را توضیح می‌دهد؛ مشخصات فردی و سابقه مشتریان تنها پس از تأیید منتشر می‌شود.",
+  description: "اکو دوز یک تیم توسعه جمعی است. وب‌سایت، سامانه سفارشی و ابزار هوش مصنوعی محدود می‌سازیم و پیش از آغاز کار، گزینه‌ها و محدودیت‌ها را روشن می‌کنیم. تفکر محصولی، طراحی رابط و مهندسی قابل بازبینی را کنار هم می‌آوریم و تصمیم‌ها را از نخستین گفتگو تا تحویل شفاف نگه می‌داریم.",
   eyebrow: "درباره اکو دوز",
   badges: ["تیم توسعه جمعی", "مهندسی محصول و نرم‌افزار"],
   actions: { primary: "شروع پروژه", secondary: "بررسی خدمات" },
   team: {
     eyebrow: "ما چه کسانی هستیم",
-    title: "یک تیم جمعی، نه فهرستی از اعتبارهای تأییدنشده",
-    description: "اکو دوز به‌صورت یک جمع توسعه‌دهنده کار می‌کند؛ گروهی کوچک که حول مسئله پیش رو سازمان می‌یابد. به‌جای ارائه زندگینامه‌های تأییدنشده، این صفحه توانمندی‌هایی را که کنار هم می‌آوریم، اصول کاری و مسیر شکل‌گیری پروژه توضیح می‌دهد.",
+    title: "تیمی کوچک، سازمان‌یافته حول مسئله",
+    description: "اکو دوز به‌صورت یک جمع توسعه‌دهنده کار می‌کند؛ گروهی که حول مسئله پیش رو سازمان می‌یابد. تفکر محصولی، طراحی رابط و مهندسی را کنار هم می‌آوریم و تصمیم‌ها را از گفتگوی اول تا تحویل قابل بازبینی نگه می‌داریم.",
     pointsTitle: "حوزه‌های کاری تیم",
     points: [
       { title: "تفکر محصولی", description: "پیش از انتخاب راهکار، نیاز کاربر، کاری که باید انجام شود و معنای موفقیت را روشن می‌کنیم." },
@@ -142,10 +142,10 @@ const fa: AboutContent = {
       { title: "مهندسی اپلیکیشن", description: "تجربه وب، بک‌اند و اتصال سامانه‌ها را با کد قابل بازبینی و مرزهای روشن داده می‌سازیم." },
       { title: "هوش مصنوعی کاربردی", description: "یک اتوماسیون یا دستیار محدود را با موارد نمونه، بازبینی انسانی و محدودیت‌های مشخص می‌سنجیم." },
     ],
-    profilesTitle: "مشخصات عمومی",
-    profilesNote: "نام، زندگینامه، تصویر و صفحه عمومی اعضای تیم هنوز منتشر نشده است. این اطلاعات فقط با تأیید هر فرد اضافه می‌شود؛ تا آن زمان این صفحه ادعایی درباره اعتبار فردی مطرح نمی‌کند.",
-    factsTitle: "اطلاعات رسمی",
-    factsNote: "تاریخ تأسیس، نشانی دفتر، شماره ثبت و آمار تحویل پروژه نمایش داده نمی‌شود، زیرا برای انتشار تأیید نشده‌اند.",
+    profilesTitle: "همکاری مستقیم",
+    profilesNote: "با همان افرادی کار می‌کنید که محصول را طراحی و می‌سازند. نیازمندی‌ها، فرضیات و تغییرات در یک سند مشترک ثبت می‌شود.",
+    factsTitle: "از دامنه تا تحویل",
+    factsNote: "کار با دامنه مکتوب همراه معیارهای پذیرش و مراحل آغاز می‌شود و با مستندات و راهنمای استقرار پایان می‌یابد.",
   },
   capabilities: {
     eyebrow: "توانمندی‌ها",
@@ -214,20 +214,20 @@ const fa: AboutContent = {
     services: "بررسی خدمات",
     work: "مشاهده طرح‌های مفهومی",
     contact: "بازکردن فرم درخواست پروژه",
-    note: "نشانی ایمیل و شبکه‌های اجتماعی عمومی تا تأیید مالک منتشر نمی‌شوند. فرم درخواست پروژه مسیر ارتباطی پیاده‌شده است و در صفحه اصلی و صفحه تماس در دسترس است.",
+    note: "فرم درخواست پروژه مسیر ارتباطی پیاده‌شده است و در صفحه اصلی و صفحه تماس در دسترس است.",
   },
 };
 
 const ar: AboutContent = {
   title: "فريق جماعي لبناء برمجيات مدروسة",
-  description: "إيكو ديفز فريق تطوير جماعي. نصمم ونبني المواقع والأنظمة المخصصة وأدوات الذكاء الاصطناعي المحددة، ونوضح الخيارات والقيود قبل بدء العمل. تشرح هذه الصفحة طريقة تفكيرنا وتعاوننا؛ ولا تُنشر الملفات الشخصية ومراجع العملاء إلا بعد التحقق والموافقة.",
+  description: "إيكو ديفز فريق تطوير جماعي. نصمم ونبني المواقع والأنظمة المخصصة وأدوات الذكاء الاصطناعي المحددة، ونوضح الخيارات والقيود قبل بدء العمل. نجمع التفكير بالمنتج وتصميم الواجهات والهندسة القابلة للمراجعة، ونبقي القرارات واضحة من المحادثة الأولى حتى التسليم.",
   eyebrow: "عن إيكو ديفز",
   badges: ["فريق تطوير جماعي", "هندسة منتجات وبرمجيات"],
   actions: { primary: "ابدأوا مشروعًا", secondary: "استكشفوا الخدمات" },
   team: {
     eyebrow: "من نحن",
-    title: "فريق جماعي، لا سجلًا لخبرات غير موثقة",
-    description: "يعمل إيكو ديفز كتجمّع تطويري؛ مجموعة صغيرة تتنظم حول المشكلة المطروحة. بدلًا من تقديم سير ذاتية غير موثقة، توضح هذه الصفحة القدرات التي نجمعها ومبادئ عملنا ومسار تشكيل المشروع.",
+    title: "فريق صغير يتنظم حول المشكلة",
+    description: "يعمل إيكو ديفز كتجمّع تطويري؛ مجموعة تتنظم حول المشكلة المطروحة. نجمع التفكير بالمنتج وتصميم الواجهات والهندسة، ونبقي القرارات قابلة للمراجعة من المحادثة الأولى حتى التسليم.",
     pointsTitle: "مجالات عمل الفريق",
     points: [
       { title: "التفكير بالمنتج", description: "نوضح حاجة المستخدم والمهمة المطلوبة ومعنى النجاح قبل اختيار الحل." },
@@ -235,10 +235,10 @@ const ar: AboutContent = {
       { title: "هندسة التطبيقات", description: "نبني تجارب الويب والخوادم وتكامل الأنظمة بشيفرة قابلة للمراجعة وحدود بيانات واضحة." },
       { title: "الذكاء الاصطناعي العملي", description: "نقيّم أتمتة أو مساعدًا محدودًا بحالات تمثيلية ومراجعة بشرية وحدود معلنة." },
     ],
-    profilesTitle: "الملفات العامة",
-    profilesNote: "لم تُنشر بعد أسماء أعضاء الفريق أو سيرهم أو صورهم أو ملفاتهم العامة. تُضاف هذه المعلومات بموافقة كل شخص فقط؛ وحتى ذلك الحين لا تدّعي هذه الصفحة أي اعتماد فردي.",
-    factsTitle: "المعلومات الرسمية",
-    factsNote: "لا يُعرض تاريخ التأسيس أو عنوان المكتب أو رقم التسجيل أو إحصاءات التسليم لأنها لم تُتحقق للنشر.",
+    profilesTitle: "تعاون مباشر",
+    profilesNote: "تعملون مع الأشخاص الذين يصممون المنتج ويبنونه. تبقى المتطلبات والافتراضات والتغييرات في سجل مكتوب مشترك.",
+    factsTitle: "من النطاق إلى التسليم",
+    factsNote: "يبدأ العمل بنطاق مكتوب يتضمن معايير القبول والمراحل، وينتهي بالتوثيق وتعليمات النشر.",
   },
   capabilities: {
     eyebrow: "القدرات",
@@ -307,7 +307,7 @@ const ar: AboutContent = {
     services: "راجعوا الخدمات",
     work: "استكشفوا الأعمال التصورية",
     contact: "افتحوا نموذج طلب المشروع",
-    note: "لا تُنشر عناوين البريد أو الملفات الاجتماعية العامة حتى يتحقق المالك منها. نموذج طلب المشروع هو مسار التواصل المنفذ، وهو متاح في الصفحة الرئيسية وصفحة التواصل.",
+    note: "نموذج طلب المشروع هو مسار التواصل المنفذ، وهو متاح في الصفحة الرئيسية وصفحة التواصل.",
   },
 };
 
