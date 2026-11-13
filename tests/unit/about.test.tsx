@@ -46,6 +46,35 @@ describe("ECHO-404 about and team", () => {
     }
   });
 
+  it("does not claim a team size the owner has not verified", () => {
+    // ECHO-VF01-R1: an independent review found that the About heading
+    // described a "small team" even though team size is not an owner-verified
+    // fact. Keep the copy neutral in every locale and in adjacent sections.
+    const unsupportedSize = [
+      "small team", "small group", "small, direct", "small and direct",
+      "تیم کوچک", "تیمی کوچک", "گروه کوچک",
+      "فريق صغير", "مجموعة صغيرة",
+    ];
+    const expectedTitle = {
+      en: "A team aligned around the problem",
+      fa: "تیمی هم‌راستا برای حل مسئله",
+      ar: "فريق يجمع خبراته لحل المشكلة",
+    } as const;
+    const strings = (value: unknown): string[] => {
+      if (typeof value === "string") return [value];
+      if (Array.isArray(value)) return value.flatMap(strings);
+      if (value && typeof value === "object") return Object.values(value).flatMap(strings);
+      return [];
+    };
+    for (const locale of locales) {
+      const visible = strings(aboutContent[locale]).join(" | ").toLowerCase();
+      for (const phrase of unsupportedSize) {
+        expect(visible, `${locale}: ${phrase}`).not.toContain(phrase.toLowerCase());
+      }
+      expect(aboutContent[locale].team.title).toBe(expectedTitle[locale]);
+    }
+  });
+
   it.each(locales)("renders the team identity, capabilities, principles and next steps in %s", (locale) => {
     const t = aboutContent[locale];
     const host = document.createElement("div");

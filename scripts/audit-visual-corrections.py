@@ -1,16 +1,17 @@
-"""ECHO-VF01 targeted visual-correction evidence harness.
+"""Targeted visual-correction evidence harness (ECHO-VF01 / ECHO-VF01-R1).
 
-Captures genuinely comparable before/after viewport PNGs for the three owner
-confirmed findings (mobile sticky-header bleed, Work-page hierarchy, About
-introduction copy) using the already installed WebKitGTK/Xvfb stack.
+Captures genuinely comparable before/after viewport PNGs for the owner-confirmed
+findings (mobile sticky-header bleed, Work-page hierarchy, About copy) using the
+already installed WebKitGTK/Xvfb stack.
 
-Each run writes test-results/echo-vf01-<phase>-<timestamp>/ with screenshots/,
+Each run writes test-results/<task>-<phase>-<timestamp>/ with screenshots/,
 manifest.json, metrics.json and the private loopback server log. It never
 downloads a browser, never enables intake and never touches another server.
 
 Run:
   xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' \
-    /usr/bin/python3 scripts/audit-visual-corrections.py --phase before
+    /usr/bin/python3 scripts/audit-visual-corrections.py --phase before \
+    --task ECHO-VF01 --only header,work,about
 """
 import argparse
 import json
@@ -29,19 +30,29 @@ gi.require_version('Gdk', '3.0')
 gi.require_version('GdkPixbuf', '2.0')
 gi.require_version('WebKit2', '4.1')
 from gi.repository import Gdk, GdkPixbuf, Gtk, WebKit2
+from evidence_manifest import page_url, source_revision
 from webkit_snapshot import SnapshotAPI
 
 ROOT = Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--phase', choices=['before', 'after'], required=True)
-parser.add_argument('--commit', default=None, help='label committed to the manifest')
+parser.add_argument('--task', default='ECHO-VF01', help='task id used in paths and manifests')
+parser.add_argument('--only', default='header,work,about', help='comma-separated case groups: header,work,about')
 args = parser.parse_args()
+groups = [item.strip() for item in args.only.split(',') if item.strip()]
+if not groups or set(groups) - {'header', 'work', 'about'}:
+    parser.error('--only accepts header, work and about')
 
-OUT = ROOT/'test-results'/f'echo-vf01-{args.phase}-{time.strftime("%Y%m%d-%H%M%S")}'
+TASK = args.task.strip()
+if not TASK:
+    parser.error('--task must not be empty')
+OUT = ROOT/'test-results'/f'{TASK.lower()}-{args.phase}-{time.strftime("%Y%m%d-%H%M%S")}'
 SHOTS = OUT/'screenshots'
 OUT.mkdir(parents=True, exist_ok=False)
 SHOTS.mkdir()
-commit = args.commit or subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
+revision = source_revision(ROOT)
+tested_revision = revision['testedSourceRevision']
+worktree_dirty = revision['worktreeDirty']
 checks = []
 captures = []
 metric_rows = []
@@ -225,8 +236,9 @@ def capture(web, name, route, locale, theme, viewport, mode, extra=None):
     record = {
         'file': str(path.relative_to(OUT)), 'phase': args.phase, 'route': route, 'locale': locale,
         'theme': theme, 'viewport': list(viewport), 'scroll': mode, 'scrollY': header['scrollY'],
-        'url': origin+'/'+locale+route.lstrip('/').replace('contact-drawer', 'contact'),
-        'engine': engine, 'commit': commit, 'deviceScaleFactor': 1,
+        'url': page_url(origin, locale, route),
+        'engine': engine, 'testedSourceRevision': tested_revision, 'worktreeDirty': worktree_dirty,
+        'deviceScaleFactor': 1,
         'header': {k: header[k] for k in ('position', 'top', 'zIndex', 'background', 'height', 'beforeBackground', 'beforeOpacity', 'backdropFilter', 'headerBackdrop')},
         'band': metrics, 'snapshot': snapshot,
     }
@@ -369,7 +381,7 @@ with tempfile.TemporaryFile(mode='w+') as log:
         engine = 'WebKitGTK '+'.'.join(str(v) for v in (WebKit2.get_major_version(), WebKit2.get_minor_version(), WebKit2.get_micro_version()))+' / Cairo snapshot'
 
         # Fix A: mobile/tablet/desktop sticky-header legibility.
-        for locale, route, viewport, theme, mode, name in HEADER_CASES:
+        for locale, route, viewport, theme, mode, name in (HEADER_CASES if 'header' in groups else []):
             window, web = open_page(locale, theme, *viewport, route)
             if mode == 'error':
                 submit_and_wait_error(web)
@@ -391,8 +403,10 @@ with tempfile.TemporaryFile(mode='w+') as log:
                 SnapshotAPI().snapshot(web, dialog_capture, pump)
                 captures.append({'file': str(dialog_capture.relative_to(OUT)), 'phase': args.phase,
                                  'route': '/contact-drawer', 'locale': locale, 'theme': theme,
-                                 'viewport': list(viewport), 'engine': engine, 'commit': commit,
-                                 'dialog': opened})
+                                 'viewport': list(viewport), 'scroll': 'drawer', 'scrollY': 0,
+                                 'url': page_url(origin, locale, '/contact'), 'engine': engine,
+                                 'testedSourceRevision': tested_revision, 'worktreeDirty': worktree_dirty,
+                                 'deviceScaleFactor': 1, 'dialog': opened})
                 print('CAPTURE', captures[-1]['file'])
                 subprocess.run(['xdotool', 'key', 'Escape'], check=True, timeout=5)
                 pump(.3)
@@ -401,7 +415,7 @@ with tempfile.TemporaryFile(mode='w+') as log:
 
         # Fix B: Work hierarchy and discoverability of the available studies.
         work_metrics = {}
-        for locale, route, viewport, theme, name in WORK_CASES:
+        for locale, route, viewport, theme, name in (WORK_CASES if 'work' in groups else []):
             window, web = open_page(locale, theme, *viewport, route)
             scroll_mode(web, 'top')
             metrics = page_metrics(web, 'work')
@@ -415,7 +429,7 @@ with tempfile.TemporaryFile(mode='w+') as log:
 
         # Fix C: About introduction copy and first-screen composition.
         about_text = {}
-        for locale, route, viewport, theme, name in ABOUT_CASES:
+        for locale, route, viewport, theme, name in (ABOUT_CASES if 'about' in groups else []):
             window, web = open_page(locale, theme, *viewport, route)
             scroll_mode(web, 'top')
             metrics = page_metrics(web, 'about')
@@ -440,17 +454,24 @@ with tempfile.TemporaryFile(mode='w+') as log:
                 check(len(metrics['sections']) == 3, name+': all three work category sections remain')
 
         (OUT/'manifest.json').write_text(json.dumps({
-            'task': 'ECHO-VF01', 'phase': args.phase, 'engine': engine, 'commit': commit,
+            'task': TASK, 'phase': args.phase, 'engine': engine,
+            'testedSourceRevision': tested_revision, 'worktreeDirty': worktree_dirty,
+            'documentationRevision': None,
+            'documentationRevisionNote': 'assigned when this evidence is committed; it is not the tested source revision',
             'origin': origin, 'capturedAt': time.strftime('%Y-%m-%dT%H:%M:%S%z'),
+            'caseGroups': groups,
             'viewportPresets': {'desktop': DESKTOP, 'mobile': MOBILE},
             'screenshots': [c for c in captures],
         }, ensure_ascii=False, indent=2)+'\n')
         (OUT/'metrics.json').write_text(json.dumps({
-            'task': 'ECHO-VF01', 'phase': args.phase, 'engine': engine, 'commit': commit,
+            'task': TASK, 'phase': args.phase, 'engine': engine,
+            'testedSourceRevision': tested_revision, 'worktreeDirty': worktree_dirty,
             'headerBands': metric_rows, 'work': work_metrics, 'about': about_text,
         }, ensure_ascii=False, indent=2)+'\n')
         (OUT/'audit.json').write_text(json.dumps({
-            'phase': args.phase, 'engine': engine, 'commit': commit,
+            'phase': args.phase, 'engine': engine,
+            'testedSourceRevision': tested_revision, 'worktreeDirty': worktree_dirty,
+            'caseGroups': groups,
             'checks': len(checks), 'labels': checks,
         }, ensure_ascii=False, indent=2)+'\n')
         print(f'PASS {len(checks)} visual checks, {len(captures)} screenshots; {OUT}')

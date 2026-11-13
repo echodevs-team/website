@@ -40,7 +40,7 @@ const en: AboutContent = {
   actions: { primary: "Start a project", secondary: "Explore services" },
   team: {
     eyebrow: "Who we are",
-    title: "A small team organized around the problem",
+    title: "A team aligned around the problem",
     description: "Echo Devs works as a development collective: a group organized around the problem at hand. We combine product thinking, interface design and engineering, and keep decisions reviewable from the first conversation through handoff.",
     pointsTitle: "What the team works across",
     points: [
@@ -107,7 +107,7 @@ const en: AboutContent = {
   collaboration: {
     eyebrow: "Working together",
     title: "Clear roles, visible decisions, honest limits",
-    description: "We work with clients as a small, direct team. The exact communication channel and cadence are agreed at kickoff; no response time is promised on this page.",
+    description: "We work with clients as a direct team. The exact communication channel and cadence are agreed at kickoff; no response time is promised on this page.",
     items: [
       { title: "One shared decision record", description: "Requirements, assumptions and changes live in shared written notes so both sides refer to the same version." },
       { title: "Defined review points", description: "Each milestone has a named review and acceptance step; feedback and pending decisions are tracked together." },
@@ -133,7 +133,7 @@ const fa: AboutContent = {
   actions: { primary: "شروع پروژه", secondary: "بررسی خدمات" },
   team: {
     eyebrow: "ما چه کسانی هستیم",
-    title: "تیمی کوچک، سازمان‌یافته حول مسئله",
+    title: "تیمی هم‌راستا برای حل مسئله",
     description: "اکو دوز به‌صورت یک جمع توسعه‌دهنده کار می‌کند؛ گروهی که حول مسئله پیش رو سازمان می‌یابد. تفکر محصولی، طراحی رابط و مهندسی را کنار هم می‌آوریم و تصمیم‌ها را از گفتگوی اول تا تحویل قابل بازبینی نگه می‌داریم.",
     pointsTitle: "حوزه‌های کاری تیم",
     points: [
@@ -200,7 +200,7 @@ const fa: AboutContent = {
   collaboration: {
     eyebrow: "همکاری با مشتری",
     title: "نقش‌های روشن، تصمیم‌های قابل مشاهده، محدودیت‌های صادقانه",
-    description: "به‌عنوان تیمی کوچک و مستقیم با مشتری کار می‌کنیم. کانال ارتباطی و فاصله زمانی دقیق در آغاز توافق می‌شود؛ در این صفحه زمان پاسخ مشخصی وعده داده نمی‌شود.",
+    description: "به‌صورت مستقیم با مشتری کار می‌کنیم. کانال ارتباطی و فاصله زمانی دقیق در آغاز توافق می‌شود؛ در این صفحه زمان پاسخ مشخصی وعده داده نمی‌شود.",
     items: [
       { title: "یک سند تصمیم مشترک", description: "نیازمندی‌ها، فرضیات و تغییرات در یادداشت‌های مکتوب مشترک ثبت می‌شوند تا دو طرف به یک نسخه مراجعه کنند." },
       { title: "نقاط بازبینی مشخص", description: "هر مرحله بازبینی و پذیرش مشخص دارد؛ بازخورد و تصمیم‌های معطل با هم پیگیری می‌شوند." },
@@ -226,7 +226,7 @@ const ar: AboutContent = {
   actions: { primary: "ابدأوا مشروعًا", secondary: "استكشفوا الخدمات" },
   team: {
     eyebrow: "من نحن",
-    title: "فريق صغير يتنظم حول المشكلة",
+    title: "فريق يجمع خبراته لحل المشكلة",
     description: "يعمل إيكو ديفز كتجمّع تطويري؛ مجموعة تتنظم حول المشكلة المطروحة. نجمع التفكير بالمنتج وتصميم الواجهات والهندسة، ونبقي القرارات قابلة للمراجعة من المحادثة الأولى حتى التسليم.",
     pointsTitle: "مجالات عمل الفريق",
     points: [
@@ -293,7 +293,7 @@ const ar: AboutContent = {
   collaboration: {
     eyebrow: "العمل مع العميل",
     title: "أدوار واضحة وقرارات مرئية وحدود صادقة",
-    description: "نعمل مع العملاء كفريق صغير ومباشر. تُتفق قناة التواصل ووتيرته عند البداية؛ ولا نعد بزمن استجابة محدد في هذه الصفحة.",
+    description: "نعمل مع العملاء بشكل مباشر. تُتفق قناة التواصل ووتيرته عند البداية؛ ولا نعد بزمن استجابة محدد في هذه الصفحة.",
     items: [
       { title: "سجل قرار مشترك", description: "تُسجل المتطلبات والافتراضات والتغييرات في ملاحظات مكتوبة مشتركة ليرجع الطرفان إلى النسخة نفسها." },
       { title: "نقاط مراجعة محددة", description: "لكل مرحلة مراجعة وقبول محددان؛ ويُتابع كل من الملاحظات والقرارات المعلقة معًا." },
