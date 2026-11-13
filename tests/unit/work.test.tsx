@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { Header } from "../../src/components/layout/header";
 import { WorkPage } from "../../src/components/marketing/work-page";
 import { Homepage } from "../../src/components/marketing/homepage";
-import { getWorkItems, workContent, workKinds } from "../../src/content/work";
+import { getWorkItems, workContent, workDisplayOrder, workKinds } from "../../src/content/work";
 import { serviceIds } from "../../src/content/home";
 import { locales } from "../../src/i18n/config";
 
@@ -37,6 +37,10 @@ describe("ECHO-402 grouped work list", () => {
     expect(host.querySelectorAll("h1")).toHaveLength(1);
     expect(host.querySelector("h1")?.textContent).toBe(t.title);
     expect(host.querySelectorAll("[data-work-kind]")).toHaveLength(3);
+    // ECHO-VF01: available concept studies lead; empty categories stay present.
+    expect([...host.querySelectorAll("main > section[id]")].map((section) => section.id)).toEqual(["concept", "client", "internal"]);
+    expect(host.querySelectorAll("#concept .work-card")).toHaveLength(3);
+    for (const kind of ["client", "internal"]) expect(host.querySelector(`#${kind}`)?.className).toContain("work-empty");
     for (const kind of workKinds) {
       const section = host.querySelector(`#${kind}`)!;
       expect(section.querySelector("h2")?.textContent).toBe(t.groups[kind].title);
@@ -72,6 +76,14 @@ describe("ECHO-402 grouped work list", () => {
     expect(host.querySelector(`footer a[href="/${locale}/work"]`)).not.toBeNull();
     expect(host.querySelector("form, iframe, canvas")).toBeNull();
     expect(host.innerHTML).not.toMatch(/mailto:|https:\/\/|HIPAA|TOKENS:|RPS:/);
+  });
+  it("leads with available concept studies and keeps every category", () => {
+    // ECHO-VF01: the published concepts must not sit behind two empty groups.
+    expect(workDisplayOrder).toEqual(["concept", "client", "internal"]);
+    expect([...workDisplayOrder].sort()).toEqual([...workKinds].sort());
+    const css = readFileSync("src/styles/work.css", "utf8");
+    expect(css).toContain(".work-empty");
+    expect(readFileSync("src/components/marketing/work-page.tsx", "utf8")).toContain("work-empty");
   });
   it("reuses mobile-first cards without client filtering or dependencies", () => {
     const css = readFileSync("src/styles/work.css", "utf8");

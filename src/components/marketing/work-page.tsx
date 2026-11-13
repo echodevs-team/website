@@ -1,4 +1,4 @@
-import { getWorkItems, workContent, workKinds } from "../../content/work";
+import { getWorkItems, workContent, workDisplayOrder } from "../../content/work";
 import { workDetailContent } from "../../content/work-details";
 import { localePath, type Locale } from "../../i18n/config";
 import { Container } from "../layout/container";
@@ -15,17 +15,18 @@ export function WorkPage({ locale }: { locale: Locale }) {
         <Container>
           <div className="home-heading work-intro"><SectionHeading id="work-title" level={1} description={t.description}>{t.title}</SectionHeading></div>
           <nav className="work-jump-links" aria-label={t.navigation}>
-            {workKinds.map((kind) => <Link key={kind} href={`#${kind}`} appearance="secondary">{t.groups[kind].title}</Link>)}
+            {workDisplayOrder.map((kind) => <Link key={kind} href={`#${kind}`} appearance="secondary">{t.groups[kind].title}</Link>)}
           </nav>
         </Container>
       </section>
-      {workKinds.map((kind) => {
+      {workDisplayOrder.map((kind) => {
         const group = t.groups[kind];
         const records = items.filter((item) => item.kind === kind);
-        return <section key={kind} id={kind} className={`home-section${kind === "concept" ? " home-band" : ""}`} aria-labelledby={`${kind}-title`}>
+        const populated = records.length > 0;
+        return <section key={kind} id={kind} className={`home-section${populated ? (kind === "concept" ? " home-band" : "") : " work-empty"}`} aria-labelledby={`${kind}-title`}>
           <Container>
-            <div className="home-heading"><SectionHeading id={`${kind}-title`} description={group.description}>{group.title}</SectionHeading></div>
-            {records.length > 0 && <>
+            <div className={populated ? "home-heading" : "home-heading work-empty-heading"}><SectionHeading id={`${kind}-title`} description={group.description}>{group.title}</SectionHeading></div>
+            {populated && <>
               <p className="inquiry-notice">{t.stackNote}</p>
               <ul className="home-grid three-columns work-list">{records.map((item) => <li key={item.id}>
                 <article className="home-glass work-card" aria-labelledby={`work-${item.id}`} data-work-kind={item.kind}>

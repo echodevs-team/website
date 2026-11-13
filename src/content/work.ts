@@ -2,6 +2,9 @@ import { homeContent, type Concept } from "./home";
 import type { Locale } from "../i18n/config";
 
 export const workKinds = ["client", "internal", "concept"] as const;
+// Public presentation order: the available concept studies lead, and categories
+// without approved records keep a compact honest empty state below them.
+export const workDisplayOrder = ["concept", "client", "internal"] as const;
 type WorkCopy = {
   title: string; description: string; navigation: string; preview: string;
   proposedStack: string; stackNote: string; cta: string;

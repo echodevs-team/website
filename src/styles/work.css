@@ -8,6 +8,12 @@
 .work-card h3 { font-size: 1.25rem; }
 .work-card .home-badge { align-self: start; }
 .work-preview-link { margin-block-start: 2rem; }
+/* Categories with no approved records stay honest but compact: they must not
+   push the available concept studies below the first viewport. */
+.work-empty { padding-block: 1.75rem; }
+.work-empty-heading { margin-block-end: 0; max-inline-size: 52rem; }
+.work-empty-heading .ui-section-heading h2 { font-size: 1.25rem; line-height: 1.4; }
+.work-empty-heading .ui-section-heading p { margin-block-start: .375rem; font-size: .9375rem; line-height: 1.7; }
 .work-detail-intro { margin-block-start: 2rem; }
 .work-detail-intro .home-badge { margin-block-end: 1rem; }
 .work-workflow { list-style-type: decimal; padding-inline-start: 1.5rem; }
