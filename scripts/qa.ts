@@ -335,7 +335,11 @@ async function commandManual(args: ParsedArguments): Promise<number> {
   };
   const record = recordManualResult({ root: ROOT, registry, history, input });
   console.log(`Recorded ${record.result} for ${record.testId} at ${record.recordedAt} (source ${record.sourceRevision.slice(0, 8)}${record.worktreeDirty ? ", dirty tree" : ""}).`);
-  if (record.evidence.length === 0 && registry.tests.find((test) => test.id === record.testId)?.evidenceRequired) {
+  if (
+    record.result === "PASS" &&
+    record.evidence.length === 0 &&
+    registry.tests.find((test) => test.id === record.testId)?.evidenceRequired
+  ) {
     console.log("Warning: this case requires evidence; status will remain REVIEW_REQUIRED until a path is recorded.");
   }
   return 0;
