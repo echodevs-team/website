@@ -344,7 +344,7 @@ download, dependency, security/global rendering or marketing-source change.
 - [x] **ECHO-501 [P5]** Build localized content dictionaries/types and parity validation. **Accept:** missing key fails CI.
 - [ ] **ECHO-502 [P5]** Translate navigation, service content, pages, CTA, form validation, loading/success/error/404, accessible labels. **Accept:** full coverage; copy owner reviews sensitive claims.
 - [x] **ECHO-503 [P5]** Audit RTL/LTR including mixed email/phone/URL/code, number shaping, inline icons, directional layout, mobile navigation. **Accept:** screenshot and keyboard matrix pass.
-- [ ] **ECHO-504 [P5]** Retain equivalent route/slug on language switch; store intentional user preference. **Accept:** changing language on project detail stays on same project.
+- [x] **ECHO-504 [P5]** Retain equivalent route/slug on language switch; store intentional user preference. **Accept:** changing language on project detail stays on same project.
 - [ ] **ECHO-505 [P5]** Validate font loading/fallback, Arabic shaping, content expansion, Persian punctuation and appropriate localized formatting. **Accept:** no clipping and readable mixed scripts.
 - [ ] **ECHO-506 [P5]** Localized metadata, canonical URLs, `hreflang`, sitemap/robots, locale-aware 404. **Accept:** scripted HTML inspection for each locale route.
 
@@ -404,9 +404,34 @@ screen-reader/zoom, full visual-fidelity or legal/privacy acceptance claimed; no
 API/DB, intake, `noindex`, redesign or deployment change. ECHO-504 and later tasks
 not started.
 
+### ECHO-504 locale switching — 2026-11-12
+
+**PASS for route/slug retention and intentional preference persistence.** Audited
+all nine marketing route families (homepage, services, work, analytics/chat/
+booking, about, contact, privacy) across FA/EN/AR in desktop, mobile drawer,
+no-script and 404 contexts. Route/slug retention already worked via `path`; the
+confirmed gaps were preference persistence and fragment carry-over. One shared
+client switch now writes the validated one-year `echo_locale` cookie on an
+intentional choice and appends only safe in-page fragments; privacy copy in all
+three locales now discloses the cookie. Query strings are intentionally not
+propagated. Unknown slugs/locales fall back to localized-404 home links, and
+trailing slashes 308 to the canonical path. **PASS:** targeted WebKitGTK run (37
+checks/8 screenshots, commit `406adc3`), 14 new route/cookie tests, 26 files/259
+tests, lint, typecheck, production build, HTTP matrix over 27 documents,
+reference verification, diff/secret scan. Evidence ZIP:
+`test-results/echo-504-locale-switch-evidence.zip` (649,019 bytes, CRC-verified);
+report: `docs/P5-ECHO-504.md`. Owner visual follow-ups from ECHO-503 are recorded
+in `docs/ECHO-503-VISUAL-FOLLOWUPS.md` and remain open; no cross-engine, native,
+screen-reader/zoom or full visual-fidelity acceptance claimed. ECHO-505 and later
+tasks not started.
+
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  
 **Exit gate:** Release checklist all green or documented owner-approved noncritical exception.
+
+Owner visual follow-ups confirmed from ECHO-503 are tracked in
+`docs/ECHO-503-VISUAL-FOLLOWUPS.md` and remain open for the authorized
+visual/accessibility work; none were treated as resolved by ECHO-504.
 
 - [ ] **ECHO-601 [P6]** Accessibility pass: automated axe-like checks plus manual keyboard, screen-reader spot check, contrast, focus, errors, 200% zoom, reduced motion. **Accept:** zero critical/high known blockers.
 - [ ] **ECHO-602 [P6]** Performance pass: optimize font, images, animation, caching and client bundle; record test conditions. **Accept:** repeatable lab Lighthouse >=90 target, no key regressions.
