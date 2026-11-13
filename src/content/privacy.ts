@@ -79,7 +79,7 @@ const en: PrivacyContent = {
     description: "Only the following browser and third-party behavior is present in the implementation.",
     cards: [
       { icon: "trend", title: "No analytics or marketing tools", body: "There are no analytics scripts, advertising pixels, social embeds, marketing cookies or external notification providers. Fonts are self-hosted WOFF2 files." },
-      { icon: "web", title: "Local preferences", body: "The app reads an echo_locale cookie if one already exists when choosing the initial language; the current code does not set that cookie. Theme choice is local storage only and is not sent to the server." },
+      { icon: "web", title: "Local preferences", body: "Choosing a language stores an echo_locale cookie for one year so the site can remember that choice when you next open the root address. It contains only the locale code and is not sent to third parties. Theme choice is local storage only and is not sent to the server." },
       { icon: "cloud", title: "Infrastructure disclosure", body: "No production host, proxy or log-retention configuration is approved. If hosting, analytics, notifications or another processor is added, its legal basis, vendor, location and retention must be reviewed and disclosed here before use." },
     ],
   },
@@ -153,7 +153,7 @@ const fa: PrivacyContent = {
     description: "تنها رفتار مرورگری و شخص ثالثی که در پیاده‌سازی وجود دارد در ادامه آمده است.",
     cards: [
       { icon: "trend", title: "بدون ابزار تحلیل یا بازاریابی", body: "هیچ اسکریپت تحلیلی، پیکسل تبلیغاتی، محتوای جاسازی‌شده شبکه اجتماعی، کوکی بازاریابی یا ارائه‌دهنده اعلان بیرونی وجود ندارد. فونت‌ها فایل‌های WOFF2 میزبانی‌شده محلی هستند." },
-      { icon: "web", title: "ترجیحات محلی", body: "برنامه در زمان انتخاب زبان اولیه، کوکی echo_locale را در صورت وجود می‌خواند؛ کد فعلی آن را نمی‌نویسد. انتخاب پوسته فقط در حافظه محلی است و به سرور ارسال نمی‌شود." },
+      { icon: "web", title: "ترجیحات محلی", body: "با انتخاب زبان، کوکی echo_locale برای مدت یک سال ذخیره می‌شود تا سایت در مراجعه بعدی به نشانی ریشه همان انتخاب را به یاد بیاورد. این کوکی فقط کد زبان را دارد و به شخص ثالث ارسال نمی‌شود. انتخاب پوسته فقط در حافظه محلی است و به سرور ارسال نمی‌شود." },
       { icon: "cloud", title: "افشای زیرساخت", body: "هیچ میزبان، پروکسی یا تنظیم نگهداری گزارش تولید تأیید نشده است. اگر میزبانی، تحلیل، اعلان یا پردازشگر دیگری اضافه شود، مبنای قانونی، فروشنده، مکان و مدت نگهداری باید پیش از استفاده بررسی و در اینجا افشا شود." },
     ],
   },
@@ -227,7 +227,7 @@ const ar: PrivacyContent = {
     description: "لا يوجد في التنفيذ سوى السلوك المتعلق بالمتصفح والأطراف الثالثة الموضح أدناه.",
     cards: [
       { icon: "trend", title: "لا أدوات تحليل أو تسويق", body: "لا توجد نصوص تحليلية أو بكسلات إعلانية أو تضمينات شبكات اجتماعية أو ملفات ارتباط تسويقية أو مزود إشعارات خارجي. الخطوط ملفات WOFF2 مستضافة محليًا." },
-      { icon: "web", title: "تفضيلات محلية", body: "يقرأ التطبيق ملف الارتباط echo_locale إن وُجد عند اختيار اللغة الأولية؛ والشيفرة الحالية لا تكتبه. يُحفظ اختيار السمة محليًا فقط ولا يُرسل إلى الخادم." },
+      { icon: "web", title: "تفضيلات محلية", body: "يؤدي اختيار اللغة إلى حفظ ملف ارتباط echo_locale لمدة سنة واحدة حتى يتذكر الموقع هذا الاختيار عند فتح العنوان الجذري لاحقًا. لا يحتوي إلا على رمز اللغة ولا يُرسل إلى أطراف ثالثة. يُحفظ اختيار السمة محليًا فقط ولا يُرسل إلى الخادم." },
       { icon: "cloud", title: "إفصاح البنية التحتية", body: "لم تُعتمد استضافة إنتاج أو وكيل أو إعداد الاحتفاظ بالسجلات. إذا أُضيفت استضافة أو تحليلات أو إشعارات أو معالج آخر، يجب مراجعة الأساس القانوني والمزود والموقع ومدة الاحتفاظ والإفصاح عنها هنا قبل الاستخدام." },
     ],
   },

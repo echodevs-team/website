@@ -4,11 +4,10 @@ import { Link } from "../ui/link";
 import { ThemeControl } from "../ui/theme-control";
 import { Container } from "./container";
 import { MobileNav } from "./mobile-nav";
+import { LanguageLinks } from "./language-links";
 import { homeContent } from "../../content/home";
 import { chromeContent } from "../../content/chrome";
 import { BrandMark } from "./brand-mark";
-
-const localeCodes: Record<Locale, string> = { fa: "FA", en: "EN", ar: "AR" };
 
 /** Reference header composition over the existing locale/theme infrastructure.
  * Six destinations resolve to implemented pages or real homepage sections. */
@@ -29,15 +28,7 @@ export function Header({ locale, path = "/" }: { locale: Locale; path?: string }
       </ul>
     </nav>
     <div className="header-settings">
-      <nav aria-label={foundation.languages} className="language-switch">
-        <ul className="language-links">
-          {locales.map((target) => <li key={target}>
-            <Link href={localePath(target, path)} hrefLang={target} lang={target}
-              aria-current={target === locale ? "page" : undefined}
-              aria-label={localeNames[target]} title={localeNames[target]}><bdi>{localeCodes[target]}</bdi></Link>
-          </li>)}
-        </ul>
-      </nav>
+      <LanguageLinks locale={locale} path={path} label={foundation.languages} display="codes" />
       <ThemeControl labels={theme} />
       <Link href={localePath(locale, "/contact")} appearance="primary" className="header-cta">{home.start}</Link>
     </div>

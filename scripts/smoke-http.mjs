@@ -257,6 +257,42 @@ try {
     assert.ok(!/\s(?:href|src)="(?:javascript:|data:text\/html)/i.test(html), `${route} has no script or data-document URL`);
     assert.match(html, new RegExp(`<html[^>]*lang="${route.split("/")[1]}"`), `${route} keeps its locale attribute`);
   }
+  // Equivalent locale switching: every route family must point at the same
+  // pathname in each locale (never the homepage), with the current locale
+  // marked once per desktop/mobile switch.
+  for (const [route, html] of documents) {
+    const pathname = route.replace(/^\/(fa|en|ar)/, "") || "/";
+    const switches = [...html.matchAll(/<a\b[^>]*hreflang="(fa|en|ar)"[^>]*>/gi)].map((match) => match[0]);
+    for (const target of ["fa", "en", "ar"]) {
+      const expected = `/${target}${pathname === "/" ? "" : pathname}`;
+      const links = switches.filter((tag) => new RegExp(`hreflang="${target}"`, "i").test(tag));
+      assert.ok(links.length >= 2, `${route}: ${target} switch rendered`);
+      for (const tag of links) assert.ok(tag.includes(`href="${expected}"`), `${route}: ${target} switch keeps ${pathname}`);
+      assert.ok(!links.some((tag) => tag.includes(`href="/${target}"`) && pathname !== "/"), `${route}: ${target} is not sent home`);
+      if (target === route.split("/")[1]) {
+        assert.ok(links.some((tag) => /aria-current="page"/.test(tag)), `${route}: current locale marked`);
+      } else {
+        assert.ok(!links.some((tag) => /aria-current="page"/.test(tag)), `${route}: non-current locale not marked`);
+      }
+    }
+  }
+  // Unknown destinations fall back to the localized home and never invent a
+  // destination slug; trailing slashes converge on the canonical path.
+  for (const route of ["/fa/work/unknown", "/de/about", "/fa/nope"]) {
+    const response = await request(route);
+    assert.equal(response.status, 404, route);
+    const html = await response.text();
+    for (const target of ["fa", "en", "ar"]) {
+      assert.ok(html.includes(`href="/${target}"`) && new RegExp(`hreflang="${target}"`, "i").test(html), `${route}: ${target} fallback`);
+    }
+    assert.ok(!html.includes(`href="/${route.split("/")[1]}/work/unknown"`), `${route}: no invented slug destination`);
+  }
+  for (const route of ["/fa/about/", "/en/work/chat/"]) {
+    const response = await request(route);
+    assert.equal(response.status, 308, `${route} trailing slash redirect`);
+    assert.equal(new URL(response.headers.get("location"), origin).pathname, route.slice(0, -1), `${route} canonical target`);
+  }
+  console.log("PASS locale switching: 27 routes keep equivalent FA/EN/AR path and slug; localized 404 fallback; trailing-slash canonicalization");
   const destinations = new Map();
   for (const [route, html] of documents) {
     for (const match of html.matchAll(/\s(?:href|src)="([^"]+)"/g)) {
