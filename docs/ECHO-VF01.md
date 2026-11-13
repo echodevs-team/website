@@ -149,7 +149,7 @@ Replace `agent-lab` with the actual Incus instance name.
 | `tests/unit/work.test.tsx` | **PASS**, display order, all three categories, three concept cards, `work-empty` on empty groups |
 | `tests/unit/about.test.tsx` | **PASS**, locale parity plus no defensive phrasing and required contact-path sentence in FA/EN/AR |
 | Focused run (3 files) | **PASS**, 14 tests |
-| `npm test` | **PASS**, 27 files / **264 tests** (baseline 26/259) |
+| `npm test` | **PASS**, 27 files / **263 tests** (baseline 26/259) |
 | `npm run lint` | **PASS**, zero warnings/errors |
 | `npm run typecheck` | **PASS**, Next typegen + `tsc --noEmit` |
 | `npm run build` | **PASS**, 27 localized routes retained |

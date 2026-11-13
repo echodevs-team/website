@@ -441,7 +441,7 @@ viewport; the first card is 30–31 px below the fold in FA/EN. About FA/EN/AR
 descriptions/team/notes were rewritten as purpose/capability/collaboration copy
 with no defensive verification phrasing, invented people or claims; internal
 commentary moved to docs. **PASS:** 25 before + 25 after WebKitGTK 2.52.6/Xvfb
-captures (146/167 checks), 14 focused tests, 27 files/264 tests, lint, typecheck,
+captures (146/167 checks), 14 focused tests, 27 files/263 tests, lint, typecheck,
 production build, HTTP matrix, reference verification, diff/secret scan. Evidence
 ZIP: `test-results/echo-vf01-visual-evidence.zip` (3,847,495 bytes, CRC- and
 PNG-verified); report: `docs/ECHO-VF01.md`. Limitations: this harness rasterises
