@@ -121,6 +121,26 @@
       ],
       "note": "WebKitGTK/Xvfb typography, shaping, expansion, fallback and screenshot matrix; never installs a browser."
     },
+    "seo": {
+      "command": "npx vitest run tests/unit/seo-metadata.test.ts tests/unit/not-found.test.tsx",
+      "timeoutMs": 300000,
+      "note": "Origin/canonical/hreflang gating, robots/sitemap policy, metadata coverage and localized 404 unit tests; no browser."
+    },
+    "browser-404": {
+      "command": "xvfb-run -a -s '-screen 0 1500x1100x24 -nolisten tcp' /usr/bin/python3 scripts/audit-404.py --phase after",
+      "timeoutMs": 1200000,
+      "optIn": true,
+      "requiresCommand": [
+        "xvfb-run"
+      ],
+      "requiresModule": [
+        "gi"
+      ],
+      "requiresPath": [
+        ".next/BUILD_ID"
+      ],
+      "note": "WebKitGTK/Xvfb localized 404 browser harness with its own loopback server."
+    },
     "postgres": {
       "command": "npm run test:inquiries",
       "timeoutMs": 1800000,
@@ -206,7 +226,8 @@
       "milestones": [
         "ECHO-406",
         "ECHO-501",
-        "ECHO-504"
+        "ECHO-504",
+        "ECHO-506"
       ],
       "routes": [
         "/",
@@ -519,6 +540,133 @@
       ]
     },
     {
+      "id": "SEO-METADATA-POLICY",
+      "title": "Localized metadata, canonical/hreflang and preview robots policy",
+      "category": "localization",
+      "type": "automated",
+      "suite": "seo",
+      "milestones": [
+        "ECHO-506"
+      ],
+      "routes": [
+        "/",
+        "/services",
+        "/work",
+        "/work/analytics",
+        "/work/chat",
+        "/work/booking",
+        "/about",
+        "/contact",
+        "/privacy"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "expected": "Every marketing route family wires a localized title/description, a consistent title template, preview noindex and localized alternates that stay withheld without an approved origin. Canonical and reciprocal FA/EN/AR URLs appear only for a validated HTTPS origin; concept slugs stay intact; no x-default, localhost, Host-derived or duplicate robots metadata is introduced.",
+      "evidence": "Vitest summary and log in qa/.out/logs.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "src/app/**",
+        "src/lib/seo/**",
+        "src/i18n/**",
+        "src/content/**",
+        "tests/unit/seo-metadata.test.ts",
+        "tests/unit/not-found.test.tsx"
+      ]
+    },
+    {
+      "id": "SEO-ROBOTS-SITEMAP-PREVIEW",
+      "title": "Preview robots/sitemap withholding and production origin gate",
+      "category": "http",
+      "type": "automated",
+      "suite": "http",
+      "milestones": [
+        "ECHO-506"
+      ],
+      "expected": "robots.txt disallows crawling and advertises no sitemap; sitemap.xml contains no speculative URLs; neither output contains localhost, a placeholder domain or a request Host value. Publication remains gated on an owner-approved origin plus explicit indexing.",
+      "evidence": "HTTP smoke output and log in qa/.out/logs.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "src/app/robots.ts",
+        "src/app/sitemap.ts",
+        "src/lib/seo/**",
+        "scripts/smoke-http.mjs",
+        "next.config.ts"
+      ]
+    },
+    {
+      "id": "SEO-404-HTTP",
+      "title": "Unknown-route 404 status, localized recovery and metadata",
+      "category": "http",
+      "type": "automated",
+      "suite": "http",
+      "milestones": [
+        "ECHO-506"
+      ],
+      "routes": [
+        "/fa/work/unknown",
+        "/de/about",
+        "/fa/nope"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "expected": "Unknown and invalid paths return HTTP 404 with localized copy and direction, the established header/footer shell, a skip target, homepage plus Services/Work/Contact recovery links, language links that fall back to locale homes without inventing the missing route, exactly one noindex robots directive, and no canonical/hreflang or preview-origin leakage.",
+      "evidence": "HTTP smoke output and log in qa/.out/logs.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "src/app/global-not-found.tsx",
+        "src/components/layout/not-found-page.tsx",
+        "src/components/layout/**",
+        "src/styles/not-found.css",
+        "src/i18n/messages/**",
+        "scripts/smoke-http.mjs"
+      ]
+    },
+    {
+      "id": "BROWSER-404-EXPERIENCE",
+      "title": "WebKitGTK localized 404 browser matrix",
+      "category": "browser",
+      "type": "automated",
+      "suite": "browser-404",
+      "milestones": [
+        "ECHO-506"
+      ],
+      "routes": [
+        "/missing/nested"
+      ],
+      "locales": [
+        "fa",
+        "en",
+        "ar"
+      ],
+      "viewports": [
+        "1440x900",
+        "375x812"
+      ],
+      "expected": "Every capture succeeds with HTTP 404, correct lang/dir, one localized h1, a recovery heading, header/footer shell, homepage/Services/Work/Contact links, no fake recovery control, no horizontal overflow, visible keyboard focus, exactly one noindex directive, no preview canonical/hreflang and locale-home language fallbacks in light and dark.",
+      "evidence": "Run folder under test-results/ with manifest, screenshots, audit.json and server.log.",
+      "criticality": "high",
+      "releaseRelevant": true,
+      "watch": [
+        "src/app/global-not-found.tsx",
+        "src/components/layout/**",
+        "src/styles/**",
+        "src/i18n/**",
+        "scripts/audit-404.py",
+        "scripts/evidence_manifest.py",
+        "scripts/webkit_snapshot.py",
+        "package.json"
+      ]
+    },
+    {
       "id": "MANUAL-FIREFOX-GLASS",
       "title": "Firefox GPU check: sticky header legibility and backdrop blur",
       "category": "visual",
@@ -820,6 +968,52 @@
       "criticality": "release",
       "releaseRelevant": true,
       "gate": "legal",
+      "watch": []
+    },
+    {
+      "id": "MANUAL-PRODUCTION-ORIGIN",
+      "title": "Owner approval of the production origin and indexing gate",
+      "category": "release",
+      "type": "manual",
+      "milestones": [
+        "ECHO-506",
+        "ECHO-604",
+        "ECHO-701"
+      ],
+      "procedure": [
+        "Confirm the public production origin (including any www redirect policy) is owned and approved by the owner.",
+        "Confirm TLS/hosting will serve that exact HTTPS origin and that no preview or internal hostname is treated as production.",
+        "Before enabling public indexing, confirm the owner authorizes removing preview noindex/nofollow, serving a sitemap and allowing crawlers.",
+        "Record the approved origin, the indexing decision, the environment variable name and the commit that applies them."
+      ],
+      "expected": "A real owner-approved HTTPS origin exists and indexing is explicitly authorized; canonical, hreflang and sitemap publication remain gated until this decision is recorded.",
+      "evidence": "Owner decision text with the approved origin, indexing scope and applying commit.",
+      "criticality": "release",
+      "releaseRelevant": true,
+      "gate": "owner",
+      "watch": []
+    },
+    {
+      "id": "MANUAL-SEO-RELEASE-READINESS",
+      "title": "Owner SEO and release-readiness review after preview checks",
+      "category": "release",
+      "type": "manual",
+      "milestones": [
+        "ECHO-506",
+        "ECHO-604",
+        "P7"
+      ],
+      "procedure": [
+        "Inspect the localized titles, descriptions, canonical/hreflang output, robots.txt, sitemap.xml and the FA/EN/AR 404 after the approved origin is configured.",
+        "Confirm no preview noindex was removed by accident and no localhost, internal hostname or placeholder domain appears in public metadata.",
+        "Confirm business, contact and legal facts in metadata are approved; technical tests do not approve them.",
+        "Record the reviewed commit, approved origin and any remaining release blockers."
+      ],
+      "expected": "The owner explicitly accepts the public SEO output and release metadata; preview checks alone are not a substitute for this decision.",
+      "evidence": "Owner review notes or approval with the reviewed commit and evidence paths.",
+      "criticality": "release",
+      "releaseRelevant": true,
+      "gate": "owner",
       "watch": []
     },
     {
