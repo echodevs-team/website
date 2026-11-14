@@ -6,6 +6,8 @@ import { WorkDetailPage } from "@/components/marketing/work-detail-page";
 import { getWorkDetail, workSlugs } from "@/content/work-details";
 import { workContent } from "@/content/work";
 import { isLocale } from "@/i18n/config";
+import { PREVIEW_ROBOTS } from "@/lib/seo/policy";
+import { localizedAlternates } from "@/lib/seo/site";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 export const dynamicParams = false;
@@ -16,8 +18,12 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { locale, slug } = await params;
   const item = isLocale(locale) ? getWorkDetail(locale, slug) : undefined;
-  if (!isLocale(locale) || !item) return { robots: { index: false, follow: false } };
-  return { title: `${item.title} — ${workContent[locale].groups.concept.badge} — Echo Devs`, description: item.description };
+  if (!isLocale(locale) || !item) return { robots: PREVIEW_ROBOTS };
+  return {
+    title: `${item.title} — ${workContent[locale].groups.concept.badge}`,
+    description: item.description,
+    alternates: localizedAlternates(locale, `/work/${item.slug}`),
+  };
 }
 
 export default async function Page({ params }: Params) {

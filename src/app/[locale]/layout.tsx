@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { direction, isLocale, locales } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
+import { PREVIEW_ROBOTS } from "@/lib/seo/policy";
+import { SITE_NAME } from "@/lib/seo/site";
 import { ThemeInit } from "@/components/layout/theme-init";
 import "@/styles/globals.css";
 
@@ -17,9 +19,15 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
   // 404 metadata may be resolved without the original route params. Do not
   // throw from metadata: validate route existence in the layout/page instead.
-  if (!isLocale(locale)) return { title: "404 — Echo Devs", robots: { index: false, follow: false } };
+  if (!isLocale(locale)) return { title: "404 — Echo Devs", robots: PREVIEW_ROBOTS };
   const t = await getTranslations({ locale, namespace: "Foundation" });
-  return { title: `${t("title")} — ${t("preview")}`, robots: { index: false, follow: false } };
+  return {
+    title: {
+      default: `${t("title")} — ${t("preview")}`,
+      template: `%s — ${SITE_NAME}`,
+    },
+    robots: PREVIEW_ROBOTS,
+  };
 }
 
 export default async function LocaleLayout({ children, params }: {

@@ -256,6 +256,10 @@ try {
     assert.ok(!/\shref=""/.test(html) && !/\shref="#"/.test(html), `${route} has no empty or placeholder href`);
     assert.ok(!/\s(?:href|src)="(?:javascript:|data:text\/html)/i.test(html), `${route} has no script or data-document URL`);
     assert.match(html, new RegExp(`<html[^>]*lang="${route.split("/")[1]}"`), `${route} keeps its locale attribute`);
+    // No production origin is approved in preview: canonical/hreflang document
+    // links must stay withheld rather than being derived from the request host.
+    assert.ok(!/<link[^>]+rel="canonical"/i.test(html), `${route} emits no preview canonical URL`);
+    assert.ok(!/<link[^>]+rel="alternate"[^>]+hreflang=/i.test(html), `${route} emits no preview document hreflang`);
   }
   // Equivalent locale switching: every route family must point at the same
   // pathname in each locale (never the homepage), with the current locale
@@ -286,6 +290,18 @@ try {
       assert.ok(html.includes(`href="/${target}"`) && new RegExp(`hreflang="${target}"`, "i").test(html), `${route}: ${target} fallback`);
     }
     assert.ok(!html.includes(`href="/${route.split("/")[1]}/work/unknown"`), `${route}: no invented slug destination`);
+    assert.ok(html.includes('class="site-header"') && html.includes("<footer"), `${route}: header/footer recovery shell`);
+    assert.ok(html.includes('class="skip-link"') && html.includes('id="main"'), `${route}: skip target`);
+    for (const path of ["", "/services", "/work", "/contact"]) {
+      assert.ok(html.includes(`href="/fa${path}"`), `${route}: localized recoverable destination /fa${path}`);
+    }
+    assert.ok(html.includes("not-found-panel"), `${route}: localized 404 presentation`);
+    const robotsMetas = [...html.matchAll(/<meta name="robots" content="([^"]+)"/g)].map((match) => match[1]);
+    assert.equal(robotsMetas.length, 1, `${route}: exactly one robots directive`);
+    assert.match(robotsMetas[0], /noindex/, `${route}: error document is noindex`);
+    assert.ok(!/<link[^>]+rel="canonical"/i.test(html), `${route}: 404 emits no canonical URL`);
+    assert.ok(!/<link[^>]+rel="alternate"[^>]+hreflang=/i.test(html), `${route}: 404 emits no document hreflang`);
+    assert.ok(!/http:\/\/127\.0\.0\.1|localhost/.test(html), `${route}: no preview origin leaked`);
   }
   for (const route of ["/fa/about/", "/en/work/chat/"]) {
     const response = await request(route);
@@ -332,6 +348,20 @@ try {
   const iconSource = await (await request("/icon.svg")).text();
   assert.ok(iconSource.includes('viewBox="0 0 32 32"') && iconSource.includes('fill="#ee7758"'), "SVG favicon carries the brand mark");
   console.log("PASS favicon: ICO + SVG linked in every localized document and served with image content types");
+
+  const robotsTxt = await request("/robots.txt");
+  assert.equal(robotsTxt.status, 200, "robots.txt is served");
+  const robotsBody = await robotsTxt.text();
+  assert.match(robotsBody, /User-Agent:\s*\*/i);
+  assert.match(robotsBody, /Disallow:\s*\/\s*$/m);
+  assert.ok(!/^Sitemap:/im.test(robotsBody), "preview robots does not advertise a sitemap");
+  assert.ok(!/localhost|127\.0\.0\.1|\.local\b/i.test(robotsBody), "robots.txt leaks no preview origin");
+  const sitemapResponse = await request("/sitemap.xml");
+  assert.equal(sitemapResponse.status, 200, "sitemap route is served");
+  const sitemapBody = await sitemapResponse.text();
+  assert.ok(!/<loc>/i.test(sitemapBody), "preview sitemap contains no speculative URLs");
+  assert.ok(!/localhost|127\.0\.0\.1/i.test(sitemapBody), "sitemap leaks no preview origin");
+  console.log("PASS robots/sitemap: preview crawling disallowed, sitemap withheld, no localhost or placeholder origin");
 
   for (const [headers, target] of [
     [{}, "/fa"],
