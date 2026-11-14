@@ -9,6 +9,7 @@
 @import "./about.css";
 @import "./contact.css";
 @import "./privacy.css";
+@import "./not-found.css";
 
 * { box-sizing: border-box; }
 body {

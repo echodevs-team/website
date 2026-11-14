@@ -12,6 +12,9 @@
     "languages": "Choose language",
     "skip": "Skip to content",
     "notFound": "Page not found",
+    "notFoundDescription": "The page you requested does not exist, may have moved, or the address is incomplete. Choose one of the available destinations below.",
+    "notFoundHome": "Back to homepage",
+    "recovery": "Continue from here",
     "back": "Return to the preview"
   }
 }
