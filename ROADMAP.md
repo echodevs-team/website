@@ -514,6 +514,39 @@ native/zoom/cross-engine cases remain NOT_RUN; no API/DB, intake, `noindex`,
 redesign, brand-face replacement or deployment change. ECHO-506 and later tasks
 not started.
 
+### ECHO-506 localized metadata, robots/sitemap and 404 — 2026-11-14
+
+**PARTIAL — preview acceptance PASS; production canonical/hreflang/sitemap
+publication blocked pending an owner-approved HTTPS origin and indexing
+authorization.** Audited all 27 localized routes: every route family now has a
+localized title/description, one title template (`%s — Echo Devs`), and shared
+preview `noindex, nofollow`; the homepage description gap and per-page robots
+literals were fixed. Origin policy is centralized in `src/lib/seo/site.ts`:
+`ECHO_SITE_ORIGIN` accepts only an absolute public HTTPS origin (no credentials,
+port, path, query, fragment, localhost, loopback/private IP or internal suffix)
+and the request `Host` is never consulted. With no approved origin, canonical
+and document `hreflang` are withheld and no `x-default` is invented; with one,
+routes emit self-referencing canonicals plus reciprocal FA/EN/AR alternates and
+intact concept slugs. `robots.txt` disallows all crawling and advertises no
+sitemap; `sitemap.xml` is an empty `<urlset>`; publication requires both an
+approved origin and `ECHO_PUBLIC_INDEXING=true`. Rebuilt the 404: real HTTP 404,
+established header/footer and glass panel, localized FA/EN/AR copy, homepage plus
+Services/Work/Contact recovery, locale-home language links, skip target, visible
+focus, no fake control or redirect masking, and a single Next `noindex` directive
+(the duplicate robots tag was removed). **PASS:** 25 new unit tests (35
+files/360 tests), lint, typecheck, production build with `/robots.txt` and
+`/sitemap.xml`, HTTP crawl (27 documents/73 destinations), reference
+verification, `qa:validate` (31 tests/15 suites), clean automated QA run (14
+PASS/0 FAIL/1 pre-existing BLOCKED/4 pre-existing STALE/12 NOT_RUN) and a clean
+WebKitGTK 2.52.6/Xvfb 404 matrix (FA/EN/AR × 1440×900 and 375×812 × light/dark:
+12 screenshots/336 checks/0 failures; baseline `1a48981` had 109 failures).
+Evidence ZIP: `test-results/echo-506-seo-404-evidence.zip` (856,521 bytes, 34
+entries, 24 PNGs, CRC/PNG and SHA-256 verified). Real origin decision and owner
+SEO review (`MANUAL-PRODUCTION-ORIGIN`, `MANUAL-SEO-RELEASE-READINESS`) plus
+`MANUAL-404-METADATA` and `MANUAL-LEGAL-PRIVACY` remain NOT_RUN; WebKitGTK is
+the only engine here. Report: `docs/P5-ECHO-506.md`. No indexing, API/DB,
+intake, dependency, redesign or deployment change.
+
 ## P6 — Production hardening and evidence-based QA
 **Goal:** Public site is fast, accessible, secure, indexable, and operable.  
 **Exit gate:** Release checklist all green or documented owner-approved noncritical exception.
@@ -524,8 +557,8 @@ workflow; the report distinguishes implementation, automated verification,
 manual acceptance, owner/legal sign-off and release readiness.
 
 Owner visual follow-ups confirmed from ECHO-503 are tracked in
-`docs/ECHO-503-VISUAL-FOLLOWUPS.md`; #1–#3 were resolved in ECHO-VF01 with
-before/after evidence, while #4 (404, ECHO-506), #5 (RTL arrow) and #6
+`docs/ECHO-503-VISUAL-FOLLOWUPS.md`; #1–#3 were resolved in ECHO-VF01 and #4
+(404 shell, ECHO-506) in the ECHO-506 preview batch, while #5 (RTL arrow) and #6
 (full-theme/reference fidelity, ECHO-601/605/608) remain open.
 
 - [ ] **ECHO-601 [P6]** Accessibility pass: automated axe-like checks plus manual keyboard, screen-reader spot check, contrast, focus, errors, 200% zoom, reduced motion. **Accept:** zero critical/high known blockers.
