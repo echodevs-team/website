@@ -1,27 +1,30 @@
 # A — Owner / product decisions
 
-Reviewed 2026-11-15 at `577cc02` (A1 owner decision recorded; state transitions and `NOW.md` regeneration remain the coordinator's). Owner is the acceptance authority;
-coordinator prepares evidence, never impersonates owner/legal. Remaining estimates
-are human effort, excluding decision waiting. No approval is inferred from this plan.
+Accepted 2026-11-15 at `a015c8f` (A1 reviewed and integrated; `NOW.md` refreshed).
+Owner is the acceptance authority; the coordinator prepares evidence and never
+impersonates owner/legal. Remaining estimates are human effort, excluding decision
+waiting. No approval is inferred from this plan, and a TODO state still requires
+real owner input before its deliverable exists.
 
 | ID | Scope / remaining deliverable | Exact dependencies | Hours | State | Evidence / acceptance still needed | Unlocks |
 |---|---|---|---:|---|---|---|
-| A1 | Confirm V1 DoD, approvers and whether private reuse-first analytics is mandatory or deferred | — | 2–4 | TODO | **Owner decision recorded 2026-11-15** in `SCOPE.md` §8.4/§12.1, `docs/DECISIONS.md` A12–A13 and `docs/APPROVALS.md`; analytics confirmed mandatory (Umami a candidate only). Remaining effort here is coordinator acceptance/integration, not a new owner question | A2, A3, A5, A6, H1, B4 |
-| A2 | Approve brand spelling, collective identity, contacts and concept-only publication or supplied proof | A1 | 2–4 | BLOCKED | `docs/P5-ECHO-502-OWNER-REVIEW.md`, `src/content/{about,work,contact}.ts`; D1/D2/D3/D7 unresolved; explicit omit decisions acceptable | A4, C2 |
-| A3 | Decide controller/contact, legal basis/jurisdiction, retention/holds, erasure, exports/backups, operators, analytics posture | A1 | 4–8 | BLOCKED | `docs/INQUIRY-PRIVACY.md`, D5/D6/D9; no retention period, operator, controller/jurisdiction or legal approval; analytics privacy posture feeds D10/H2. Owner/legal record required | A4, D2, E3, H2 |
+| A1 | Confirm V1 DoD, approvers and whether private reuse-first analytics is mandatory or deferred | — | 0–0 | DONE | **Accepted and integrated 2026-11-15** at `a015c8f` (branch `parallel/a1`, commits `9be2de7`, `a015c8f`; handoff `docs/parallel/handoffs/A1.md`). Evidence: `SCOPE.md` §8.4/§12.1, `docs/DECISIONS.md` A12–A13, `docs/APPROVALS.md`. Analytics is mandatory V1 scope with Umami a candidate only; provider, consent, retention and access remain open | A2, A3, A5, A6, H1, B4 |
+| A2 | Approve brand spelling, collective identity, contacts and concept-only publication or supplied proof | A1 | 2–4 | TODO | A1 satisfied; still needs owner answers for the public-content decision keys (contacts, publishable work, team identity, departures/copy). `docs/P5-ECHO-502-OWNER-REVIEW.md`, `src/content/{about,work,contact}.ts`; explicit omit decisions acceptable | A4, C2 |
+| A3 | Decide controller/contact, legal basis/jurisdiction, retention/holds, erasure, exports/backups, operators, analytics posture | A1 | 4–8 | TODO | A1 satisfied; still needs owner/legal answers (operator, retention, vendor disclosure, entity/jurisdiction, analytics terms). `docs/INQUIRY-PRIVACY.md`; no retention period, operator or legal approval exists; analytics privacy posture feeds H2 | A4, D2, E3, H2 |
 | A4 | Accept release candidate and exceptions at exact revision | A2, A3, B4, C5, D4, E4, F4, H4 | 2–4 | BLOCKED | `MANUAL-RELEASE-SIGNOFF` NOT_RUN; reviewer and evidence must be real | G2 |
-| A5 | Approve hosting/provider/region/budget, operator and external staging actions | A1, E1 | 1–2 | BLOCKED | D4/D5 unresolved; separate approval for costs, services, DNS or remote changes | E1a |
-| A6 | Approve public HTTPS origin, redirect policy and conditional indexing authorization | A1, E1a | 1–2 | BLOCKED | `MANUAL-PRODUCTION-ORIGIN` NOT_RUN; authorization may be conditional on G2, never enable indexing here | C4, E2 |
+| A5 | Approve hosting/provider/region/budget, operator and external staging actions | A1, E1 | 1–2 | BLOCKED | A1 satisfied; **still blocked on E1** (hosting options packet). Then needs owner approval for provider/region/budget, with costs, services, DNS and remote changes authorized separately | E1a |
+| A6 | Approve public HTTPS origin, redirect policy and conditional indexing authorization | A1, E1a | 1–2 | BLOCKED | A1 satisfied; **still blocked on E1a**. `MANUAL-PRODUCTION-ORIGIN` NOT_RUN; authorization may be conditional on G2, never enable indexing here | C4, E2 |
 
 ## Ownership / handoff
 
-Reserved worker output: `docs/handoffs/A/` (decision proposals only). Coordinator
-alone applies accepted values to `docs/DECISIONS.md`, SCOPE, ROADMAP, planning and
-QA. Existing D1–D10 remain authoritative; A1–A6 are **parallel task IDs**, not a
-replacement for the similarly named historical decision entries. Record who,
-what, date, source revision and scope of each approval. Next candidate: **A2**.
+Reserved worker output: `docs/parallel/handoffs/A2.md` (per-task handoff files; the
+older `docs/handoffs/<lane>/` convention is retired). Coordinator alone applies
+accepted values to `docs/DECISIONS.md`, SCOPE, ROADMAP, planning and QA. Existing
+D1–D10 remain authoritative; A1–A6 are **parallel task IDs**, not a replacement for
+the similarly named historical decision entries. Record who, what, date, source
+revision and scope of each approval. Next candidate: **A2**.
 
-## A1 outcome — 2026-11-15 (decision recorded, acceptance pending)
+## A1 outcome — 2026-11-15 (accepted, integrated at `a015c8f`)
 
 - **V1 DoD accepted.** Capability list and evidence mapping: `SCOPE.md` §12.1.
 - **Analytics is mandatory V1 scope.** Requirements: `SCOPE.md` §8.4. Provider,
@@ -34,11 +37,11 @@ what, date, source revision and scope of each approval. Next candidate: **A2**.
   approval/decision categories): `docs/APPROVALS.md`. New owner decision keys
   D9 (legal entity/controller/jurisdiction/privacy contact/lawful basis) and D10
   (analytics terms) were added; D6 was amended, D1–D5/D7/D8 are unchanged.
-- **No dependency change was required.** The conservative release graph already
-  kept H4 as a release predecessor of A4/C5/F3/G1/G3, so confirming inclusion
-  contradicts no edge. No task state was flipped by this work: A2/A3/A5/A6 and H1
-  become eligible only when the coordinator accepts A1 and recomputes `NOW.md`.
-- **Coordination note.** `docs/parallel/README.md` still carries the superseded
-  "open scope decision A1" paragraph and the conditional analytics effort
-  sentence; the coordinator should update those at integration, since README and
-  `NOW.md` are coordinator-owned.
+- **No dependency edge changed.** The conservative release graph already kept H4
+  as a release predecessor of A4/C5/F3/G1/G3, so inclusion contradicts no edge and
+  the H estimate 17–31 h stays. Only states moved at integration: A1 `DONE`
+  (0–0 h) and its dependency-satisfied consumers A2/A3 → TODO; A5/A6 remain
+  BLOCKED on E1/E1a; B4 remains BLOCKED on B3.
+- **Integration notes.** The stale README scope paragraph was reconciled, the
+  handoff convention is now per-task files under `docs/parallel/handoffs/`, and
+  `NOW.md` was regenerated by the coordinator at `a015c8f`.

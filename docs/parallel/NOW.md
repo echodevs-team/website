@@ -1,119 +1,100 @@
-# NOW — proposed execution, not authorization
+# NOW — current execution, not authorization
 
-Reviewed **2026-11-14**, implementation/QA baseline **`6eedf3b`**. Planning-only
+Reviewed **2026-11-15**, implementation/QA baseline
+**`a015c8f62e7fd91e117c31d2c39eac8b38bb9456`** (A1 integrated). Planning-only
 changes do not complete development tasks. Recompute after each accepted change
 using [the coordinator refresh procedure](README.md#repeatable-coordinator-refresh).
 
 ## CURRENT
 
-- Coordinator: reconciliation and planning verification only. **No active lane**,
-  no assigned worktrees, no source/QA writes and no environment locks held.
-- Seven lane plans reconciled. Only **C3** is DONE: ECHO-506 preview engineering
+- Coordinator: **A1 accepted and integrated** into `main` by fast-forward from
+  `parallel/a1` (`9be2de7`, `a015c8f`); planning state refreshed in this commit.
+  No other lane is active on `main` and no environment lease is held here.
+- **A1 DONE:** V1.0 definition of done (`SCOPE.md` §12.1) and mandatory private
+  traffic analytics (`SCOPE.md` §8.4) recorded, with approval accountability in
+  `docs/APPROVALS.md` and decision entries in `docs/DECISIONS.md`. Scope only:
+  analytics has **no** provider, consent position, retention, access owner, code
+  or tracker; the published disclosure still correctly states none.
+- **C3** remains the only other DONE task: ECHO-506 preview engineering
   acceptance, not production SEO or manual metadata acceptance.
-- QA01 is authoritative: baseline snapshot 14 PASS / 1 BLOCKED / 4 STALE /
-  12 NOT_RUN, no FAIL. These are inspected recorded outcomes, not suites run here.
-- Mandatory analytics scope is unresolved (A1); intake/indexing/analytics remain
-  disabled by default in code, not verified deployment settings.
+- QA01 is authoritative at `a015c8f`: **14 PASS / 0 FAIL / 1 BLOCKED /
+  4 STALE / 12 NOT_RUN**. A1 touched no watch path, so no status changed. Release
+  readiness remains **NO**; `MANUAL-FIREFOX-GLASS` is BLOCKED by the recorded
+  environment, and the Release/legal/origin/owner cases are still NOT_RUN.
+- A parallel **E1** worker may be active in its own worktree. E1 is **not**
+  integrated, no E1 file exists on `main`, and its branch/worktree must not be
+  touched by any other worker.
 
-## READY — first proposed maximum safe wave
+## READY — dependency-eligible, ranked by downstream unlock
 
-Six concurrent tasks are dependency-eligible **for bounded preparation/decision
-work only**. All have no predecessors. Owner must authorize this wave and assign
-the A1 decision maker. Each worker writes only its exclusive handoff directory;
-no app, harness, shared planning, roadmap or QA file edits. No browser/DB/server,
-external operations or installs needed for this wave. Read-only source inspection
-can overlap. No reason to create a seventh task by bypassing A1.
+Dependency-eligible means every prerequisite is DONE. It is **not** authorization,
+and several rows still need owner input before they can complete.
 
-| Rank | Lane / candidate | Remaining effort | Transitive unlocks / longest upper chain | Dependencies / capability | Exclusive output | Why now |
+| Rank | Lane / candidate | Remaining effort | Transitive unlocks / longest chain | Owner input | Exclusive output | Why this rank |
 |---|---|---:|---|---|---|---|
-| 1 | A / A1 | 2–4h | 28 / 101h | None; actual owner decision required | `docs/handoffs/A/` | Resolve release DoD, analytics scope and approvers; opens policy, provider/origin and H roots |
-| 2 | E / E1 | 2–4h | 22 / 101h | None; local repository inventory only | `docs/handoffs/E/` | Hosting approval packet shortens staging/TLS/CI critical path; no remote changes |
-| 3 | D / D1 | 3–5h | 21 / 100h | None; source/runbook audit only | `docs/handoffs/D/` | Unblocks host contract and lifecycle; exposes local-only operator CLI and signed ingress gap before choosing provider |
-| 4 | B / B1a | 2–3h | 12 / 72h | None; existing evidence/source inventory only | `docs/handoffs/B/` | Prepare precise reference/GPU packet; do not redo resolved fixes or claim visual acceptance |
-| 5 | C / C1a | 2–3h | 11 / 63h | None; current copy-review packet only | `docs/handoffs/C/` | Remove obsolete review targets and prepare native reviewers without changing copy |
-| 6 | F / F1 | 2–4h | 9 / 49h | None; QA coverage proposal, no test execution | `docs/handoffs/F/` | Define missing a11y/performance/security/recovery acceptance early; no duplicate tracker |
-| — | H / H1 (not ready) | 3–5h | Not ranked while blocked | **A1** analytics inclusion/deferral decision | None reserved in wave | No accepted mandatory V1 analytics scope; keep lane idle |
+| 1 | D / **D1** | 3–5h | 21 / 100h | No — audit only | `docs/parallel/handoffs/D1.md` | Largest fan-out that is completable now; opens the inquiry/security host contract for E1a and feeds D2/D3/H3 without owner facts |
+| 2 | A / **A3** | 4–8h | 18 / 89h | **Yes — owner/legal answers required** | `docs/parallel/handoffs/A3.md` | Largest A-lane fan-out; supplies the policy input D2/E3/H2 need. A worker may prepare options, risk notes and open questions only |
+| 3 | B / **B1a** | 2–3h | 12 / 72h | No | `docs/parallel/handoffs/B1a.md` | Consolidates the existing visual defect packet; human capture is needed later, not here |
+| 4 | H / **H1** | 3–5h | 12 / 78h | Selection yes, research no | `docs/parallel/handoffs/H1.md` | Options-only analytics comparison against `SCOPE.md` §8.4; no install, account, tracker or visitor data |
+| 5 | C / **C1a** | 2–3h | 11 / 63h | No | `docs/parallel/handoffs/C1a.md` | Updates the copy-review packet to current source; native review itself waits |
+| 6 | A / **A2** | 2–4h | 10 / 57h | **Yes — owner facts required** | `docs/parallel/handoffs/A2.md` | Smaller A-lane fan-out; unlocks C2 once contacts, publishable work and identity facts exist |
+| 7 | F / **F1** | 2–4h | 9 / 49h | No | `docs/parallel/handoffs/F1.md` | Coverage proposal for the missing a11y/performance/security/recovery/analytics cases |
+| — | E / **E1** | 2–4h | 22 / 101h | No | `docs/parallel/handoffs/E1.md` | Not assigned to Agent 1: hosting options packet belongs to the separate E1 worker |
 
-**Wave effort: 13–23 human hours**, excluding owner waiting; simultaneous
-completion is not guaranteed by six workers. Coordinator integrates packets
-serially and accepts/rejects evidence. These tasks prepare actual deliverables,
-not general status summaries. No worker automatically advances to its next task.
+**Recommended Agent 1 assignment:** **D1** — highest-ranked task that can complete
+without owner decisions, and it produces the host/security contract E1a and the
+D lane need. **A3** stays the highest-value A-lane task but cannot close without
+real owner/legal answers, so it should be assigned only together with those
+answers (or explicitly as a proposal-only package).
 
-### Priority method and critical path
+**Concurrency with E1:** D1 can run alongside E1. Both are read-only audits with
+separate handoff files and no shared source edits. Boundary: E1 inventories
+provider/CI/hosting options and approval questions; D1 audits the inquiry,
+role, limit and operations surface and states the **requirements** a host must
+satisfy. Neither may edit `docs/DECISIONS.md`, `SCOPE.md`, `ROADMAP.md`, QA
+files, another task's handoff, or the other worker's checkout. A2/A3/A5/A6
+outputs are proposals; the coordinator applies accepted values.
 
-Counts include unfinished transitive consumers, including G, but not the root
-itself. Chain figures sum upper estimates on the longest directed path; they
-ignore parallel joins/resource waiting and are **not** a release date or summed
-total. They are reproducible from `check-plan.py` at this planning revision.
+## NEXT — recompute after acceptance, not pre-authorized
 
-The checker prints transitive downstream counts and longest upper-bound chain
-from the actual graph; use those rather than intuitive whole-lane dependencies.
-Raw fan-out is not the only priority: A1 resolves policy/scope; E1 and D1 together
-open staging/platform decisions and real data lifecycle, the longest release
-chain. F1 has smaller fan-out but supplies the missing acceptance contract before
-fixes; B1a/C1a prepare human review paths without source conflicts.
-
-Main conditional release spine:
-**A1 + E1 → A5 → E1a** (also D1) **→ A6 → E2 → E3 → E4 → H4 →
-C5 → F3 → F4 → A4 → G2 → G3 → G4**. H4 also needs H3 (H2/A3 + D2/E2),
-F4 also needs F2/F3, and G2 needs G1. Another gating branch is
-**B1a → B1 → B2 → B3 → B4/F3**; human GPU/cross-engine/native/legal
-availability may dominate calendar time. No calendar release date is defensible
-until these resources and A1/A3/A5/A6 are resolved. Estimates are bounded effort,
-not commitments; re-estimate after audits, especially B2/D2 and H scope.
-
-## NEXT — recompute after acceptance, not pre-authorized wave two
-
-| Lane | Next task | Exact prerequisite / readiness condition |
+| Lane | Next task | Readiness condition |
 |---|---|---|
-| A | A2, A3 | A1 accepted; owner facts/omit decisions and legal/operator policy available. A5 also needs E1 |
-| B | B1 | B1a accepted **and** real reference capture/GPU-browser human resource path; otherwise blocked |
-| C | C1 | C1a accepted **and** named native FA/AR plus EN reviewers |
-| D | D2 | D1, A3, E1a accepted; retention/backup/operator policies, actual target access contract |
-| E | E1a | E1, A5, D1 accepted; owner provider/budget/external-action approval |
-| F | F2a | F1 accepted; coordinator integrates proposed QA cases, authorized tooling available |
-| H | H1 | A1 explicitly includes analytics and authorizes design research; if deferred, remove release edges by recorded decision |
+| A | A2, A3 | Owner supplies the public-content facts and privacy/operator answers; coordinator accepts proposals |
+| A | A5, A6 | E1 / E1a plus explicit provider, cost, DNS, TLS and origin authorization |
+| B | B1 | B1a accepted **and** a human reference/GPU capture path exists |
+| C | C1 | C1a accepted **and** named native FA/AR plus editorial EN reviewers |
+| D | D2 | D1, A3 and E1a accepted; retention/backup/operator policies and a real host contract |
+| E | E1a | E1, A5 and D1 accepted; explicit external-action approval |
+| F | F2a | F1 accepted; coordinator registers the proposed cases; tooling authorized |
+| H | H2 | H1 accepted **and** A3 answers; no tracker may exist before disclosure and consent decisions |
 
-Potential next nonconflicting wave: A2/A3, B1 human capture, C1 native review,
-E1a contract, F2a baseline and H1 design **only if** each listed prerequisite and
-resource is actually satisfied. D2 generally waits on A3/E1a. No seven-way claim.
+## BLOCKED — exact root causes
 
-## BLOCKED — exact dependency and owner/resource ledger
-
-All downstream tasks' complete prerequisite lists live in their lane tables;
-the following names root causes, not vague “depends on backend” labels.
-
-- **A2/A3/A5/A6/A4:** A1 plus their listed predecessors; need real facts or
-  explicit omission, privacy/controller/jurisdiction/retention/export/backup/
-  operator policy, hosting/region/budget and verified origin/indexing decision.
-  The eight existing `docs/DECISIONS.md` owner decisions remain open; those
-  decision keys are not parallel lane task IDs.
-- **B1/B2/B3/B4:** B1a then actual reference/implementation evidence and fixes;
-  GPU Firefox/Chromium owner path absent here. ECHO-003/109/full-theme/arrow
-  findings and `MANUAL-FIREFOX-GLASS` cannot be waived by WebKit software output.
-- **C1/C2/C4/C5:** native reviewers; A2/A3/H2 approved content; A6 real origin;
-  C4 coherent public page robots policy; E2/D2/H4 integrated behavior and actual
-  manual SEO/404 acceptance. No duplicate ECHO-506 preview implementation.
-- **D2/D3/D4/D5:** D1/A3/E1a, then production-compatible tooling + E2 staging,
-  E3 actual ingress/logging/schedule; current QA PG result NOT_RUN and no native
-  browser→staging DB proof. Synthetic local fixture history is insufficient.
-- **E1a/E2/E3/E4:** A5/D1 target contract, A6 origin, explicit external-action
-  authorization and A3 policies. No external service changes authorized now;
-  hosted CI negative checks and rollback/restore evidence absent.
-- **F2a/F2/F3/F4:** F1 coverage, final B2/C1/D3/C5 work, integrated E4/D4/H4;
-  native/AT/real zoom/cross-engine human resources missing. Revalidate four
-  stale browser cases at accepted revisions via QA01, not this document.
-- **H1–H4:** A1 scope, H2/A3 privacy/metrics/access approval, E2/D2 integration,
-  then E4 verification. No analytics provider/tracker/dashboard accepted.
-- **G1–G4:** full table in README; staging/owner/legal gates precede controlled
-  production actions. No public intake/indexing without separate G3 permission.
+- **A5 / A6:** E1 and E1a, then owner approval of provider/region/budget and of a
+  public HTTPS origin with any indexing authorization (indexing stays off).
+- **B1–B4:** B1a, then human reference/GPU capture and confirmed defect fixes;
+  owner visual acceptance is last and cannot be replaced by WebKit software output.
+- **C1–C5:** native reviewers, A2 facts, A6 origin, integrated staging and
+  analytics verification (H4); the privacy disclosure cannot be finalized early.
+- **D2–D5:** A3 decisions, E1a target and E2 staging, then real ingress/logging,
+  scheduling, recovery and operator handoff evidence.
+- **E1a–E4:** A5/D1 contract, A6 origin and explicit external-action authorization
+  for staging, TLS, secrets and hosted CI verification.
+- **F2a–F4:** F1 coverage, final B2/C1/D3/C5 work, integrated E4/D4/H4 and human
+  assistive-technology, native-language and cross-engine resources.
+- **H2–H4:** H1 options plus A3 privacy answers, then E2/D2 integration and E4
+  verification. No analytics QA case exists yet; the coordinator must register
+  them before any verification can be recorded.
+- **G1–G4:** full lane table in the README; owner/legal/staging gates precede any
+  controlled production action, intake enablement or indexing.
 
 ## Owner approval requested
 
-Approve or revise the **six-task preparation wave above**, identify the owner
-decision authority for A1, and confirm whether mandatory private analytics is
-V1 scope or deferred. Supply native FA/AR reviewers, GPU Firefox/Chromium and
-screen-reader/zoom review availability when possible. Policy, provider, origin,
-costs and external changes remain separate decisions, not bundled permission.
+Approve the next Agent 1 assignment (**recommended: D1**) and let the E1 worker
+continue; supply the public-content facts and privacy/operator answers that A2 and
+A3 need; decide analytics provider, consent, retention and access when H1 returns;
+provide native FA/AR, GPU browser and screen-reader/zoom reviewers when available.
+Costs, DNS, TLS, external services, intake enablement and indexing remain separate
+authorizations.
 
 Stop here. No execution starts from a READY label, commit or this plan alone.
