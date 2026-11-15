@@ -1,13 +1,14 @@
 # Echo Devs V1.0 — dependency-aware coordination
 
-**Reconciled 2026-11-15, source baseline `a015c8f62e7fd91e117c31d2c39eac8b38bb9456`
-(A1 accepted and integrated).** No lane is active on `main`; a separate E1 worker
-may be running in its own worktree. See [NOW](NOW.md) for the current wave; owner
-approval is required before assignment or execution. The
+**Reconciled 2026-11-15, source baseline `d84a17a39d29e2afb24db8e682c40e20e2770247`
+(A1 and D1 accepted and integrated).** No lane is active on `main`; a separate E1
+worker may be running in its own worktree. See [NOW](NOW.md) for the current wave;
+owner approval is required before assignment or execution. The
 supplied nine-file scaffold was reconciled on 2026-11-14, preserving its lane
 names and task IDs; added subtask IDs separate safe preparation from missing
-acceptance or external authorization. A1 was the first executed lane task; its
-handoff is `docs/parallel/handoffs/A1.md`.
+acceptance or external authorization. Executed lane tasks so far: A1
+(`docs/parallel/handoffs/A1.md`) and the D1 audit
+(`docs/parallel/handoffs/D1.md`).
 
 ## Scope and authority
 
@@ -39,8 +40,8 @@ and the published disclosure still correctly states that no analytics exists.
 | Localization | `fc1c578`, `fd923a7`, ECHO-501/503/504/505 reports, typed dictionaries and parity tests | ROADMAP checked engineering milestones retained; historical acceptance not a fresh release pass. Native FA/AR and real zoom remain open |
 | SEO preview | `a90938f`, `65b890e`, `ba7f116`, results commits `7900c6e`, `62c5cdf`; `docs/P5-ECHO-506.md` | C3 DONE for preview engineering slice. ECHO-506 remains PARTIAL; production/OG/owner review not done |
 | SEO production gap | `src/lib/seo/{site,policy}.ts`, robots/sitemap, route metadata | Validated origin gates exist. `PREVIEW_ROBOTS` stays constant even with indexing flag; C4 must prepare coherent approved public metadata, G3 alone enables it |
-| Inquiry | `88d123f`, handler/store/limits/network, DB migrations, scripts, P2 reports | P2-201–204 local implementation accepted historically; remaining P2 acceptance partial. Default API enable flag false unless explicitly set; no environment secret files inspected |
-| Operations | `docs/INQUIRY-OPERATIONS.md`, `docs/INQUIRY-PRIVACY.md`, `scripts/inquiry-ops.mjs` | Read/erase/backup/restore exist locally; CLI rejects non-project Unix sockets. Production adaptation, policy, ingress, schedule and real operator acceptance missing |
+| Inquiry | `88d123f`, handler/store/limits/network, DB migrations, scripts, P2 reports | P2-201–204 local implementation accepted historically; remaining P2 acceptance partial. Default API enable flag false unless explicitly set; no environment secret files inspected. D1 audited the current surface: 6 BLOCKER gaps remain (trusted ingress, edge limits, operator identity/tooling, retention, backup) |
+| Operations | `docs/INQUIRY-OPERATIONS.md`, `docs/INQUIRY-PRIVACY.md`, `scripts/inquiry-ops.mjs`; D1 §4 host contract | Read/erase/backup/restore exist locally; CLI rejects non-project Unix sockets. Production adaptation, policy, ingress, schedule and real operator acceptance missing. D1 converted this into explicit hard/optional host requirements (HC-V/HC-L/HC-B) for E1a and for D1's own operator/retention/backup blockers |
 | Infrastructure | `.github/workflows/ci.yml`, `docs/CI.md`, architecture/decision ledger | Local pinned CI exists, no hosted negative-check/deployed staging proof. No external actions performed |
 | Product decisions | `SCOPE.md` v1.2 §8.4/§12.1, `docs/DECISIONS.md` A12–A13, `docs/APPROVALS.md`, `docs/parallel/handoffs/A1.md` | A1 DONE at `a015c8f`: V1 definition of done and mandatory analytics recorded; approval roles defined. Scope only — no capability, provider or approval inferred |
 | Analytics | package manifest, app/content/handler inspected; A1 scope decision | Private analytics mandatory for V1, but no tracker/dashboard/provider is approved or implemented and the privacy disclosure correctly says none. H1–H4 own the work |
@@ -48,10 +49,10 @@ and the published disclosure still correctly states that no analytics exists.
 ### QA evidence snapshot, not a second tracker
 
 `npm run qa:validate` and `npm run qa:status` were executed at
-`a015c8f`: **31 cases, 15 suites; 14 PASS, 0 FAIL, 1 BLOCKED, 4 STALE,
-12 NOT_RUN**. The A1 documentation change touched no QA watch path, so the
-recorded statuses are unchanged from `6eedf3b`. This paragraph is a dated
-reconciliation snapshot only; always recompute with QA01. Raw histories
+`d84a17a`: **31 cases, 15 suites; 14 PASS, 0 FAIL, 1 BLOCKED, 4 STALE,
+12 NOT_RUN**. Neither the A1 nor the D1 documentation change touched a QA watch
+path, so the recorded statuses are unchanged from `6eedf3b`. This paragraph is a
+dated reconciliation snapshot only; always recompute with QA01. Raw histories
 `qa/results/{automated,manual}.jsonl` were inspected.
 
 - Current preview SEO/404 records are PASS at `7900c6e`; general unit/build/
@@ -84,12 +85,12 @@ test tracker. ROADMAP checkboxes were not changed.
 | A | 10–20 | A1 is DONE (0 h); approval and provider/origin decisions remain |
 | B | 20–35 | Work/About/404 fixes not repeated; complete reference/GPU comparison and residual defect size uncertain |
 | C | 15–26 | Preview C3 is zero; native review, approved facts, public SEO/disclosure remain |
-| D | 25–43 | Existing P2 reused; production access/lifecycle adaptation, staging and handoff remain |
+| D | 22–38 | D1 audit accepted (0 h); existing P2 reused; production access/lifecycle adaptation for D1's operator/retention/backup blockers, staging and handoff remain |
 | E | 26–43 | Workflow reused; provider contract, secure staging, host controls and hosted verification remain |
 | F | 25–43 | QA engine reused; missing coverage, manual/performance/cross-engine and RC execution remain |
 | H | 17–31 | Inclusion confirmed (A1); no provider/implementation/privacy approval exists, reuse-first design assumed |
 | G | 13–23 | Integrated release and production/operator validation only; no duplicate lane engineering |
-| Total | 151–264 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
+| Total | 148–259 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
 
 All figures sum task rows and estimate **remaining** work, not elapsed historical
 development. Re-estimate after audits and actual reviewer/provider commitments;
@@ -102,13 +103,16 @@ QA coverage under the recorded decision.
 implementation/evidence but missing final/current acceptance; `BLOCKED`: cannot
 complete because named upstream/input/capability is missing; `IN_PROGRESS` and
 `IN_REVIEW`: only for authorized active work; `DONE`: exact slice accepted with
-evidence. No seeded UNVERIFIED states remain. A1 is the first lane task moved to
+evidence. No seeded UNVERIFIED states remain. A1 was the first lane task moved to
 DONE, at `a015c8f` with an integrated handoff; its consumers stayed BLOCKED only
 where another prerequisite (E1, E1a, B3) is missing and became TODO where A1 was
-the sole prerequisite. READY is **computed**, not a completion status: every
-dependency DONE plus available execution resources, approval to perform that kind
-of work and an uncontested file/environment lease. Scheduling eligibility does not
-authorize the next batch.
+the sole prerequisite. D1 is the second: DONE at `d84a17a` for an audit-only
+deliverable, keeping D2/D3/E1a/H3 BLOCKED on their **other** prerequisites while
+D1's six blockers became explicit acceptance conditions inside
+D2/E1a/E2/E3/E4. READY is **computed**, not a completion status: every dependency
+DONE plus available execution resources, approval to perform that kind of work and
+an uncontested file/environment lease. Scheduling eligibility does not authorize
+the next batch.
 
 Every table lists exact prerequisite IDs, remaining senior human hours, evidence
 and downstream edges. Date/source at each file top apply to every row unless a
@@ -170,8 +174,8 @@ migrations/restores/deploys serialized. No cross-worker secret/config sharing.
 
 ## G — sequential integrated release (not an eighth lane)
 
-These dependencies conservatively include H pending A1. Estimates exclude
-waiting, infrastructure costs and monitoring elapsed time.
+These dependencies include the analytics chain recorded by A1 (A12/A13).
+Estimates exclude waiting, infrastructure costs and monitoring elapsed time.
 
 | ID | Scope / remaining deliverable | Exact dependencies | Hours | State | Evidence / acceptance still needed | Unlocks |
 |---|---|---|---:|---|---|---|
@@ -264,3 +268,45 @@ whitespace checks are the planning-specific validation.
 - Stale "open scope decision A1" text and the handoff-directory convention were
   reconciled here, and `NOW.md` was regenerated. No application, browser, DB,
   deployment or external action was performed and no development lane was started.
+
+### Planning verification — 2026-11-15 (D1 integration)
+
+- **D1 verified before integration:** `parallel/d1` held exactly one new commit
+  (`d84a17a`) adding one file, `docs/parallel/handoffs/D1.md` (599 lines), on top
+  of `53a181e`. No `src/**`, `qa/**`, package manifest, workflow, migration,
+  decision/scope file or host change; `git diff --check` clean; the handoff
+  matched the diff and was internally consistent (22 gaps = 6 BLOCKER + 12
+  IMPORTANT + 4 OPTIONAL, each covered by a §9 group).
+- **Integration:** `git merge --ff-only parallel/d1` fast-forwarded `main` to
+  `d84a17a`. No history rewrite, no merge commit, no force, no push, no tag; the
+  main checkout was clean before and after. Branches/worktrees `parallel/a1` and
+  `parallel/d1` were preserved and no E1 branch exists.
+- **State change:** D1 → DONE (0–0h) citing the integrated commit and the audit
+  evidence. D2, D3, E1a and H3 keep their other prerequisites (A3, E2, E1, A5,
+  H2) and stay BLOCKED; their evidence now cites D1's gaps and host contracts
+  (D2 → D1-G07–G10 and HC-L/HC-B; E1a → §4; H3 → §4.8/§7). Lane D effort
+  25–43h → 22–38h and the total 151–264h → 148–259h. **No dependency edge was
+  added or removed** and no other task's estimate changed.
+- **Six blockers preserved verbatim** and mapped to downstream ownership:
+  D1-G01/D1-G02 (trusted ingress, edge volumetric limits) → E1a/E2;
+  D1-G07/D1-G08/D1-G09 (operator identities, managed-DB tooling,
+  retention/purge) → D2; D1-G10 (production backup/recovery) → D2 with E3/E4
+  verification. No business, legal
+  or QA record was changed and no blocker was accepted as resolved.
+- **Newly READY:** none beyond the pre-existing roots. Post-D1 roots are A2, A3,
+  B1a, C1a, E1, F1, H1; the graph has no new eligible task because D1's
+  consumers each need at least one further input.
+- `python3 docs/parallel/check-plan.py`: PASS, 40 tasks, unique IDs,
+  dependencies, reverse edges, DAG and local links valid; totals **148–259h**;
+  seven dependency roots (A2 10 unlocks/57h, A3 18/89h, B1a 12/72h, C1a 11/63h,
+  E1 22/101h, F1 9/49h, H1 12/78h).
+- `npm run qa:validate`: PASS, 31 unique cases (12 manual), 15 suites.
+  `npm run qa:status` re-executed at `d84a17a`: 14 PASS, 0 FAIL, 1 BLOCKED,
+  4 STALE, 12 NOT_RUN — identical to `6eedf3b` because no QA watch path changed.
+  No result was added, edited or deleted and no reviewer or timestamp was invented.
+- D1's own QA-coverage and stale-convention findings are recorded here as gaps
+  (they feed F1 and the F2a/D3 cases) and were **not** fixed in this batch: the
+  QA registry, results and manual acceptance remain untouched. Host, retention
+  and backup blockers stay open and unassigned. No application, browser, DB,
+  deployment or external action was performed and no development lane was
+  started beyond the concurrent E1 worker already authorized.
