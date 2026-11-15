@@ -1,9 +1,9 @@
 # Echo Devs — Product & Engineering Scope
 
 **Document:** SCOPE.md  
-**Version:** 1.1 — approved UI baseline and delivery order
-**Date:** 2026-11-05
-**Status:** Approved strategic direction; implementation choices and unresolved real-world facts are labeled below.
+**Version:** 1.2 — V1.0 definition of done and mandatory private analytics (owner-approved 2026-11-15)
+**Date:** 2026-11-15
+**Status:** Approved strategic direction; implementation choices and unresolved real-world facts are labeled below. Approval authority per area: `docs/APPROVALS.md`.
 
 > This scope turns the supplied `cvecho.zip` prototype into a credible, production-ready, trilingual lead-generation website. It does **not** authorize making up portfolio facts, testimonials, metrics, credentials, contacts, or compliance claims.
 
@@ -27,10 +27,10 @@ The site must communicate in business outcomes first; technology stack details s
 - G2: Create credible trust through real cases, clear team identity, visible process, and verified links.
 - G3: Offer excellent Persian, English, and Arabic experiences, including correct RTL/LTR.
 - G4: Feel premium, contemporary, polished, lightweight, and fast on mobile and desktop.
-- G5: Provide clean SEO/indexable pages, sensible analytics, deployability, and maintainability.
+- G5: Provide clean SEO/indexable pages, the approved private analytics for V1 (§8.4), deployability, and maintainability.
 
 ### 1.4 Non-goals for v1
-No user signup/login; no client portal, project management, public comments, payment checkout, live chatbot, complex CMS, newsletter, elaborate blog, proprietary analytics dashboard, or microservice architecture. No fake demos framed as deployed client work. No admin dashboard unless operational review genuinely requires one after launch.
+No user signup/login; no client portal, project management, public comments, payment checkout, live chatbot, complex CMS, newsletter, elaborate blog, or microservice architecture. No fake demos framed as deployed client work. No inquiry admin dashboard for v1 (operator readback stays a restricted CLI/read-only path, §7.2). A private traffic-analytics dashboard **is** required by §8.4, but it must use an approved existing self-hosted product rather than a custom-built analytics engine.
 
 **Implementation priorities (owner clarification):** faithfully reconstruct the approved HTML in Next.js; populate its homepage sections; immediately implement real validated inquiry/PostgreSQL persistence; then remaining service/work/about/contact pages; complete production-quality FA/EN/AR content; finish browser acceptance, accessibility, performance, SEO, security and deployment readiness. These priorities do not defer basic safety, accessibility or locale support in each feature. Browser unavailability leaves acceptance pending but does not prohibit implementation.
 
@@ -43,6 +43,8 @@ No user signup/login; no client portal, project management, public comments, pay
 - No visitor login; inquiry persisted in database.
 - Original `code.html` is the approved UI baseline, not visual inspiration. Preserve composition, hierarchy, sections, Coral & Charcoal identity, typography, spacing, proportions, cards, hero/CTAs and interaction character. Targeted accessibility/responsiveness/functionality/consistency/usability improvements are allowed; significant departures need explicit owner approval. We are migrating the existing website, not designing a new one.
 - Recommended stack: **Next.js App Router + TypeScript + Tailwind (build-time) + PostgreSQL** in one cohesive application. A lightweight ORM/query layer, schema validator, and translation library should be selected after checking compatibility. Avoid speculative dependency additions and version pinning without verification.
+- **V1.0 definition of done (owner-approved 2026-11-15):** a production-ready, publicly accessible, trilingual business website capable of attracting and accepting real project inquiries. Required capabilities and their evidence mapping: §12.1.
+- **Private traffic analytics is mandatory V1.0 scope (owner-approved 2026-11-15):** a private administrative dashboard is required, reuse of a reliable existing self-hosted product is preferred, and **Umami is a candidate, not an approved technology**. This supersedes earlier statements that deferred analytics to post-launch. Requirements: §8.4. Provider, consent model, retention and access owner remain unapproved, and no tracking may be enabled before those decisions and the matching privacy disclosure.
 
 ## 2. Existing source / baseline audit
 
@@ -228,7 +230,20 @@ The real folder layout should follow framework conventions and remain compact. D
 - App logging includes correlation IDs and redacts PII; errors recover gracefully.
 - TLS, security headers, scoped DB role, dependency vulnerability review, CSRF/origin protection where appropriate, safe request size, spam/rate limits.
 - Backup of inquiry records with verified restoration procedure; avoid backups in publicly served paths.
-- Privacy-aware analytics only after owner approves provider, consent model where applicable, and actual tracking scope. Basic events can be `cta_clicked`, `inquiry_started`, `inquiry_submitted` (never form text or contact details).
+- Privacy-aware analytics per §8.4, enabled only after the owner approves provider, consent model and actual tracking scope. Never log form text or contact details.
+
+### 8.4 Private traffic analytics — mandatory V1 capability (owner-approved 2026-11-15)
+
+Status: **scope approved, technology and privacy terms not approved.** Nothing in this section authorizes enabling a tracker, collecting visitor data, adding a dependency or changing published privacy copy.
+
+- **Purpose:** understand reach and lead conversion for an owner-operated business site: pageviews and visitor trends, popular pages, traffic sources, device and language breakdown where appropriate, and project-inquiry conversion tracking.
+- **Access:** private administrative dashboard for the approved operator role; no public or client-facing analytics surface, no visitor accounts. It is not an additional public route in §3.1: it is served by the approved product under its own private access and is excluded from the public link/asset audit.
+- **Reuse first:** evaluate a reliable, maintained, self-hosted product before any custom work. Umami is a candidate only; selection requires a documented comparison (H1) and owner approval of provider, hosting, retention and access.
+- **Minimization:** aggregate pageview/event data only. No form field values, names, emails, phones, inquiry text, inquiry UUIDs, idempotency keys, raw IP storage by the application or sensitive query/fragment content in events. Pseudonymous network identifiers used for abuse throttling stay separate from analytics. Minimization is not automatically anonymity; consent, disclosure and vendor/processor terms must be approved.
+- **Isolation:** analytics failure or an unreachable dashboard must never block, delay or fake an inquiry submission, and must not double-count a replay-safe submission. Conversion events derive from confirmed durable writes only.
+- **Operations:** dashboard availability, database/backup coverage, upgrade path, operator access and revocation, and analytics data expiry belong in the operational runbook and in `docs/INQUIRY-PRIVACY.md`-style disclosure before launch.
+- **Disclosure:** `/privacy` must describe the implemented analytics behavior in FA/EN/AR before tracking is enabled. Until then the current "no analytics implemented" statement is accurate and must not be softened in advance.
+- **Acceptance:** verified metrics/event accuracy, privacy review, access control, backup/handoff and recorded privacy disclosure, tracked through the QA registry like any other release gate.
 
 ## 9. Quality attributes and measurable gates
 
@@ -241,6 +256,7 @@ The real folder layout should follow framework conventions and remain compact. D
 | Localization | 100% required page/control key coverage for `fa/en/ar`, localization QA complete |
 | Security | Server validation, rate limiting, safe secrets, restricted DB, abuse test, no PII leakage |
 | SEO | Indexable clean localized routes, correct canonicals/hreflang/sitemap/metadata |
+| Analytics | Approved private dashboard covers §8.4 metrics with no PII in events; consent and localized disclosure approved; tracker failure isolated from durable intake |
 | Test quality | CI green, no critical or high severity unresolved release blockers; E2E inquiry happy+failure tests |
 | Content integrity | Every displayed claim, address, handle, work item type and outbound link verified |
 | Operability | Production deploy, log access, backup, restore test, and rollback documented |
@@ -249,9 +265,9 @@ Performance numbers are objectives, not promises and must not justify removing n
 
 ## 10. Release constraints / non-negotiables
 
-**Never launch if:** inquiry reports success without persistence; forms leak personal data; mobile navigation fails; English/Arabic pages are incomplete; TLS missing; critical exploit present; fake evidence presented as fact; broken primary CTAs; no operational way to retrieve leads; no rollback/backup plan.
+**Never launch if:** inquiry reports success without persistence; forms leak personal data; mobile navigation fails; English/Arabic pages are incomplete; TLS missing; critical exploit present; fake evidence presented as fact; broken primary CTAs; no operational way to retrieve leads; no rollback/backup plan; or the mandatory §8.4 analytics capability is absent, mishandled personal data, or is enabled without an approved consent position and matching localized disclosure.
 
-**Change control:** The owner must approve domain/hosting costs, final public contacts, authentic portfolio entries, logo direction, privacy/retention policy, launch, and any outgoing communication involving a real customer. Developer agents may implement, test, refactor, and document authorized work within the allowed project workspace, and may create focused local commits for completed, verified changes. They must never push, rewrite shared history, tag or publish, and must not begin a new development batch without explicit owner authorization.
+**Change control:** The owner must approve domain/hosting costs, final public contacts, authentic portfolio entries, logo direction, privacy/retention policy, analytics provider and consent model, launch, and any outgoing communication involving a real customer. Developer agents may implement, test, refactor, and document authorized work within the allowed project workspace, and may create focused local commits for completed, verified changes. They must never push, rewrite shared history, tag or publish, and must not begin a new development batch without explicit owner authorization. Per-area accountability is defined in `docs/APPROVALS.md`, which does not itself grant any approval.
 
 ## 11. Key unknowns / deferred owner decisions
 
@@ -262,16 +278,48 @@ Performance numbers are objectives, not promises and must not justify removing n
 | D3 | Team public identities/roles vs organization-only about page? | About release |
 | D4 | Production host and desired monthly budget (managed vs VPS)? | P7 deployment |
 | D5 | Who reads leads, by what secure means; should email notifications be enabled? | P2 operational gate |
-| D6 | Privacy notice, data retention period, applicable legal needs, tracking/consent? | Production launch |
+| D6 | Privacy notice, data retention period, deletion-request handling, vendor/processor disclosure, analytics consent model? | Privacy text, production launch |
 | D7 | Owner sign-off on final logo and core copy/visual design? | Brand/design approval |
 | D8 | Confirm initial locale behavior (`fa` assumed) and translation review process? | P5 release gate |
+| D9 | Legal entity/controller, jurisdiction, privacy contact and lawful basis for inquiry data? | Any real-user intake |
+| D10 | Analytics provider selection, consent position, event/metric scope, retention and dashboard access owner? | Enabling any tracking (§8.4) |
 
 Agents should proceed using labeled placeholders in development, not invent answers. Block **only the task requiring owner input**, and continue independent work.
 
-D7 is narrowed by the 2026-11-05 approval: the HTML visual direction is already approved. Approval is still needed for significant departures, new identity assets and final factual/core copy, not permission to begin faithful reconstruction. D1–D8 do not block the homepage's safe layout or disposable local inquiry implementation; they block their specific published content, operational or release decisions.
+D7 is narrowed by the 2026-11-05 approval: the HTML visual direction is already approved. Approval is still needed for significant departures, new identity assets and final factual/core copy, not permission to begin faithful reconstruction. D1–D10 do not block the homepage's safe layout or disposable local inquiry implementation; they block their specific published content, operational or release decisions. D9 and D10 govern the two capabilities where collecting real data (inquiries, analytics) is otherwise ready: scope approval is not permission to collect, and no default consent position is assumed. Blocking-vs-launch sequencing for these decisions is summarized in `docs/APPROVALS.md` §3.
 
 ## 12. Definition of done (per task and per milestone)
 
 A task is done only if: implemented narrowly; meets acceptance criteria; tests/quality checks run and results included; desktop/mobile and locale regressions checked when UI-facing; docs/status updated; no new unresolved security/PII issue; and report references task ID. Focused local commits for verified changes are permitted; pushing or starting a new batch without owner authorization is not. A milestone is done only after its gate is demonstrated, not because its checklist was merely marked. The roadmap is the executable checklist.
+
+### 12.1 V1.0 definition of done (owner-approved 2026-11-15)
+
+Echo Devs V1.0 is a production-ready, publicly accessible, trilingual business
+website capable of attracting and accepting real project inquiries. It is done
+only when every capability below is implemented **and** has current acceptance
+evidence at the release candidate revision (QA registry plus the named manual or
+owner/legal record). An implemented feature, a checked roadmap box or a lane
+`DONE` label is not evidence by itself, and nothing in this list is complete
+merely because it is listed.
+
+| Required capability | Governing requirement | Executable work / evidence |
+|---|---|---|
+| Persian, English and Arabic support | §6 | ECHO-501–506; C1–C5; native FA/AR review |
+| Responsive, approved Coral & Charcoal visual design | §5, A11 | ECHO-104, 301–308, 608; B1–B4 |
+| Home, Services, Work, About, Contact and Privacy pages | §3.1 | ECHO-301–307, 401–406 |
+| Honest concept-study portfolio presentation | §4.1 | ECHO-303/402/403, 407 audit |
+| Secure, operational inquiry submission and operator handling | §7 | ECHO-201–210, 603; D1–D5; A3/D5 |
+| Production hosting, domain and HTTPS | §8.1 | ECHO-701–704; A5/A6; E1a–E4 |
+| Appropriate SEO and localization | §6 | ECHO-506, 604; C4 |
+| Backup, restore, monitoring and operational documentation | §8.3 | ECHO-607, 706; D5; E3/E4 |
+| Automated and manual QA acceptance | §9 | ECHO-QA01 registry, ECHO-601–605, F1–F4 |
+| Private administrative traffic analytics | §8.4 | H1–H4 (provider/consent first) |
+| Approved privacy and data-handling policies | §4.3, §7.2 | ECHO-406; A3; D6/D9; Privacy & Legal Approver |
+| Controlled production release | §10 | A4, G1–G4; owner release record at the exact revision |
+
+Adding or removing a capability in this table is a product-scope decision that
+requires the Product Owner's recorded approval; engineering lanes may not
+reinterpret it. Deferred or blocked items stay listed with their real status
+rather than being dropped to make the list look complete.
 
 **Source references:** existing `cvecho.zip` + product decisions in this conversation. Implementation-time validation: official Next.js internationalization documentation and Google Search Central multilingual site guidance.

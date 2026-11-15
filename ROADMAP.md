@@ -1,6 +1,6 @@
 # Echo Devs — Agent-Executable Roadmap
 
-**Version:** 1.7 · **Status:** Approved HTML fidelity governs implementation. Foundation/homepage browser and hosted CI gates remain open. P2-A ECHO-201–204 complete locally; P2-B1 form/security/retry and P2-B2 private operations/recovery tooling implemented, owner/deployment/browser acceptance partial. API opt-in; notifications absent; ECHO-306 visual/conversion browser acceptance pending.
+**Version:** 1.8 · **Status:** Approved HTML fidelity governs implementation. Foundation/homepage browser and hosted CI gates remain open. P2-A ECHO-201–204 complete locally; P2-B1 form/security/retry and P2-B2 private operations/recovery tooling implemented, owner/deployment/browser acceptance partial. API opt-in; notifications absent; ECHO-306 visual/conversion browser acceptance pending. **V1.0 includes mandatory private analytics (owner, 2026-11-15); no analytics implementation exists yet — it is planned as the H1–H4 lane, not duplicated as roadmap task IDs.**
 **Source of truth:** `SCOPE.md`. **Operating rules:** `AGENTS.md`.  
 **Progress:** Mark `[x]` only with verified acceptance evidence. Record concise verification in task notes/reports. Agents may create focused local commits for completed, verified changes; they must never push. Git commits are review evidence, not completion requirements.
 
@@ -9,6 +9,30 @@
 **Migrate the approved website, do not redesign it.** Owner clarification (2026-11-05): original `code.html` is authoritative for visual fidelity. First reconstruct/populate its homepage within the existing Next.js foundation, then immediately deliver real inquiry/PostgreSQL persistence, remaining pages, full trilingual content and production hardening. Preserve existing safe theme/locale/keyboard infrastructure. No more infrastructure-only batches unless a feature requires them; no unauthorized deployment/public communication.
 
 Missing VM Chromium is a verification gap, not an implementation dependency. ECHO-003/105/107/108 and all browser criteria remain open until evidence exists; owner-side Fedora checks through existing loopback-only SSH forwarding are valid evidence. No repeated downloads/security changes. Actual reference comparison and implementation visual approval are required before release. This owner authorization supersedes earlier historical statements limiting development to ECHO-101/102/106 or prohibiting full-page replication before screenshots; it does not mark any test passed.
+
+### V1.0 scope decision — 2026-11-15 (A1)
+
+The owner confirmed the V1.0 definition of done in `SCOPE.md` §12.1 and made
+**private administrative traffic analytics a mandatory V1 capability**
+(`SCOPE.md` §8.4, `docs/DECISIONS.md` A12–A13, responsibilities in
+`docs/APPROVALS.md`). Consequences recorded here:
+
+- The earlier deferral of analytics to P8 (ECHO-804) and the SCOPE §1.4 exclusion
+  of an analytics dashboard are superseded for V1. A custom analytics engine is
+  still out of scope; reuse of a maintained self-hosted product is required, and
+  Umami is a candidate only.
+- Analytics work is tracked as lane tasks **H1–H4** in `docs/parallel/H-analytics.md`
+  so one task definition exists per deliverable. No ECHO-5xx/6xx/7xx analytics
+  task IDs are invented, and no analytics capability is complete.
+- Nothing is enabled by this decision: no tracker, dependency, dashboard,
+  visitor collection or disclosure edit exists, API/intake flags are unchanged,
+  and `/privacy` correctly still states that no analytics is implemented.
+- Analytics provider, consent position, event scope, retention and dashboard
+  access remain owner decisions (D10; A3/H2). Release cannot pass while the
+  mandatory capability is absent or unapproved (`SCOPE.md` §10).
+- Analytics failure must stay isolated from durable inquiry submission; the
+  conversion signal derives only from a confirmed durable write (D owns the hook,
+  H owns the tracker adapter).
 
 ### Dependency overview
 ```
@@ -572,7 +596,7 @@ Owner visual follow-ups confirmed from ECHO-503 are tracked in
 
 ## P7 — Production launch (owner-controlled)
 **Goal:** Deploy safely, validate the real lead path, and observe.  
-**Exit gate:** Domain/TLS, real contacts, end-to-end live intake, alerts, backup and rollback validated.
+**Exit gate:** Domain/TLS, real contacts, end-to-end live intake, alerts, backup and rollback validated, and the approved private analytics verified as operational without affecting durable intake.
 
 - [ ] **ECHO-701 [P7]** Owner chooses/approves hosting, monthly budget, domain/DNS changes, privacy text, final assets and public contacts. **Accept:** explicit approval ledger.
 - [ ] **ECHO-702 [P7]** Prepare staging deployment with production-equivalent DB/versioned migrations; secret and CI/CD controls. **Accept:** staging E2E passes and secrets not committed.
@@ -587,7 +611,7 @@ Owner visual follow-ups confirmed from ECHO-503 are tracked in
 - [ ] **ECHO-801 [P8]** Review errors, lead delivery, spam pressure, mobile completion and search coverage after sufficient actual data exists.
 - [ ] **ECHO-802 [P8]** Replace placeholder concepts with verified case studies, screenshots, client-approved proof.
 - [ ] **ECHO-803 [P8]** Explore service-specific SEO landing pages only for actual demand and sufficient unique content.
-- [ ] **ECHO-804 [P8]** Consider secure admin workflow/CRM integration, notification providers, analytics experiments only if operator effort warrants it.
+- [ ] **ECHO-804 [P8]** Consider secure inquiry admin workflow/CRM integration, notification providers and further analytics experiments only if operator effort warrants it. The mandatory V1 analytics baseline is H1–H4, not a P8 experiment.
 
 ## Universal verification matrix
 

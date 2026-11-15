@@ -1,6 +1,6 @@
 # Inquiry data inventory and lifecycle — not a legal privacy policy
 
-**Business retention configuration: UNSET. Automated business-data purge: absent.** No retention period, legal basis, operator identity, approved inbox, jurisdiction, notification provider or production storage location is invented by this document. D5/D6 and an owner-approved public notice remain release gates.
+**Business retention configuration: UNSET. Automated business-data purge: absent.** No retention period, legal basis, operator identity, approved inbox, jurisdiction, notification provider or production storage location is invented by this document. D5/D6/D9 and an owner-approved public notice remain release gates.
 
 | Data | Purpose / minimization | Current boundary / lifetime |
 |---|---|---|
@@ -18,6 +18,8 @@
 | Encrypted snapshots | Local recovery rehearsal | Full application-data copy; encryption does not erase obligations; backup/key custody and expiry unresolved |
 
 Keyed digests and network hashes are **not claimed anonymous**. Ingress/hosting may independently see/log raw IPs or request information; no production provider/logging configuration is approved. No tracking/marketing consent, analytics, file upload or notification integration is added.
+
+**Analytics status — 2026-11-15 scope decision, no implementation.** Private traffic analytics is now mandatory V1 scope (SCOPE §8.4, `DECISIONS.md` A13), but no provider, hosting, consent position, event scope, retention period, dashboard access owner or processor terms are approved, and **no tracker, cookie, script or analytics storage exists**. The published localized notice correctly states that no analytics is implemented; it must not be changed in advance of implementation. Before any tracking is enabled, this inventory needs analytics rows (data, purpose, minimization, lifetime, access), the vendor/processor disclosure must be added, and the FA/EN/AR notice must be accepted by the Privacy & Legal Approver. Pseudonymous throttling identifiers stay separate from analytics; inquiry payloads, contact details, inquiry UUIDs and replay keys must never enter analytics events.
 
 ## Access separation
 
@@ -41,7 +43,7 @@ Owner decisions required:
 3. How a requester is verified for access/correction/erasure without disclosing others' records; handling urgent erasure vs active retries.
 4. Operator assignment and access expiry/revocation; safe reply channels and processing expectations.
 5. Export/backup retention and encryption/key custodians, key loss/rotation/recovery, approved RPO/RTO and deletion manifest handling after restore.
-6. Hosting/proxy/logging access, vendor/location/jurisdiction, breach/incident process, and whether analytics/notifications will ever be enabled.
+6. Hosting/proxy/logging access, vendor/location/jurisdiction, breach/incident process, and whether notifications are enabled. Analytics is now V1 scope (A13), so this item must add the approved provider, consent position, event scope, retention, access owner and processor terms (D10) before tracking exists.
 
 Deletion of the live row is not deletion of prior snapshots, local exports or possible provider logs. Before restoring an older snapshot, reconcile an owner-maintained approved erasure manifest in isolation; never reopen intake with resurrected erased records. Snapshot expiry/export disposal and manifest maintenance are **not automated or owner-approved yet**. PostgreSQL MVCC/WAL/backups may retain old bytes until their own lifecycle completes; do not claim secure physical wiping from a SQL DELETE.
 
