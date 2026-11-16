@@ -1,14 +1,15 @@
 # Echo Devs V1.0 — dependency-aware coordination
 
-**Reconciled 2026-11-15, source baseline `d84a17a39d29e2afb24db8e682c40e20e2770247`
-(A1 and D1 accepted and integrated).** No lane is active on `main`; a separate E1
+**Reconciled 2026-11-16, source baseline `55b842236e33fde0fc0cc855e97aae41d36ca409`
+(A1, D1 and H1 accepted and integrated).** No lane is active on `main`; a separate E1
 worker may be running in its own worktree. See [NOW](NOW.md) for the current wave;
 owner approval is required before assignment or execution. The
 supplied nine-file scaffold was reconciled on 2026-11-14, preserving its lane
 names and task IDs; added subtask IDs separate safe preparation from missing
 acceptance or external authorization. Executed lane tasks so far: A1
-(`docs/parallel/handoffs/A1.md`) and the D1 audit
-(`docs/parallel/handoffs/D1.md`).
+(`docs/parallel/handoffs/A1.md`), the D1 audit
+(`docs/parallel/handoffs/D1.md`) and the H1 analytics-options packet
+(`docs/parallel/handoffs/H1.md`).
 
 ## Scope and authority
 
@@ -26,9 +27,11 @@ self-hosted product must be reused rather than a custom engine — Umami is a
 candidate only. **Technical implementation and privacy decisions remain open:**
 provider, hosting, consent position, event scope, retention, dashboard access
 owner and processor terms are unapproved (decision keys in `docs/DECISIONS.md`,
-accountability in `docs/APPROVALS.md`). H1 is options research only; H2–H4 stay
-blocked. No tracker, dependency, account, public intake or indexing is enabled,
-and the published disclosure still correctly states that no analytics exists.
+accountability in `docs/APPROVALS.md`). H1 is accepted options research: it
+compares Umami, Plausible CE and Matomo and conditionally recommends Umami, but
+**no provider is approved** and H2–H4 stay blocked. No tracker, dependency,
+account, public intake or indexing is enabled, and the published disclosure still
+correctly states that no analytics exists.
 
 ## Inspected baseline and acceptance boundary
 
@@ -44,7 +47,7 @@ and the published disclosure still correctly states that no analytics exists.
 | Operations | `docs/INQUIRY-OPERATIONS.md`, `docs/INQUIRY-PRIVACY.md`, `scripts/inquiry-ops.mjs`; D1 §4 host contract | Read/erase/backup/restore exist locally; CLI rejects non-project Unix sockets. Production adaptation, policy, ingress, schedule and real operator acceptance missing. D1 converted this into explicit hard/optional host requirements (HC-V/HC-L/HC-B) for E1a and for D1's own operator/retention/backup blockers |
 | Infrastructure | `.github/workflows/ci.yml`, `docs/CI.md`, architecture/decision ledger | Local pinned CI exists, no hosted negative-check/deployed staging proof. No external actions performed |
 | Product decisions | `SCOPE.md` v1.2 §8.4/§12.1, `docs/DECISIONS.md` A12–A13, `docs/APPROVALS.md`, `docs/parallel/handoffs/A1.md` | A1 DONE at `a015c8f`: V1 definition of done and mandatory analytics recorded; approval roles defined. Scope only — no capability, provider or approval inferred |
-| Analytics | package manifest, app/content/handler inspected; A1 scope decision | Private analytics mandatory for V1, but no tracker/dashboard/provider is approved or implemented and the privacy disclosure correctly says none. H1–H4 own the work |
+| Analytics | package manifest, app/content/handler inspected; A1 scope decision; `docs/parallel/handoffs/H1.md` | Private analytics mandatory for V1, but no tracker/dashboard/provider is approved or implemented and the privacy disclosure correctly says none. H1 accepted (Umami conditionally recommended, not approved); H2–H4 own the work |
 
 ### QA evidence snapshot, not a second tracker
 
@@ -88,9 +91,9 @@ test tracker. ROADMAP checkboxes were not changed.
 | D | 22–38 | D1 audit accepted (0 h); existing P2 reused; production access/lifecycle adaptation for D1's operator/retention/backup blockers, staging and handoff remain |
 | E | 26–43 | Workflow reused; provider contract, secure staging, host controls and hosted verification remain |
 | F | 25–43 | QA engine reused; missing coverage, manual/performance/cross-engine and RC execution remain |
-| H | 17–31 | Inclusion confirmed (A1); no provider/implementation/privacy approval exists, reuse-first design assumed |
+| H | 14–26 | H1 options research accepted (0 h); no provider/implementation/privacy approval exists, so selection, integration and verification remain |
 | G | 13–23 | Integrated release and production/operator validation only; no duplicate lane engineering |
-| Total | 148–259 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
+| Total | 145–254 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
 
 All figures sum task rows and estimate **remaining** work, not elapsed historical
 development. Re-estimate after audits and actual reviewer/provider commitments;
@@ -109,7 +112,10 @@ where another prerequisite (E1, E1a, B3) is missing and became TODO where A1 was
 the sole prerequisite. D1 is the second: DONE at `d84a17a` for an audit-only
 deliverable, keeping D2/D3/E1a/H3 BLOCKED on their **other** prerequisites while
 D1's six blockers became explicit acceptance conditions inside
-D2/E1a/E2/E3/E4. READY is **computed**, not a completion status: every dependency
+D2/E1a/E2/E3/E4. H1 is the third: DONE at `55b8422` for a research-only
+deliverable; it supplies the provider/metrics/architecture decision input but
+approves no provider, so H2 stays BLOCKED on the owner/legal A3 answers rather
+than on H1. READY is **computed**, not a completion status: every dependency
 DONE plus available execution resources, approval to perform that kind of work and
 an uncontested file/environment lease. Scheduling eligibility does not authorize
 the next batch.
@@ -161,7 +167,7 @@ another task is in flight.
 | D | `docs/parallel/handoffs/D1.md` | DB/API/validation/ops and approved conversion hook; E supplies host boundary |
 | E | `docs/parallel/handoffs/E1.md` | CI/host configuration/runbooks; exclusive staging deployment lease |
 | F | `docs/parallel/handoffs/F1.md` | Assigned tests/harnesses, QA proposals; coordinator integrates records |
-| H | `docs/parallel/handoffs/H1.md` (after assignment) | Analytics adapter only; no submission-hook or privacy-copy edits |
+| H | `docs/parallel/handoffs/H1.md` (accepted 2026-11-16) | Analytics adapter only; no submission-hook or privacy-copy edits. H2's owner decision record is next, assigned only after the A3 answers exist |
 
 First wave is documentation/audit output only: no production source writes, QA
 history writes, browsers or DBs needed. A's decision work can proceed alongside
@@ -309,4 +315,69 @@ whitespace checks are the planning-specific validation.
   QA registry, results and manual acceptance remain untouched. Host, retention
   and backup blockers stay open and unassigned. No application, browser, DB,
   deployment or external action was performed and no development lane was
+  started beyond the concurrent E1 worker already authorized.
+
+### Planning verification — 2026-11-16 (H1 integration)
+
+- **H1 verified before integration:** `parallel/h1` held exactly one commit
+  (`55b8422`) on top of `d713abd`, adding one file,
+  `docs/parallel/handoffs/H1.md` (827 lines). No `src/**`, `qa/**`, package
+  manifest, workflow, migration, decision/scope/roadmap file or deployment
+  configuration; only the authorized handoff was written, and the working tree
+  was clean before and after the commit.
+- **Handoff review:** all thirteen required sections are present, each H1
+  requirement in the lane definition maps to a section, and the recommendation is
+  explicitly conditional. `[V]`/`[A]`/`[U]` markers separate vendor facts from
+  engineering estimates, and §13 lists the unresolved items. The event contract
+  contains no form values, contacts, inquiry reference, idempotency key or IP,
+  keeps the conversion tied to `replayed:false`, and forbids retries or a client
+  fallback that could overcount. Owner answers are requested (twelve questions in
+  §10) rather than invented, and "cookieless" is not equated with consent
+  exemption. Repository claims were re-read in source (`package.json`,
+  `src/lib/inquiries/{client,store}.ts`, `src/app/api/inquiries/route.ts`,
+  `src/content/privacy.ts`, `SCOPE.md` §8.4) and match.
+- **Vendor spot-check during review:** the Umami installation page confirms Node
+  20.19+ (22 LTS recommended), PostgreSQL ≥ 12.14 and the v3.5.0 forced
+  default-password change; the Umami collection-API page confirms `/api/send`
+  needs no token but does require a `User-Agent` and supports `type: "event"`;
+  the Plausible CE README confirms v3.2.1, Docker, a ClickHouse requirement with
+  SSE 4.2/NEON and ≥ 2 GB RAM; the Plausible events API page confirms server,
+  webhook and retry events are unsuitable for attribution and may be dropped.
+  One addition worth recording: Plausible answers `202` even for a dropped event
+  (`x-plausible-dropped`), which reinforces H1's caution rather than changing it.
+  Load-bearing claims not re-verified here remain `[U]` in H1 §13 for H2/H3.
+- **Known imprecision, not a state change:** H1 §11.1 lists only `H4` beside
+  `G1/G3`; those release tasks also require their full prerequisite sets in their
+  lane files. The lane tables remain authoritative and no edge was altered.
+- **Integration:** `git merge --ff-only parallel/h1` fast-forwarded `main` to
+  `55b8422`. No history rewrite, merge commit, force, push or tag; the main
+  checkout was clean before and after. Branches/worktrees `parallel/a1`,
+  `parallel/d1` and `parallel/h1` were preserved. No E1 branch or worktree exists
+  on this machine and nothing about E1 is integrated.
+- **State change:** H1 → DONE (0–0h) citing the integrated commit and the
+  delivered options packet; **H2 stays BLOCKED** because only its A3
+  owner/legal prerequisite remains, not because H1 is missing. Lane H effort
+  17–31h → 14–26h and the total 148–259h → 145–254h. **No dependency edge was
+  added or removed** and no other task's estimate changed. Umami is recorded as a
+  recommendation, not an approval; no provider, consent, retention, budget,
+  hosting or access decision was made here.
+- **Conversion trade-off recorded for H2/H3:** server-side confirmed-write
+  events are replay-safe but best-effort (lost, timed-out or bot-filtered events
+  undercount), while client-side events attribute better but can double count on
+  an uncertain retry that resolves as a replay. Counts therefore stay a lower
+  bound; no client fallback and no reconciliation by inflating events.
+- `python3 docs/parallel/check-plan.py`: PASS, 40 tasks, unique IDs,
+  dependencies, reverse edges, DAG and local links valid; totals **145–254h**;
+  six dependency roots (A2 10 unlocks/57h, A3 18/89h, B1a 12/72h, C1a 11/63h,
+  E1 22/101h, F1 9/49h). H1 and D1 are DONE and no longer roots; H2 gained no
+  edge but remains blocked on A3.
+- `npm run qa:validate`: PASS, 31 unique cases (12 manual), 15 suites.
+  `npm run qa:status` re-executed at `55b8422`: 14 PASS, 0 FAIL, 1 BLOCKED,
+  4 STALE, 12 NOT_RUN — identical to `6eedf3b` because no QA watch path changed.
+  No result was added, edited or deleted and no reviewer or timestamp was invented.
+- H1's proposed analytics cases (`ANALYTICS-001`–`ANALYTICS-012`) and D1's
+  coverage gaps were recorded as **proposals for F1**, not registered: the QA
+  registry, results and manual acceptance remain untouched. Host, retention,
+  consent and backup decisions stay open and unassigned. No application, browser,
+  DB, deployment or external action was performed and no development lane was
   started beyond the concurrent E1 worker already authorized.
