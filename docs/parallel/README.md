@@ -1,15 +1,16 @@
 # Echo Devs V1.0 — dependency-aware coordination
 
-**Reconciled 2026-11-16, source baseline `55b842236e33fde0fc0cc855e97aae41d36ca409`
-(A1, D1 and H1 accepted and integrated).** No lane is active on `main`; a separate E1
-worker may be running in its own worktree. See [NOW](NOW.md) for the current wave;
+**Reconciled 2026-11-16, source baseline `140769aaba6b1f67ae4d2852c32a6d3cb6f0b9bd`
+(A1, D1, H1 and E1 accepted and integrated).** No lane is active on `main`; the E1
+worker's branch remains separate. See [NOW](NOW.md) for the current wave;
 owner approval is required before assignment or execution. The
 supplied nine-file scaffold was reconciled on 2026-11-14, preserving its lane
 names and task IDs; added subtask IDs separate safe preparation from missing
 acceptance or external authorization. Executed lane tasks so far: A1
 (`docs/parallel/handoffs/A1.md`), the D1 audit
-(`docs/parallel/handoffs/D1.md`) and the H1 analytics-options packet
-(`docs/parallel/handoffs/H1.md`).
+(`docs/parallel/handoffs/D1.md`), the H1 analytics-options packet
+(`docs/parallel/handoffs/H1.md`) and the E1 hosting/CI assessment
+(`docs/parallel/handoffs/E1.md`).
 
 ## Scope and authority
 
@@ -45,7 +46,7 @@ correctly states that no analytics exists.
 | SEO production gap | `src/lib/seo/{site,policy}.ts`, robots/sitemap, route metadata | Validated origin gates exist. `PREVIEW_ROBOTS` stays constant even with indexing flag; C4 must prepare coherent approved public metadata, G3 alone enables it |
 | Inquiry | `88d123f`, handler/store/limits/network, DB migrations, scripts, P2 reports | P2-201–204 local implementation accepted historically; remaining P2 acceptance partial. Default API enable flag false unless explicitly set; no environment secret files inspected. D1 audited the current surface: 6 BLOCKER gaps remain (trusted ingress, edge limits, operator identity/tooling, retention, backup) |
 | Operations | `docs/INQUIRY-OPERATIONS.md`, `docs/INQUIRY-PRIVACY.md`, `scripts/inquiry-ops.mjs`; D1 §4 host contract | Read/erase/backup/restore exist locally; CLI rejects non-project Unix sockets. Production adaptation, policy, ingress, schedule and real operator acceptance missing. D1 converted this into explicit hard/optional host requirements (HC-V/HC-L/HC-B) for E1a and for D1's own operator/retention/backup blockers |
-| Infrastructure | `.github/workflows/ci.yml`, `docs/CI.md`, architecture/decision ledger | Local pinned CI exists, no hosted negative-check/deployed staging proof. No external actions performed |
+| Infrastructure | `.github/workflows/ci.yml`, `docs/CI.md`, architecture/decision ledger; `docs/parallel/handoffs/E1.md` | E1 accepted: repository/CI inventory, three conditional architectures (VPS + self-managed PG, VPS + managed PG recommended, managed container not recommended), 15 CI/CD gaps and 12 owner questions. No provider, budget, region or provisioning approved; hosted CI and deployed staging still unproven |
 | Product decisions | `SCOPE.md` v1.2 §8.4/§12.1, `docs/DECISIONS.md` A12–A13, `docs/APPROVALS.md`, `docs/parallel/handoffs/A1.md` | A1 DONE at `a015c8f`: V1 definition of done and mandatory analytics recorded; approval roles defined. Scope only — no capability, provider or approval inferred |
 | Analytics | package manifest, app/content/handler inspected; A1 scope decision; `docs/parallel/handoffs/H1.md` | Private analytics mandatory for V1, but no tracker/dashboard/provider is approved or implemented and the privacy disclosure correctly says none. H1 accepted (Umami conditionally recommended, not approved); H2–H4 own the work |
 
@@ -89,11 +90,11 @@ test tracker. ROADMAP checkboxes were not changed.
 | B | 20–35 | Work/About/404 fixes not repeated; complete reference/GPU comparison and residual defect size uncertain |
 | C | 15–26 | Preview C3 is zero; native review, approved facts, public SEO/disclosure remain |
 | D | 22–38 | D1 audit accepted (0 h); existing P2 reused; production access/lifecycle adaptation for D1's operator/retention/backup blockers, staging and handoff remain |
-| E | 26–43 | Workflow reused; provider contract, secure staging, host controls and hosted verification remain |
+| E | 24–39 | E1 options accepted (0 h); target contract, provisioning, secure staging, host controls and hosted verification remain |
 | F | 25–43 | QA engine reused; missing coverage, manual/performance/cross-engine and RC execution remain |
 | H | 14–26 | H1 options research accepted (0 h); no provider/implementation/privacy approval exists, so selection, integration and verification remain |
 | G | 13–23 | Integrated release and production/operator validation only; no duplicate lane engineering |
-| Total | 145–254 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
+| Total | 143–250 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
 
 All figures sum task rows and estimate **remaining** work, not elapsed historical
 development. Re-estimate after audits and actual reviewer/provider commitments;
@@ -115,7 +116,10 @@ D1's six blockers became explicit acceptance conditions inside
 D2/E1a/E2/E3/E4. H1 is the third: DONE at `55b8422` for a research-only
 deliverable; it supplies the provider/metrics/architecture decision input but
 approves no provider, so H2 stays BLOCKED on the owner/legal A3 answers rather
-than on H1. READY is **computed**, not a completion status: every dependency
+than on H1. E1 is the fourth: DONE at `140769a` for an assessment-only
+deliverable; it moves A5 from BLOCKED to TODO (now purely an owner decision) and
+leaves E1a/E2/E3/E4 BLOCKED on A5, A6 and explicit external-action authorization.
+READY is **computed**, not a completion status: every dependency
 DONE plus available execution resources, approval to perform that kind of work and
 an uncontested file/environment lease. Scheduling eligibility does not authorize
 the next batch.
@@ -165,7 +169,7 @@ another task is in flight.
 | B | `docs/parallel/handoffs/B1a.md` | Presentation/styles; shared header/layout/tokens assigned per task |
 | C | `docs/parallel/handoffs/C1a.md` | Localized content, dictionaries, SEO metadata; D/H request disclosure changes |
 | D | `docs/parallel/handoffs/D1.md` | DB/API/validation/ops and approved conversion hook; E supplies host boundary |
-| E | `docs/parallel/handoffs/E1.md` | CI/host configuration/runbooks; exclusive staging deployment lease |
+| E | `docs/parallel/handoffs/E1.md` (accepted 2026-11-16) | CI/host configuration/runbooks; exclusive staging deployment lease. E1a's target contract is next, assigned only after the A5 owner decision |
 | F | `docs/parallel/handoffs/F1.md` | Assigned tests/harnesses, QA proposals; coordinator integrates records |
 | H | `docs/parallel/handoffs/H1.md` (accepted 2026-11-16) | Analytics adapter only; no submission-hook or privacy-copy edits. H2's owner decision record is next, assigned only after the A3 answers exist |
 
@@ -381,3 +385,73 @@ whitespace checks are the planning-specific validation.
   consent and backup decisions stay open and unassigned. No application, browser,
   DB, deployment or external action was performed and no development lane was
   started beyond the concurrent E1 worker already authorized.
+
+### Planning verification — 2026-11-16 (E1 integration)
+
+- **Transfer path and integrity:** the E1 work arrived as the mailbox export
+  `/tmp/e1-transfer/e1-63a4bca.patch` (**42,091 bytes**, SHA-256
+  `a03d9fc8fc5b566af9e70779a3d41e9a977da82e4cce65506dd4527229d96bcc`). The
+  transfer directory contained no Agent-2 checksum manifest, so the digest above
+  is the coordinator's own measurement; the patch header declares source commit
+  `63a4bca26ea2b9bd58c855ceeb0dde9879f81a66`, author `azhidev`, and exactly one
+  added file.
+- **Scope check before applying:** `git status --porcelain` on `main` was empty
+  and `git apply --check` succeeded. The patch touches only
+  `docs/parallel/handoffs/E1.md` (472 lines) — no `src/**`, `qa/**`, workflow,
+  package manifest, migration, scope/decision or deployment file.
+- **Integration:** `git am --3way` applied cleanly with the original author
+  identity (`azhidev`), subject and date preserved. Source commit
+  `63a4bca` → **integrated commit `140769a`** (new SHA is expected because the
+  objects and main HEAD are separate). The committed blob
+  `edcbf23b2f9ccc12c1654c374344df13996d595c` is identical to the patch's `index`
+  line, so content crossed the boundary byte-for-byte. No merge commit, rewrite,
+  force, push or tag; no worker2 file was read or modified.
+- **Assessment review:** three architectures are compared against the D1 §4
+  contract (A: 4 GB VPS + self-managed PostgreSQL ≈$27/mo; B: VPS + managed
+  PostgreSQL ≈$42/mo, conditionally recommended; C: managed container + managed
+  PostgreSQL ≈$69–94/mo, rejected on HC-N3/HC-N5 and HC-D3), followed by 15
+  CI/CD gaps, a proposed pipeline shape, nine risks and 12 owner questions. Cost
+  figures cite provider pages and label FX, memory sizing, backup-add-on and
+  jurisdiction/reachability assumptions as unverified. The recommendation is
+  explicitly conditional and selects no provider, region, budget or analytics
+  product. D1 identifiers referenced by the packet were checked against the
+  integrated D1 handoff and match their stated meaning.
+- **Repository claims spot-verified:** loopback `next start`, `pg` pool `max: 4`
+  with the stated timeouts and no SSL/SIGTERM drain, PostgreSQL 17+ `MAINTAIN`
+  provisioning, embedded PostgreSQL 18.6 beta, Unix-socket-only operator CLI, the
+  single pinned `ubuntu-24.04` CI job (lint → typecheck → unit → build, no DB,
+  browser, artifact or deploy step), the `postgres` QA suite's `optIn` +
+  `.local/dev-pg/app.env` prerequisite, the origin remote, absent
+  Dockerfile/standalone output, the ignore rules and the absence of tags.
+- **Two evidence defects corrected here (they do not change E1's conclusions):**
+  §1 reports "19 HARD host requirements (HC-R/D/N)"; D1 §4 actually has **26**
+  (8 HC-R, 11 HC-D, 7 HC-N). §6.2/E1-CI3 repeats D1-G19's "empty watch lists";
+  LINT/TYPECHECK/UNIT-SUITE/BUILD/HTTP-SMOKE omit `watch` and therefore inherit
+  the broad `defaultWatch`, so the real defect is that the default set omits
+  workflow/CI paths while browser matrices declare narrower custom lists. Both are
+  recorded for F1's registry work rather than edited into the worker's handoff.
+- **State change:** E1 → DONE (0–0h). Because A5's only prerequisites were A1 and
+  E1, **A5 moves from BLOCKED to TODO** — an owner decision, not assignable
+  research; E1a/E2/E3/E4 stay BLOCKED on A5, A6 and explicit external-action
+  authorization. Lane E effort 26–43h → 24–39h and the total 145–254h →
+  **143–250h**. **No dependency edge was added or removed** and no other
+  estimate changed.
+- **D1 blockers preserved verbatim:** trusted ingress and edge volumetric limits
+  → E1a/E2; operator identities, managed-DB tooling and retention/purge → D2;
+  production backup/recovery → D2 with E3/E4 verification. E1 strengthens rather
+  than resolves them: the signed ingress remains project code no provider
+  supplies, and a managed database keeps the operator CLI unusable until D2's
+  TLS path exists.
+- `python3 docs/parallel/check-plan.py`: PASS, 40 tasks, unique IDs,
+  dependencies, reverse edges, DAG and local links valid; totals **143–250h**;
+  six roots (A2 10 unlocks/57h, A3 18/89h, A5 21/97h, B1a 12/72h, C1a 11/63h,
+  F1 9/49h). E1 is DONE and no longer a root.
+- `npm run qa:validate`: **PASS** — 31 unique cases (12 manual), 15 suites. This
+  is the check E1 could not run in the worker2 session (no Node runtime); it was
+  executed here at the integrated revision. `npm run qa:status` is unchanged
+  (14 PASS / 0 FAIL / 1 BLOCKED / 4 STALE / 12 NOT_RUN) because no QA watch path
+  changed. No result was added, edited or deleted; no reviewer was invented.
+- **Nothing was provisioned or approved:** no provider account, purchase, DNS,
+  TLS, region, staging, deployment, CI change, secret or external probe occurred
+  in either session. A5, A6, the retention/RPO/RTO answers and the analytics
+  decisions remain owner decisions.
