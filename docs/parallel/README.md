@@ -1,16 +1,19 @@
 # Echo Devs V1.0 — dependency-aware coordination
 
-**Reconciled 2026-11-16, source baseline `140769aaba6b1f67ae4d2852c32a6d3cb6f0b9bd`
-(A1, D1, H1 and E1 accepted and integrated).** No lane is active on `main`; the E1
-worker's branch remains separate. See [NOW](NOW.md) for the current wave;
+**Reconciled 2026-11-18, source baseline `d5c78b1353120c84364dc8fe6e26f7b2b2a453f8`
+(A1, D1, H1, E1, F1 and B1a accepted and integrated; the application source is
+unchanged since `88d123f`).** No lane is active on `main`; the worker branches
+remain separate. See [NOW](NOW.md) for the current wave;
 owner approval is required before assignment or execution. The
 supplied nine-file scaffold was reconciled on 2026-11-14, preserving its lane
 names and task IDs; added subtask IDs separate safe preparation from missing
 acceptance or external authorization. Executed lane tasks so far: A1
 (`docs/parallel/handoffs/A1.md`), the D1 audit
 (`docs/parallel/handoffs/D1.md`), the H1 analytics-options packet
-(`docs/parallel/handoffs/H1.md`) and the E1 hosting/CI assessment
-(`docs/parallel/handoffs/E1.md`).
+(`docs/parallel/handoffs/H1.md`), the E1 hosting/CI assessment
+(`docs/parallel/handoffs/E1.md`), the F1 QA coverage proposal
+(`docs/parallel/handoffs/F1.md`) and the B1a visual-evidence inventory
+(`docs/parallel/handoffs/B1a.md`).
 
 ## Scope and authority
 
@@ -53,11 +56,11 @@ correctly states that no analytics exists.
 ### QA evidence snapshot, not a second tracker
 
 `npm run qa:validate` and `npm run qa:status` were executed at
-`d84a17a`: **31 cases, 15 suites; 14 PASS, 0 FAIL, 1 BLOCKED, 4 STALE,
-12 NOT_RUN**. Neither the A1 nor the D1 documentation change touched a QA watch
-path, so the recorded statuses are unchanged from `6eedf3b`. This paragraph is a
-dated reconciliation snapshot only; always recompute with QA01. Raw histories
-`qa/results/{automated,manual}.jsonl` were inspected.
+`d5c78b1`: **31 cases, 15 suites; 14 PASS, 0 FAIL, 1 BLOCKED, 4 STALE,
+12 NOT_RUN**. Neither the F1 nor the B1a integration touched a QA watch path or an
+application file, so the recorded statuses are unchanged from `6eedf3b`. This
+paragraph is a dated reconciliation snapshot only; always recompute with QA01. Raw
+histories `qa/results/{automated,manual}.jsonl` were inspected.
 
 - Current preview SEO/404 records are PASS at `7900c6e`; general unit/build/
   lint/type/reference/font records at `ba7f116` remain current by watch rules.
@@ -87,14 +90,21 @@ test tracker. ROADMAP checkboxes were not changed.
 | Lane | Remaining human hours | Estimate basis / uncertainty |
 |---|---:|---|
 | A | 10–20 | A1 is DONE (0 h); approval and provider/origin decisions remain |
-| B | 20–35 | Work/About/404 fixes not repeated; complete reference/GPU comparison and residual defect size uncertain |
+| B | 18–32 | B1a is DONE (0 h); B1 still needs an owner-side capture path, B2–B4 are unchanged |
 | C | 15–26 | Preview C3 is zero; native review, approved facts, public SEO/disclosure remain |
 | D | 22–38 | D1 audit accepted (0 h); existing P2 reused; production access/lifecycle adaptation for D1's operator/retention/backup blockers, staging and handoff remain |
 | E | 24–39 | E1 options accepted (0 h); target contract, provisioning, secure staging, host controls and hosted verification remain |
-| F | 25–43 | QA engine reused; missing coverage, manual/performance/cross-engine and RC execution remain |
+| F | 23–39 | F1 is DONE (0 h); QA engine reused; missing coverage, manual/performance/cross-engine and RC execution remain — see the pending revision below |
 | H | 14–26 | H1 options research accepted (0 h); no provider/implementation/privacy approval exists, so selection, integration and verification remain |
 | G | 13–23 | Integrated release and production/operator validation only; no duplicate lane engineering |
-| Total | 143–250 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
+| Total | 139–243 | Analytics included; excludes costs, vendor/owner waiting and post-launch enhancements |
+
+**Pending revision, not applied.** The table above is the approved figure. F1's
+bottom-up estimate implies F2a 13–20 h (15–24 h if an axe-equivalent dependency is
+approved) and F3 12–21 h, with F2 and F4 unchanged: lane F 37–61 h (39–65 h with
+axe) and a plan total of 153–265 h (155–267 h with axe) — **+14 to +22 h**, all of
+it coverage the old F rows never itemised rather than new features. Adopting it is
+an owner scope decision, so no lane row was changed.
 
 All figures sum task rows and estimate **remaining** work, not elapsed historical
 development. Re-estimate after audits and actual reviewer/provider commitments;
@@ -119,7 +129,11 @@ approves no provider, so H2 stays BLOCKED on the owner/legal A3 answers rather
 than on H1. E1 is the fourth: DONE at `140769a` for an assessment-only
 deliverable; it moves A5 from BLOCKED to TODO (now purely an owner decision) and
 leaves E1a/E2/E3/E4 BLOCKED on A5, A6 and explicit external-action authorization.
-READY is **computed**, not a completion status: every dependency
+F1 and B1a are the fifth and sixth: DONE at `d78926b` and `d5c78b1` for
+proposal/inventory deliverables. F1 registers nothing, so the coverage it
+catalogues enters the registry only through the coordinator; B1a captures nothing,
+so B1's dependency is met while its execution still needs an owner-side capture
+path. READY is **computed**, not a completion status: every dependency
 DONE plus available execution resources, approval to perform that kind of work and
 an uncontested file/environment lease. Scheduling eligibility does not authorize
 the next batch.
