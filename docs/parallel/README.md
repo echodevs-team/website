@@ -469,3 +469,104 @@ whitespace checks are the planning-specific validation.
   TLS, region, staging, deployment, CI change, secret or external probe occurred
   in either session. A5, A6, the retention/RPO/RTO answers and the analytics
   decisions remain owner decisions.
+
+### Planning verification — 2026-11-18 (F1 and B1a integration)
+
+- **F1 verified before integration:** `parallel/f1` held exactly one commit,
+  `d78926b` on top of `1ebf092`, author `azhidev` preserved, adding only
+  `docs/parallel/handoffs/F1.md` (670 lines, one file). No `src/**`, `qa/**`,
+  workflow, package manifest, scope/decision file, lane table or other handoff;
+  `git diff --check` clean; `git status` clean before and after.
+- **F1 review:** 43 candidate ids in four tiers (11 / 5 / 15 / 12, with
+  `ANALYTICS-001` shared between §4.1 and §4.4), the §8 immediate/implementation/
+  infrastructure split (11 / 4 / 28) internally consistent, §12 rows summing
+  exactly to the declared 39–65 h, no id collision with the 31 registered cases,
+  no malformed ids, and every proposed watch path present in the tree. It
+  registers nothing, records nothing and claims no execution, which matches its
+  definition.
+- **Graded disposition, not blanket approval:** 10 candidates are approved for
+  registration once F2a delivers definitions, 1 (`A11Y-AXE-SCAN`) waits on an
+  explicit dependency decision, 29 are mandatory but register only when their
+  named D/E/H prerequisite lands, and 3 are optional or deferred. The proposed
+  F2b human-acceptance split of F2 is declined: F2a is already a separate row with
+  F1 as its only dependency, so a third row would duplicate scope and unlock
+  nothing.
+- **Two F1 text defects corrected here, not edited into the handoff.** (1)
+  `F1-W4` is a false positive: `qa/registry.json` declares `evidenceRequired` zero
+  times, but `qa/lib/registry.ts:117` normalizes it to
+  `raw.evidenceRequired !== false`, so all 31 cases parse as `true` and
+  `missingEvidence()` (`qa/lib/status.ts:65-68`) already refuses a manual PASS with
+  empty evidence; the proposed fix is a no-op. The real, narrower gap is the
+  durable-evidence problem (`F1-W8`). (2) F1 §7 steps 1–2 predict seven PASS
+  records going STALE when the inherited watches become explicit. Measured with
+  `parseRegistry` against a copy of the registry: `normalizeTest`
+  (`qa/lib/registry.ts:103`) already substitutes `defaultWatch`, so explicit
+  copies normalize identically — **0 of 31 definition hashes change**, and the
+  `postgres` prerequisite/suite edits move no hash either because
+  `definitionHash` covers only the test object (`F1-W12`). The coordinator's later
+  registry batch must therefore expect **zero** status churn, and any STALE
+  headline appearing there would be a real regression rather than the predicted
+  side effect.
+- **B1a transfer integrity:** `/tmp/b1a-transfer/b1a-71dcc5c.patch` was present and
+  readable (52,996 bytes). SHA-256
+  `8e6f6ff955f0706d5038c68cb74539ed6f2db2da3e9d84230f3f82c46cda548b` and
+  `git patch-id --stable` `fa2f3c2bd2e9bfc1e18e7739d8d2edf4453c4617` both match the
+  requested values; the header declares source `71dcc5c3bf291e8ee93ceda8927364e8b0af0435`,
+  author `azhidev`, and exactly one added file.
+- **Baseline drift checked before applying:** B1a was written on `9ed31f4`, and
+  `9ed31f4..1ebf092` touches only `docs/parallel/{A-product-decisions,
+  E-infrastructure,NOW,README}.md` plus the added E1 handoff — no `src/**`,
+  `src/styles/**`, `src/content/**`, `qa/**` or `scripts/**` — so its visual
+  findings are unaffected by the drift. Its note that `1ebf092` does not exist in
+  its own checkout is accurate for that checkout and is not a defect.
+- **Integration:** `git am --3way` applied cleanly as `d5c78b1` with author, date
+  and subject preserved; the committed blob `5c87d8e8de4bccb38709ad0202bfbf5002234851`
+  equals the patch's `index` line, the applied file is byte-identical to the
+  reviewed copy, and the patch id is unchanged. F1 was integrated by
+  `git merge --ff-only parallel/f1`, taking `main` from `1ebf092` to `d78926b`. No
+  merge commit, rewrite, force, push or tag; no worker checkout was read or
+  modified.
+- **B1a claims spot-verified:** the reference is FA/RTL/light
+  (`<html class="light" dir="rtl" lang="fa">`) with a `scrollY > 20` header switch
+  from `bg-transparent` to a 90 % fill and `blur(16px) saturate(140%)`; `↗`
+  (U+2197) appears exactly 7 times across five components; there is no
+  `[dir="rtl"]`, `scaleX(-1)` or `rotate-180` mirroring rule; the navigation
+  switches at `64rem` (`src/components/layout/mobile-nav.tsx:25`) while
+  `docs/UI-UX-REVIEW.md:30` still claims 80rem — a stale documentation line the
+  review did not fix; tracked images are exactly `cvecho.zip`, `screen.png` and
+  `icon.svg`. The two evidence bundles B1a cites exist in this checkout with the
+  quoted digests (`echo-506-seo-404-evidence.zip` `96d3cddc…1ba268`,
+  `echo-vf01-visual-evidence.zip` `e27eacb4…43588`). No pixel-level acceptance is
+  claimed anywhere; the 442 × 1600 reference PNG is a downscaled composition, not
+  a CSS viewport.
+- **Durable-evidence policy adopted with a size cap:** `qa/evidence/<TEST-ID>/`
+  plus a per-revision subdirectory, a `README.md` carrying revision, engine,
+  viewport, theme, zoom and SHA-256, and at most four decisive PNGs (target
+  ≤ 1.5 MB per case). The 928 PNGs and seven `.zip` bundles in the ignored
+  `test-results/` stay review staging; per-image sidecar JSON was dropped in favour
+  of the README table. Copying whole matrices into Git is rejected on repository
+  size and long-term maintenance grounds.
+- **State change:** F1 → DONE and B1a → DONE, each 0–0h, citing the integrated
+  commits and delivered artifacts. Lane F 25–43h → **23–39h**, lane B 20–35h →
+  **18–32h**, total 143–250h → **139–243h**. No dependency edge was added, removed
+  or redirected: F1 and B1a stopped being roots, F2a and B1 became roots.
+- `python3 docs/parallel/check-plan.py`: PASS — 40 tasks, unique IDs,
+  dependencies, reverse edges, DAG, estimates and local links valid; totals
+  **139–243h**; six roots (A2 10 unlocks/57h, A3 18/89h, A5 21/97h, B1 11/69h,
+  C1a 11/63h, F2a 6/45h).
+- `npm run qa:validate`: PASS — 31 unique cases (12 manual), 15 suites.
+  `npm run qa:status` and `npm run qa:report -- --stdout` re-executed at the clean
+  refresh commit `7d9f68e`: **14 PASS / 0 FAIL / 1 BLOCKED / 4 STALE /
+  12 NOT_RUN**, release readiness **NO**, unchanged from `6eedf3b` because no
+  watch path and no application file moved. No result was added, edited or
+  deleted; no reviewer, role or timestamp was invented. `git diff --check` clean;
+  staged files reviewed for scope and secrets (four planning documents only).
+- A documentation link sweep over all 16 files in `docs/parallel/` returned one
+  false positive: `handoffs/B1a.md:664` documents a literal `grep` command that
+  counts closing-bracket-plus-parenthesis sequences, which a naive Markdown
+  extractor reads as a link. No real broken local link exists, and
+  `check-plan.py`'s own link check (root-level documents) passes.
+- **Nothing was registered, installed, executed or approved:** no QA definition,
+  result, evidence directory, dependency, suite, browser, database, workflow or
+  deployment change occurred, and no lane was started. The proposed lane F revision
+  (37–61h, or 39–65h with axe) is recorded as pending owner scope approval only.
